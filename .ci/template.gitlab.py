@@ -40,13 +40,16 @@ include:
     variables:
       DOCKER_CLI_EXPERIMENTAL: enabled
       REGISTRY_PREFIX: $CI_REGISTRY/pymor/docker/pymor
+      DIVE_VERSION: 0.10.0
 
 .docker_base:
     extends: .base
     before_script:
       - docker buildx --help
-      - apk add make sed rsync bash git python3
-      - pip3 install jinja2
+      - apk add make sed rsync bash git wget python3
+      - wget https://github.com/wagoodman/dive/releases/download/v${DIVE_VERSION}/dive_${DIVE_VERSION}_linux_amd64.tar.gz \
+        -O - | tar -xz -C /usr/local/bin
+      - chmod +x /usr/local/bin/dive
       - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
       - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD docker.io
 
