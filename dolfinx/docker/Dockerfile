@@ -6,17 +6,6 @@ MAINTAINER René Fritze <rene.fritze@wwu.de>
 ENV DOLFINX_VERSION="master"
 WORKDIR /tmp
 
-
-# llvm-dev is opnly needed until llvm-lite has wheels for python 3.9
-RUN MOUNT_CACHE \
-  apt update && \
-  apt install -y gnupg2 lsb-release wget software-properties-common && \
-  cd /tmp && \
-  wget https://apt.llvm.org/llvm.sh && \
-  bash llvm.sh 10 && \
-  ln -s $(which llvm-config-10) /usr/bin/llvm-config && \
-  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 COPY --from=REGISTRY/pymor/ci_wheels_pyPYVER:VERTAG /wheelhouse/mpi4py*.whl /tmp/
 
 RUN MOUNT_CACHE \
