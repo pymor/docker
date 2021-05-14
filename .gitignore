@@ -2,6 +2,6 @@ pymor_source
 pypi-mirror_*/?.?/requirements/*txt
 
 # generated Dockerfiles
-Dockerfile*__?.?
+Dockerfile*__?.*
 .vscode/
 pymor.env
