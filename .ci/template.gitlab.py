@@ -49,7 +49,7 @@ include:
       - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD docker.io
 
 {%- for PY in pythons %}
-parameterized_targets {{PY[0]}} {{PY[2]}}:
+parameterized_targets {{PY[0]}} {{PY[2:]}}:
     extends: .docker_base
     {{ never_on_schedule_rule() }}
     resource_group: cache_{{PY}}
@@ -67,7 +67,7 @@ parameterized_targets {{PY[0]}} {{PY[2]}}:
 {% endfor -%}
 
 {%- for PY in pythons %}
-parameterized_targets {{PY[0]}} {{PY[2]}} (scheduled):
+parameterized_targets {{PY[0]}} {{PY[2:]}} (scheduled):
     extends: .docker_base
     {{ only_on_schedule_rule() }}
     resource_group: cache_{{PY}}
@@ -117,7 +117,7 @@ static_targets (scheduled):
 
 {%- for mirror in mirror_types %}
 {%- for PY in pythons[1:] %}
-test {{mirror}} {{PY[0]}} {{PY[2]}}:
+test {{mirror}} {{PY[0]}} {{PY[2:]}}:
     stage: test
     extends: .base
     {{ never_on_schedule_rule() }}
@@ -147,7 +147,7 @@ from itertools import product
 from pathlib import Path
 
 tpl = jinja2.Template(tpl)
-pythons = ["3.6", "3.7", "3.8", "3.9"]
+pythons = [f"3.{i}" for i in [7, 8, 9, 10]]
 manylinux = ["2010", "2014"]
 static_targets = ["docker-in-docker", "docs", "demo_main", "deploy_checks", "ci_sanity"]
 mirror_types = ["oldest", "stable"]
