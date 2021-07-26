@@ -1,4 +1,4 @@
-PYTHONS = 3.6 3.7 3.8 3.9
+PYTHONS = 3.7 3.8 3.9
 VER?=$(shell git log -1 --pretty=format:"%H")
 NGSOLVE_IMAGE = pymor/ngsolve_py$1:$2
 NGSOLVE_IMAGE_DIR = ngsolve/docker
