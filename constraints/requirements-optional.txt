@@ -13,6 +13,7 @@ ipython>=5.0
 ipywidgets
 jupyter_contrib_nbextensions
 jupytext
+lxml
 matplotlib
 meshio>=4.4
 mpi4py>=3.0.3;python_version >= "3.9"
@@ -51,3 +52,4 @@ sympy
 torch
 typer
 wheel
+xmljson
