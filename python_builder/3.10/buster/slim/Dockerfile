@@ -84,7 +84,7 @@ RUN apt-get update ${VERYQUIET} && apt-get install ${VERYQUIET} -y --no-install-
 	&& rm -rf /var/lib/apt/lists/*
 
 ENV GPG_KEY A035C8C19219BA821ECEA86B64E628F8D684696D
-ENV PYTHON_VERSION 3.10.0b3
+ENV PYTHON_VERSION 3.10.0b4
 
 RUN MOUNT_CACHE set -ex \
 	&& buildDeps=' \
@@ -99,10 +99,10 @@ deb http://cloudfront.debian.net/debian-security/ buster/updates main contrib" >
 	&& wget ${QUIET} -O python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" \
 	&& wget ${QUIET} -O python.tar.xz.asc "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc" \
 	&& export GNUPGHOME="$(mktemp -d)" \
-        && ( gpg --no-tty --keyserver ipv4.pool.sks-keyservers.net  --recv-keys "$GPG_KEY" \
-            || gpg --keyserver Zpool.sks-keyservers.net --recv-keys "$GPG_KEY" \
-            || gpg --keyserver pgp.mit.edu --recv-keys "$GPG_KEY" \
-            || gpg --keyserver keyserver.pgp.com --recv-keys "$GPG_KEY" ) \
+        && ( gpg --no-tty --keyserver keys.openpgp.org --recv-keys "$GPG_KEY" \
+            || gpg --no-tty --keyserver keyserver.ubuntu.com --recv-keys "$GPG_KEY" \
+            || gpg --no-tty --keyserver pgp.mit.edu --recv-keys "$GPG_KEY" \
+            || gpg --no-tty --keyserver keyserver.pgp.com --recv-keys "$GPG_KEY" ) \
 	&& gpg --no-tty --batch --verify python.tar.xz.asc python.tar.xz \
 	&& rm -rf "$GNUPGHOME" python.tar.xz.asc \
 	&& mkdir -p /usr/src/python \
