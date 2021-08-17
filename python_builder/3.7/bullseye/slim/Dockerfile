@@ -5,7 +5,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
 ENV QUIET="-q" \
  VERYQUIET="-qq"
@@ -83,8 +83,8 @@ RUN apt-get update ${VERYQUIET} && apt-get install ${VERYQUIET} -y --no-install-
 		tk \
 	&& rm -rf /var/lib/apt/lists/*
 
-ENV GPG_KEY E3FF2839C048B25C084DEBE9B26995E310250568
-ENV PYTHON_VERSION 3.9.7
+ENV GPG_KEY 0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
+ENV PYTHON_VERSION 3.7.12
 
 RUN MOUNT_CACHE set -ex \
 	&& buildDeps=' \
@@ -92,8 +92,8 @@ RUN MOUNT_CACHE set -ex \
 		tcl-dev \
 		tk-dev \
 	' \
-	&& echo "deb http://cloudfront.debian.net/debian/ buster main contrib\n\
-deb http://cloudfront.debian.net/debian-security/ buster/updates main contrib" >> /etc/apt/sources.list \
+	&& echo "deb http://cloudfront.debian.net/debian/ bullseye main contrib\n\
+deb http://cloudfront.debian.net/debian-security/ bullseye-security/updates main contrib" >> /etc/apt/sources.list \
 	&& apt-get update ${VERYQUIET} && apt-get install ${VERYQUIET} -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
 	\
 	&& wget ${QUIET} -O python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" \

@@ -1,5 +1,5 @@
 # EXPERIMENTAL_SYNTAX
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
     APTINSTALL="apt-get install -qq -y --no-install-recommends" \
@@ -16,12 +16,12 @@ ENV DEBIAN_FRONTEND=noninteractive \
 RUN MOUNT_CACHE \
   echo "C.UTF-8 UTF-8" > /etc/locale.gen && \
 	apt update -qq \
-	&& ${APTINSTALL} libexpat1 libffi6 \
+	&& ${APTINSTALL} libexpat1 libffi7 \
 	libbz2-1.0 \
 	libc6 \
 	libcurl4 \
 	libdb5.3 \
-	libevent-2.1-6 \
+	libevent-2.1-7 \
 	libgdbm6 \
 	libglib2.0 \
 	libjpeg62-turbo \
@@ -29,7 +29,7 @@ RUN MOUNT_CACHE \
 	libncurses5 \
 	libncursesw5 \
 	libpng16-16 \
-	libreadline7  \
+	libreadline8  \
 	libsqlite3-0  \
 	libssl1.1 \
 	libfreetype6 \

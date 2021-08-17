@@ -28,11 +28,11 @@ ENV DOCKER_NGSOLVE=1 \
 # deal.II: libboost
 # precice: libxml2
 RUN MOUNT_CACHE \
-    echo 'APT::Default-Release "buster";' > /etc/apt/apt.conf.d/default-release && \
-    echo "deb http://deb.debian.org/debian buster-backports main contrib non-free" > /etc/apt/sources.list.d/buster-backports.list && \
-    echo "deb http://deb.debian.org/debian/ buster contrib non-free" > /etc/apt/sources.list.d/buster-nonfree.list && \
+    echo 'APT::Default-Release "bullseye";' > /etc/apt/apt.conf.d/default-release && \
+    echo "deb http://deb.debian.org/debian bullseye-backports main contrib non-free" > /etc/apt/sources.list.d/bullseye-backports.list && \
+    echo "deb http://deb.debian.org/debian/ bullseye contrib non-free" > /etc/apt/sources.list.d/bullseye-nonfree.list && \
     apt update && \
-    ${APTINSTALL} -t buster-backports libboost1.71-all && \
+    ${APTINSTALL} -t bullseye-backports libboost1.71-all-dev && \
     ${APTINSTALL} wget curl less \
         texlive-base xvfb gnupg ca-certificates \
         gcc g++ gfortran make dirmngr pandoc \

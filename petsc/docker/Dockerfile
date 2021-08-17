@@ -12,11 +12,11 @@ WORKDIR /tmp
 
 # Non-Python utilities and libraries
 RUN MOUNT_CACHE \
-    echo 'APT::Default-Release "buster";' > /etc/apt/apt.conf.d/default-release && \
-    echo "deb http://deb.debian.org/debian buster-backports main contrib non-free" > /etc/apt/sources.list.d/buster-backports.list && \
-    echo "deb http://deb.debian.org/debian/ buster contrib non-free" > /etc/apt/sources.list.d/buster-nonfree.list && \
+    echo 'APT::Default-Release "bullseye";' > /etc/apt/apt.conf.d/default-release && \
+    echo "deb http://deb.debian.org/debian bullseye-backports main contrib non-free" > /etc/apt/sources.list.d/bullseye-backports.list && \
+    echo "deb http://deb.debian.org/debian/ bullseye contrib non-free" > /etc/apt/sources.list.d/bullseye-nonfree.list && \
     apt update && \
-    apt-get install -q=100 -y --no-install-recommends -t buster-backports libboost1.71-all-dev && \
+    apt-get install -q=100 -y --no-install-recommends -t bullseye-backports libboost1.71-all-dev && \
     apt-get -y install curl \
         bison \
         cmake \
