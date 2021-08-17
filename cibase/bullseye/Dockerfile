@@ -11,7 +11,7 @@ ENV DOCKER_NGSOLVE=1 \
     DEBIAN_FRONTEND=teletype \
     PETSC_DIR=/usr/local/petsc-32 \
     LD_LIBRARY_PATH=/usr/local/petsc-32/lib/ \
-    BOOST_VERSION=1.71.0
+    BOOST_VERSION=1.74.0
 
 # -dev packages should be kept as few as possible, and listed here with reasoning
 # mpi-default-bin: mpi runtime for tests
@@ -28,11 +28,9 @@ ENV DOCKER_NGSOLVE=1 \
 # deal.II: libboost
 # precice: libxml2
 RUN MOUNT_CACHE \
-    echo 'APT::Default-Release "bullseye";' > /etc/apt/apt.conf.d/default-release && \
-    echo "deb http://deb.debian.org/debian bullseye-backports main contrib non-free" > /etc/apt/sources.list.d/bullseye-backports.list && \
     echo "deb http://deb.debian.org/debian/ bullseye contrib non-free" > /etc/apt/sources.list.d/bullseye-nonfree.list && \
     apt update && \
-    ${APTINSTALL} -t bullseye-backports libboost1.71-all-dev && \
+    ${APTINSTALL} libboost1.74-all-dev && \
     ${APTINSTALL} wget curl less \
         texlive-base xvfb gnupg ca-certificates \
         gcc g++ gfortran make dirmngr pandoc \

@@ -12,16 +12,13 @@ ENV PRECICE_BUILD_TYPE=Release \
 WORKDIR /tmp
 
 RUN MOUNT_CACHE \
-  echo "deb http://deb.debian.org/debian buster-backports main contrib non-free" > /etc/apt/sources.list.d/buster-backports.list \
-  && echo "deb http://deb.debian.org/debian/ buster contrib non-free" > /etc/apt/sources.list.d/buster-nonfree.list \
-  && apt update \
-  && ${APTINSTALL} -t buster-backports libboost1.71-all-dev \
-  && git clone https://github.com/precice/precice.git /tmp/precice \
+  git clone https://github.com/precice/precice.git /tmp/precice \
                   && cd /tmp/precice \
                   && git checkout ${PRECICE_VERSION} \
                   && mkdir /tmp/precice/build \
   && apt update \
-  && apt install -y libxml2-dev libeigen3-dev \
+  && ${APTINSTALL} build-essential ca-certificates cmake ninja-build \
+    libxml2-dev libeigen3-dev libboost1.74-all-dev \
   && cd /tmp/precice/build \
   && cmake ../ \
       -DCMAKE_INSTALL_PREFIX=${PRECICE_PREFIX} \

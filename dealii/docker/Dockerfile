@@ -7,11 +7,8 @@ USER root
 ENV DEBIAN_FRONTEND=noninteractive
 #for add-apt-repo
 RUN MOUNT_CACHE \
-    echo "deb http://deb.debian.org/debian buster-backports main contrib non-free" > /etc/apt/sources.list.d/buster-backports.list && \
-    echo "deb http://deb.debian.org/debian/ buster contrib non-free" > /etc/apt/sources.list.d/buster-nonfree.list && \
     apt update && \
-    ${APTINSTALL} -t buster-backports libboost1.71-all-dev && \
-    apt-get install -y software-properties-common \
+    ${APTINSTALL} build-essential ca-certificates \
     gfortran cmake g++\
     git \
     gsl-bin \
@@ -19,6 +16,7 @@ RUN MOUNT_CACHE \
     libbz2-dev \
     libgsl-dev \
     liblapack-dev \
+    libboost1.74-all-dev \
     libnetcdf-c++4-dev \
     libnetcdf-cxx-legacy-dev \
     libnetcdf-dev \
