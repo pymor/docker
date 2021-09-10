@@ -28,6 +28,7 @@ RUN MOUNT_CACHE \
   ${PYBIN}/pip install --no-cache ${WHEEL_DIR}/scipy* && \
   ${PYBIN}/pip install --no-cache ${WHEEL_DIR}/*manylinux2014_x86_64.whl && \
   rm -f ${WHEEL_DIR}/*manylinux2014_x86_64.whl && \
+  rm -f ${WHEEL_DIR}/*manylinux_2_24*.whl && \
   ${PYBIN}/pip install --only-binary mpi4py --no-cache ${WHEEL_DIR}/*
 
 COPY entrypoint.sh /usr/local/bin/

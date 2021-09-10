@@ -29,7 +29,8 @@ RUN MOUNT_CACHE \
   ${PYBIN}/pip install --no-cache ${WHEEL_DIR}/numpy* && \
   ${PYBIN}/pip install --no-cache ${WHEEL_DIR}/scipy* && \
   ${PYBIN}/pip install --no-cache ${WHEEL_DIR}/*manylinux2010_x86_64.whl && \
-  rm -f ${WHEEL_DIR}/*manylinux2010_x86_64.whl
+  rm -f ${WHEEL_DIR}/*manylinux2010_x86_64.whl && \
+  rm -f ${WHEEL_DIR}/*manylinux_2_24*.whl
 RUN MOUNT_CACHE \
   source /etc/profile.d/pybin.sh && \
   ${PYBIN}/pip install --only-binary mpi4py, --no-cache ${WHEEL_DIR}/*
