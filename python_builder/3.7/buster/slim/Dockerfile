@@ -84,7 +84,7 @@ RUN apt-get update ${VERYQUIET} && apt-get install ${VERYQUIET} -y --no-install-
 	&& rm -rf /var/lib/apt/lists/*
 
 ENV GPG_KEY 0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
-ENV PYTHON_VERSION 3.7.11
+ENV PYTHON_VERSION 3.7.12
 
 RUN MOUNT_CACHE set -ex \
 	&& buildDeps=' \
@@ -140,7 +140,7 @@ RUN cd /usr/local/bin \
 	&& ln -s python3-config python-config
 
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
-ENV PYTHON_PIP_VERSION 21.1.1
+ENV PYTHON_PIP_VERSION 21.2.4
 ENV PIP_INSTALL="pip install --no-cache-dir -qq"
 
 RUN set -ex; \
