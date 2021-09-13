@@ -5,7 +5,7 @@ ENV MIRROR_VERSION=4.0.5 \
   SERVER_ROOT=/pymor \
   PYTHON_VERSION=PYVER \
   XDG_CACHE_HOME=/cache \
-  DOWNLOAD="/tmp/venv/bin/pip download --no-deps -d /pymor/downloads" \
+  DOWNLOAD="/tmp/venv/bin/pip download --platform=manylinux2010_x86_64 --no-deps -d /pymor/downloads" \
   PIP="/tmp/venv/bin/pip"
 
 RUN MOUNT_CACHE \
