@@ -18,7 +18,8 @@ RUN MOUNT_CACHE \
   set +x ; \
   ${DOWNLOAD} /tmp/*whl && rm -f /tmp/*whl \
   && set -uex \
-  && ${DOWNLOAD} --platform=manylinux2014_x86_64 -r ${SERVER_ROOT}/requirements/constraints.txt \
+  && grep -v "file\:" ${SERVER_ROOT}/requirements/constraints.txt > ${SERVER_ROOT}/requirements/no_files_constraints.txt \
+  && ${DOWNLOAD} --platform=manylinux2014_x86_64 -r ${SERVER_ROOT}/requirements/no_files_constraints.txt \
   && ${DOWNLOAD} --platform=manylinux2014_x86_64 -r /tmp/extra_version_downloads.txt \
   && cd ${SERVER_ROOT}/ \
   && pypi-mirror --print-traceback create  -d downloads -m simple \

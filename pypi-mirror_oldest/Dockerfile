@@ -5,7 +5,7 @@ ENV MIRROR_VERSION=4.0.5 \
   SERVER_ROOT=/pymor \
   PYTHON_VERSION=PYVER \
   XDG_CACHE_HOME=/cache \
-  DOWNLOAD="/tmp/venv/bin/pip download --platform=manylinux2010_x86_64 --no-deps -d /pymor/downloads" \
+  DOWNLOAD="/tmp/venv/bin/pip download --no-deps -d /pymor/downloads" \
   PIP="/tmp/venv/bin/pip"
 
 RUN MOUNT_CACHE \
@@ -22,7 +22,8 @@ COPY --from=REGISTRY/pymor/ci_wheels_pyPYVER:VERTAG /wheelhouse/*.whl /tmp/
 RUN MOUNT_CACHE \
   ${DOWNLOAD} /tmp/*whl && rm -f /tmp/*whl \
   && set -uex \
-  && ${DOWNLOAD} -r  ${SERVER_ROOT}/requirements/oldest_constraints.txt \
+  && grep -v "file\:" ${SERVER_ROOT}/requirements/oldest_constraints.txt > ${SERVER_ROOT}/requirements/no_files_oldest_constraints.txt \
+  && ${DOWNLOAD} -r  ${SERVER_ROOT}/requirements/no_files_oldest_constraints.txt \
   && cd ${SERVER_ROOT}/ \
   && pypi-mirror create -d downloads -m simple \
   && rm -rf /tmp/*
