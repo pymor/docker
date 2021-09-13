@@ -38,7 +38,7 @@ fi
 versions=( "${versions[@]%/}" )
 
 # PIP_VERSION
-pipVersion="21.1.1"
+pipVersion="21.2.4"
 
 generated_warning() {
 	cat <<-EOH
