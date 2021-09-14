@@ -15,10 +15,12 @@ COPY --from=zivgitlab.wwu.io/pymor/docker/pymor/constraints_pyPYVER:VERTAG /requ
 COPY --from=REGISTRY/pymor/ci_wheels_pyPYVER:VERTAG /wheelhouse/*.whl /tmp/
 COPY extra_version_downloads.txt /tmp/
 RUN MOUNT_CACHE \
+  set +x ; \
   ${DOWNLOAD} /tmp/*whl && rm -f /tmp/*whl \
   && set -uex \
-  && ${DOWNLOAD} -r ${SERVER_ROOT}/requirements/constraints.txt \
-  && ${DOWNLOAD} -r /tmp/extra_version_downloads.txt \
+  && grep -v "file\:" ${SERVER_ROOT}/requirements/constraints.txt > ${SERVER_ROOT}/requirements/no_files_constraints.txt \
+  && ${DOWNLOAD} --platform=manylinux2014_x86_64 -r ${SERVER_ROOT}/requirements/no_files_constraints.txt \
+  && ${DOWNLOAD} --platform=manylinux2014_x86_64 -r /tmp/extra_version_downloads.txt \
   && cd ${SERVER_ROOT}/ \
   && pypi-mirror --print-traceback create  -d downloads -m simple \
   && rm -rf /tmp/*

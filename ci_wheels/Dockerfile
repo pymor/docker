@@ -11,7 +11,7 @@ ENV WHEEL_VERSION=0.36.1 \
 RUN MOUNT_CACHE apt update && \
   apt install -y unp \
       libopenblas-dev cmake \
-      mpi-default-dev
+      mpi-default-dev unzip
 
 
 COPY build_*.sh /builder/
@@ -20,5 +20,8 @@ RUN MOUNT_CACHE \
   echo "${WHEEL_PKGS}" > /wheelhouse/ci_wheels.list
 
 FROM alpine:3.12
+
+# for compat with general run_* makefile target
+RUN apk add bash
 
 COPY --from=builder /wheelhouse/* /wheelhouse/
