@@ -26,3 +26,15 @@ pip install numpy && \
                     -DCMAKE_EXPORT_COMPILE_COMMANDS=ON && \
                   make -j ${MAKE_PROCS} && \
                   make install
+RUN  MOUNT_CACHE \
+  cd /tmp/precice/build \
+  # && make test \
+  && cd /tmp \
+  && wget -q http://dl.openfoam.org/source/9 -O foam.tgz \
+  && tar xfz foam.tgz
+
+# COPY openfoam.bashrc /usr/local/src/
+RUN MOUNT_CACHE \
+cd /tmp/OpenFOAM-9-version-9 \
+  && . etc/bashrc \
+  && ./Allwmake
