@@ -24,6 +24,7 @@ ENV DOCKER_NGSOLVE=1 \
 # ngsolve: liboce-modeling11 liboce-ocaf11 libopengl0 \
 #          libumfpack5 libmuparser2v5 libatlas3-base libnetcdf-c++4 libgsl23
 # gmsh: libxcursor1 libxinerama1
+# precice: libxml2
 RUN MOUNT_CACHE \
     echo 'APT::Default-Release "buster";' > /etc/apt/apt.conf.d/default-release && \
     echo "deb http://deb.debian.org/debian buster-backports main contrib non-free" > /etc/apt/sources.list.d/buster-backports.list && \
@@ -44,6 +45,7 @@ RUN MOUNT_CACHE \
         libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 \
           libxcb-render-util0 libxcb-shape0 libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0 libxcb-util0\
         libxcursor1 libxinerama1 \
+        libxml2 \
         libsz2  && \
     echo "alias ls='ls -h --color=auto'" >> /etc/bash.bashrc && \
     echo "alias ll='ls -lh'" >> /etc/bash.bashrc && \

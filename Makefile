@@ -165,6 +165,11 @@ real_fenics_%: FORCE petsc_% ci_wheels_%
 	@echo "Building $(IMAGE_NAME)"
 	@$(DO_IT)
 
+$(addsuffix _precice_%,$(IMAGE_TARGETS)): IMAGE_NAME:=PRECICE_IMAGE
+real_precice_%: FORCE petsc_% ci_wheels_%
+	@echo "Building $(IMAGE_NAME)"
+	@$(DO_IT)
+
 $(addsuffix _dolfinx_%,$(IMAGE_TARGETS)): IMAGE_NAME:=DOLFINX_IMAGE
 real_dolfinx_%: FORCE petsc_% ci_wheels_%
 	@echo "Building $(IMAGE_NAME)"
