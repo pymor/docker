@@ -166,7 +166,12 @@ real_fenics_%: FORCE petsc_% ci_wheels_%
 	@$(DO_IT)
 
 $(addsuffix _precice_%,$(IMAGE_TARGETS)): IMAGE_NAME:=PRECICE_IMAGE
-real_precice_%: FORCE petsc_% ci_wheels_%
+real_precice_%: FORCE openfoam_% petsc_% ci_wheels_%
+	@echo "Building $(IMAGE_NAME)"
+	@$(DO_IT)
+
+$(addsuffix _openfoam_%,$(IMAGE_TARGETS)): IMAGE_NAME:=OPENFOAM_IMAGE
+real_openfoam_%: FORCE python_%
 	@echo "Building $(IMAGE_NAME)"
 	@$(DO_IT)
 
