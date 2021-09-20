@@ -14,3 +14,4 @@ sphinx-autodoc-typehints
 sphinxcontrib-bibtex
 sphinx-icontract
 virtualenv
+vtk
