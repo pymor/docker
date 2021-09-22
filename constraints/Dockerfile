@@ -14,4 +14,7 @@ RUN constraints.bash
 
 FROM alpine:3.12
 
+# for compat with general run_* makefile target
+RUN apk add bash
+
 COPY --from=builder_PYVER_VERTAG /requirements/* /requirements/

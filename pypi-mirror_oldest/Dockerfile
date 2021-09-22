@@ -22,7 +22,8 @@ COPY --from=REGISTRY/pymor/ci_wheels_pyPYVER:VERTAG /wheelhouse/*.whl /tmp/
 RUN MOUNT_CACHE \
   ${DOWNLOAD} /tmp/*whl && rm -f /tmp/*whl \
   && set -uex \
-  && ${DOWNLOAD} -r  ${SERVER_ROOT}/requirements/oldest_constraints.txt \
+  && grep -v "file\:" ${SERVER_ROOT}/requirements/oldest_constraints.txt > ${SERVER_ROOT}/requirements/no_files_oldest_constraints.txt \
+  && ${DOWNLOAD} -r  ${SERVER_ROOT}/requirements/no_files_oldest_constraints.txt \
   && cd ${SERVER_ROOT}/ \
   && pypi-mirror create -d downloads -m simple \
   && rm -rf /tmp/*

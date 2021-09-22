@@ -1,4 +1,4 @@
 # In some cases we may need to have a fixed version alongside the automatically downloaded ones
 
 # numpy master needs this
-wheel<=0.35.1
+wheel==0.36.2
