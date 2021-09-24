@@ -87,6 +87,16 @@ parameterized_targets 3 7:
       - wait
       - make push_fenics_3.7 &
 
+      - make openfoam_3.7
+      # wait for potentially running push
+      - wait
+      - make push_openfoam_3.7 &
+
+      - make precice_3.7
+      # wait for potentially running push
+      - wait
+      - make push_precice_3.7 &
+
       - make wheelbuilder_manylinux2010_3.7
       # wait for potentially running push
       - wait
@@ -179,6 +189,16 @@ parameterized_targets 3 8:
       # wait for potentially running push
       - wait
       - make push_fenics_3.8 &
+
+      - make openfoam_3.8
+      # wait for potentially running push
+      - wait
+      - make push_openfoam_3.8 &
+
+      - make precice_3.8
+      # wait for potentially running push
+      - wait
+      - make push_precice_3.8 &
 
       - make wheelbuilder_manylinux2010_3.8
       # wait for potentially running push
@@ -273,6 +293,16 @@ parameterized_targets 3 9:
       - wait
       - make push_fenics_3.9 &
 
+      - make openfoam_3.9
+      # wait for potentially running push
+      - wait
+      - make push_openfoam_3.9 &
+
+      - make precice_3.9
+      # wait for potentially running push
+      - wait
+      - make push_precice_3.9 &
+
       - make wheelbuilder_manylinux2010_3.9
       # wait for potentially running push
       - wait
@@ -365,6 +395,16 @@ parameterized_targets 3 7 (scheduled):
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_fenics_3.7 &
+
+      - make VER=weekly_cron openfoam_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_openfoam_3.7 &
+
+      - make VER=weekly_cron precice_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_precice_3.7 &
 
       - make VER=weekly_cron wheelbuilder_manylinux2010_3.7
       # wait for potentially running push
@@ -459,6 +499,16 @@ parameterized_targets 3 8 (scheduled):
       - wait
       - make VER=weekly_cron push_fenics_3.8 &
 
+      - make VER=weekly_cron openfoam_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_openfoam_3.8 &
+
+      - make VER=weekly_cron precice_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_precice_3.8 &
+
       - make VER=weekly_cron wheelbuilder_manylinux2010_3.8
       # wait for potentially running push
       - wait
@@ -551,6 +601,16 @@ parameterized_targets 3 9 (scheduled):
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_fenics_3.9 &
+
+      - make VER=weekly_cron openfoam_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_openfoam_3.9 &
+
+      - make VER=weekly_cron precice_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_precice_3.9 &
 
       - make VER=weekly_cron wheelbuilder_manylinux2010_3.9
       # wait for potentially running push

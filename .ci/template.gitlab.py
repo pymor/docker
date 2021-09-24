@@ -169,6 +169,8 @@ parameterized_targets = (
         "pypi-mirror_oldest",
         "ngsolve",
         "fenics",
+        "openfoam",
+        "precice",
     ]
     + [f"wheelbuilder_manylinux{ml}" for ml in manylinux]
     + ["cibase", "testing", "jupyter", "minimal_cibase", "minimal_testing"]

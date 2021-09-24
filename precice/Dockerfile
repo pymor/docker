@@ -24,15 +24,14 @@ RUN  MOUNT_CACHE \
       -DPYTHON_EXECUTABLE:FILEPATH=$(which python) \
       -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
       -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+      -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+      -DBUILD_SHARED_LIBS=ON \
     && make -j ${MAKE_PROCS} \
     && make install
 
-COPY --from=REGISTRY/pymor/openfoam_pyPYVER:VERTAG ${OPENFOAM_DIR} /usr/local/src/
+COPY --from=REGISTRY/pymor/openfoam_pyPYVER:VERTAG ${OPENFOAM_DIR} /usr/local/src/openfoam
 
-RUN git clone https://github.com/precice/openfoam-adapter ${PRECICE_PREFIX}/adapter \
-  &&  source ${OPENFOAM_DIR}/etc/bashrc \
-  && cd ${PRECICE_PREFIX}/adapter \
+RUN  git clone https://github.com/precice/openfoam-adapter ${PRECICE_PREFIX}/src/adapter \
+  && source ${OPENFOAM_DIR}/etc/bashrc \
+  && cd ${PRECICE_PREFIX}/src/adapter \
   && ./Allwmake -j -s -q -l
-
-#RUN ls /usr/bin/open*
-#RUN bash -l -c "source /usr/lib/openfoam/openfoam/etc/bashrc && bash /tmp/adapter/Allwmake"
