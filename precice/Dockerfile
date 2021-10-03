@@ -4,10 +4,14 @@ MAINTAINER René Fritze <rene.fritze@wwu.de>
 ENV PRECICE_BUILD_TYPE=Release \
     PRECICE_PREFIX=/usr/local \
     PRECICE_VERSION=v2.2.1 \
+    PETSC_DIR=/usr/local/petsc-32 \
+    LD_LIBRARY_PATH=/usr/local/petsc-32/lib/ \
     OPENFOAM_DIR=/usr/local/src/openfoam
 
 SHELL ["/bin/bash", "-c"]
+COPY --from=REGISTRY/pymor/petsc_pyPYVER:VERTAG /usr/local/ /usr/local/
 WORKDIR /tmp
+
 RUN  MOUNT_CACHE \
   git clone https://github.com/precice/precice.git /tmp/precice && \
                   cd /tmp/precice && \
@@ -34,4 +38,7 @@ COPY --from=REGISTRY/pymor/openfoam_pyPYVER:VERTAG ${OPENFOAM_DIR} /usr/local/sr
 RUN  git clone https://github.com/precice/openfoam-adapter ${PRECICE_PREFIX}/src/adapter \
   && source ${OPENFOAM_DIR}/etc/bashrc \
   && cd ${PRECICE_PREFIX}/src/adapter \
-  && ./Allwmake -j -s -q -l
+  && ./Allwmake -j -s -q -l \
+  && ldconfig \
+  && pip install pyprecice \
+  && python -c "import precice"

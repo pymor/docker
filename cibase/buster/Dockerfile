@@ -10,6 +10,7 @@ ENV DOCKER_NGSOLVE=1 \
     OMP_NUM_THREADS=1 \
     DEBIAN_FRONTEND=teletype \
     PETSC_DIR=/usr/local/petsc-32 \
+    LD_LIBRARY_PATH=/usr/local/petsc-32/lib/ \
     BOOST_VERSION=1.71.0
 
 # -dev packages should be kept as few as possible, and listed here with reasoning
@@ -59,16 +60,21 @@ COPY --from=REGISTRY/pymor/petsc_pyPYVER:VERTAG /usr/local/ /usr/local/
 COPY --from=REGISTRY/pymor/dealii_pyPYVER:VERTAG /usr/local/ /usr/local/
 COPY --from=REGISTRY/pymor/ngsolve_pyPYVER:VERTAG /usr/local/ /usr/local/
 COPY --from=REGISTRY/pymor/fenics_pyPYVER:VERTAG /usr/local/ /usr/local/
+COPY --from=REGISTRY/pymor/precice_pyPYVER:VERTAG /usr/local/ /usr/local/
 
 RUN MOUNT_CACHE \
     pip install /usr/local/tmp/pymor_dealii-*.whl && \
+    pip install pyprecice && \
+    ldconfig && \
     python -c "import ngsolve" && \
     python -c "import pymor_dealii" && \
+    python -c "import precice" && \
     python -c "from dolfin import cpp" && \
     pip install termtables python-dotenv # for pymor-info script
 RUN MOUNT_CACHE \
   (find /usr/local/lib -maxdepth 1 -type f | xargs strip -p -d 2> /dev/null ) && \
   python -c "import ngsolve" && \
+  python -c "import precice" && \
   python -c "import pymor_dealii" && \
   python -c "from dolfin import cpp"
 

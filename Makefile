@@ -118,7 +118,7 @@ real_pypi-mirror_test_%: testing_% pypi-mirror_stable_% pypi-mirror_oldest_% pym
 	VARIANT=oldest PYPI_MIRROR_TAG=$(VER) CI_IMAGE_TAG=$(VER) CNTR_BASE_PYTHON=$* docker-compose -f mirror-test.docker-compose.yml up --build test
 
 $(addsuffix _cibase_%,$(IMAGE_TARGETS)): IMAGE_NAME:=CIBASE_IMAGE
-real_cibase_%: FORCE ngsolve_% fenics_% dealii_% pypi-mirror_stable_%
+real_cibase_%: FORCE precice_% ngsolve_% fenics_% dealii_% pypi-mirror_stable_%
 	@echo "Building $(IMAGE_NAME)"
 	@$(DO_IT)
 
