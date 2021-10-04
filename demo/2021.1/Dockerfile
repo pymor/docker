@@ -1,4 +1,4 @@
-FROM docker.io/pymor/testing_py3.8:2020.2.0
+FROM docker.io/pymor/jupyter_py3.9:2021.1.0
 MAINTAINER René Fritze <rene.fritze@wwu.de>
 
 USER root
@@ -9,5 +9,4 @@ USER pymor
 RUN pymor-demo --help && python -c "from pymor.basic import *"
 
 ENV LIBGL_DEBUG=verbose
-ENTRYPOINT ["/usr/local/bin/pymor-demo"]
-CMD ["--help"]
+ENTRYPOINT []
