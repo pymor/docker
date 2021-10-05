@@ -1,24 +1,27 @@
-FROM REGISTRY/pymor/petsc_pyPYVER:VERTAG as petsclayer
+FROM REGISTRY/pymor/dealii_pyPYVER:VERTAG
 MAINTAINER René Fritze <rene.fritze@wwu.de>
+
+COPY --from=REGISTRY/pymor/petsc_pyPYVER:VERTAG /usr/local/ /usr/local/
 
 ENV PRECICE_BUILD_TYPE=Release \
     PRECICE_PREFIX=/usr/local \
     PRECICE_VERSION=v2.2.1 \
     PETSC_DIR=/usr/local/petsc-32 \
-    LD_LIBRARY_PATH=/usr/local/petsc-32/lib/ \
-    OPENFOAM_DIR=/usr/local/src/openfoam
+    LD_LIBRARY_PATH=/usr/local/petsc-32/lib/
 
-SHELL ["/bin/bash", "-c"]
-COPY --from=REGISTRY/pymor/petsc_pyPYVER:VERTAG /usr/local/ /usr/local/
 WORKDIR /tmp
 
-RUN  MOUNT_CACHE \
-  git clone https://github.com/precice/precice.git /tmp/precice && \
-                  cd /tmp/precice && \
-                  git checkout ${PRECICE_VERSION} && \
-                  mkdir /tmp/precice/build \
+RUN MOUNT_CACHE \
+  echo "deb http://deb.debian.org/debian buster-backports main contrib non-free" > /etc/apt/sources.list.d/buster-backports.list \
+  && echo "deb http://deb.debian.org/debian/ buster contrib non-free" > /etc/apt/sources.list.d/buster-nonfree.list \
   && apt update \
-  && apt install -y libxml2-dev \
+  && ${APTINSTALL} -t buster-backports libboost1.71-all-dev \
+  && git clone https://github.com/precice/precice.git /tmp/precice \
+                  && cd /tmp/precice \
+                  && git checkout ${PRECICE_VERSION} \
+                  && mkdir /tmp/precice/build \
+  && apt update \
+  && apt install -y libxml2-dev libeigen3-dev \
   && cd /tmp/precice/build \
   && cmake ../ \
       -DCMAKE_INSTALL_PREFIX=${PRECICE_PREFIX} \
@@ -33,12 +36,11 @@ RUN  MOUNT_CACHE \
     && make -j ${MAKE_PROCS} \
     && make install
 
-COPY --from=REGISTRY/pymor/openfoam_pyPYVER:VERTAG ${OPENFOAM_DIR} /usr/local/src/openfoam
-
-RUN  git clone https://github.com/precice/openfoam-adapter ${PRECICE_PREFIX}/src/adapter \
-  && source ${OPENFOAM_DIR}/etc/bashrc \
-  && cd ${PRECICE_PREFIX}/src/adapter \
-  && ./Allwmake -j -s -q -l \
+RUN MOUNT_CACHE \
+  git clone https://github.com/precice/dealii-adapter ${PRECICE_PREFIX}/src/dealii-adapter \
+  && cd ${PRECICE_PREFIX}/src/dealii-adapter \
+  && cmake . \
+  && make \
   && ldconfig \
   && pip install pyprecice \
   && python -c "import precice"

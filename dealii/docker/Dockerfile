@@ -7,7 +7,10 @@ USER root
 ENV DEBIAN_FRONTEND=noninteractive
 #for add-apt-repo
 RUN MOUNT_CACHE \
-    apt-get update && \
+    echo "deb http://deb.debian.org/debian buster-backports main contrib non-free" > /etc/apt/sources.list.d/buster-backports.list && \
+    echo "deb http://deb.debian.org/debian/ buster contrib non-free" > /etc/apt/sources.list.d/buster-nonfree.list && \
+    apt update && \
+    ${APTINSTALL} -t buster-backports libboost1.71-all-dev && \
     apt-get install -y software-properties-common \
     gfortran cmake g++\
     git \
@@ -19,7 +22,7 @@ RUN MOUNT_CACHE \
     libnetcdf-c++4-dev \
     libnetcdf-cxx-legacy-dev \
     libnetcdf-dev \
-    libarpack2-dev libboost-all-dev libgmsh-dev \
+    libarpack2-dev libgmsh-dev \
     liblapack-dev libmuparser-dev libmetis-dev libtbb-dev \
     ninja-build \
     numdiff \
