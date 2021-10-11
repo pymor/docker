@@ -2,7 +2,7 @@ include common.mk
 
 THIS_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 SUBDIRS = $(patsubst %/,%,$(sort $(dir $(wildcard */))))
-PY_INDEPENDENT = demo deploy_checks docker-in-docker docs ci_sanity pymor_source
+PY_INDEPENDENT = demo deploy_checks docker-in-docker docs ci_sanity pymor_source devpi
 PY_SUBDIRS = $(filter-out $(PY_INDEPENDENT),$(SUBDIRS))
 EXCLUDE_FROM_ALL = pypi-mirror_test docs pymor_source dolfinx
 PUSH_PYTHON_SUBDIRS = $(addprefix push_,$(filter-out $(EXCLUDE_FROM_ALL),$(PY_SUBDIRS)))
@@ -247,3 +247,14 @@ ci_update:
 
 debug:
 	echo $(DSUB)
+
+devpi push_devpi clean_devpi run_devpi: IMAGE_NAME:=DEVPI_IMAGE
+devpi: FORCE
+	$(CNTR_BUILD) -t $(call FULL_IMAGE_NAME,dummy,$(VER)) $(call $(IMAGE_NAME)_DIR,dummy)
+	$(CNTR_TAG) $(call FULL_IMAGE_NAME,dummy,$(VER)) $(call FULL_IMAGE_NAME,dummy,latest)
+push_devpi: FORCE
+	$(CNTR_PUSH) $(call FULL_IMAGE_NAME,dummy,$(VER))
+	$(CNTR_PUSH) $(call FULL_IMAGE_NAME,dummy,latest)
+clean_devpi: FORCE
+	for img in $$(docker images --format '{{.Repository}}:{{.Tag}}' | grep $(call FULL_IMAGE_NAME,dummy,)) ; \
+		do $(CNTR_RMI) $${img} ; done
