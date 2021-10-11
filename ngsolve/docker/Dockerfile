@@ -9,7 +9,7 @@ RUN MOUNT_CACHE \
     libglu1-mesa-dev ccache openssh-client openmpi-bin libopenmpi-dev \
     liboce-ocaf-dev libsuitesparse-dev python3-tk
 ENV PATH="/opt/netgen/bin:${PATH}" \
-    NGSOLVE_VERSION=v6.2.2104 \
+    NGSOLVE_VERSION=v6.2.2202 \
     NGSOLVE_SRC_DIR=/root/src/ngsolve_src \
     NGSOLVE_BUILD_DIR=/root/src/ngsolve_build \
     PETSC_DIR=/usr/local/petsc-32
