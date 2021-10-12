@@ -1,5 +1,5 @@
 #!/bin/bash
-DEVPI_PASSWORD=fjre
+DEVPI_PASSWORD=${DEVPI_PASSWORD:-}
 set -uxe
 devpi-init
 #((devpi-server --restrict-modify root --host 127.0.0.1 --port 3141) & jobs -p >/var/run/devpi.pid)
