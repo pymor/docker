@@ -36,10 +36,14 @@ PYPI_MIRROR_STABLE_IMAGE = pymor/pypi-mirror_stable_py$1:$2
 PYPI_MIRROR_STABLE_IMAGE_DIR = pypi-mirror_stable
 CI_WHEELS_IMAGE = pymor/ci_wheels_py$1:$2
 CI_WHEELS_IMAGE_DIR = ci_wheels
+CI_SANITY_IMAGE = pymor/ci_sanity:$2
+CI_SANITY_IMAGE_DIR = ci_sanity
 CONSTRAINTS_IMAGE = pymor/constraints_py$1:$2
 CONSTRAINTS_IMAGE_DIR = constraints
 DOC_RELEASES_IMAGE = pymor/doc_releases:$2
-DOC_RELEASES_IMAGE_DIR = docs
+DOC_RELEASES_IMAGE_DIR = docs/releases
+DEPLOY_CHECKS_IMAGE = pymor/deploy_checks_$1:$2
+DEPLOY_CHECKS_IMAGE_DIR = deploy_checks/$1
 JUPYTER_IMAGE = pymor/jupyter_py$1:$2
 JUPYTER_IMAGE_DIR = jupyter
 MIRROR_TEST_IMAGE = pymor/pypi-mirror_test_py$1:$2
@@ -65,22 +69,25 @@ CNTR_RMI=$(CNTR_CMD) rmi -f
 CNTR_INSPECT=$(CNTR_CMD) inspect
 FULL_IMAGE_NAME = $(MAIN_CNTR_REGISTRY)/$(call $(IMAGE_NAME),$1,$2)
 ALT_IMAGE_NAME = $(ALT_CNTR_REGISTRY)/$(call $(IMAGE_NAME),$1,$2)
-COMMON_INSPECT=$(CNTR_INSPECT) $(call FULL_IMAGE_NAME,$*,$(VER)) >/dev/null 2>&1
-CACHE_FROM=$$( ($(CNTR_INSPECT) $(call FULL_IMAGE_NAME,$*,latest) >/dev/null 2>&1 \
-	&& echo "--cache-from=$(call FULL_IMAGE_NAME,$*,latest)" ) || true )
-COPY_DOCKERFILE_IF_CHANGED=sed -f macros.sed $(call $(IMAGE_NAME)_DIR,$*)/Dockerfile \
-	> $(call $(IMAGE_NAME)_DIR,$*)/Dockerfile_TMP__$* && \
-	sed -i -e "s;VERTAG;$(VER);g" -e "s;PYVER;$*;g" -e "s;REGISTRY;$(MAIN_CNTR_REGISTRY);g" $(call $(IMAGE_NAME)_DIR,$*)/Dockerfile_TMP__$* && \
-	rsync -c $(call $(IMAGE_NAME)_DIR,$*)/Dockerfile_TMP__$* $(call $(IMAGE_NAME)_DIR,$*)/Dockerfile__$*
+COMMON_INSPECT=$(CNTR_INSPECT) $(call FULL_IMAGE_NAME,$1,$(VER)) >/dev/null 2>&1
+CACHE_FROM=$$( ($(CNTR_INSPECT) $(call FULL_IMAGE_NAME,$1,latest) >/dev/null 2>&1 \
+	&& echo "--cache-from=$(call FULL_IMAGE_NAME,$1,latest)" ) || true )
+COPY_DOCKERFILE_IF_CHANGED=sed -f macros.sed $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile \
+	> $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile_TMP__$1 && \
+	sed -i -e "s;VERTAG;$(VER);g" -e "s;PYVER;$1;g" -e "s;REGISTRY;$(MAIN_CNTR_REGISTRY);g" $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile_TMP__$1 && \
+	rsync -c $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile_TMP__$1 $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile__$1
 COMMON_BUILD=$(COPY_DOCKERFILE_IF_CHANGED) && \
-	$(CNTR_BUILD) -t $(call FULL_IMAGE_NAME,$*,$(VER)) -t $(call FULL_IMAGE_NAME,$*,latest) \
-	-t $(call ALT_IMAGE_NAME,$*,$(VER)) -t $(call ALT_IMAGE_NAME,$*,latest) \
-	 -f $(call $(IMAGE_NAME)_DIR,$*)/Dockerfile__$* $(CACHE_FROM) \
-	 $(call $(IMAGE_NAME)_DIR,$*)
-COMMON_TAG=$(CNTR_TAG) $(call FULL_IMAGE_NAME,$*,$(VER)) $(call FULL_IMAGE_NAME,$*,latest)
-DO_IT= ($(COMMON_INSPECT) || ($(COMMON_PULL) && $(COMMON_TAG))) || ($(COMMON_PULL_LATEST) ; $(COMMON_BUILD) && $(COMMON_TAG))
-COMMON_PULL=$(CNTR_PULL) $(call FULL_IMAGE_NAME,$*,$(VER))
-COMMON_PULL_LATEST=$(CNTR_PULL) $(call FULL_IMAGE_NAME,$*,latest)
+	$(CNTR_BUILD) -t $(call FULL_IMAGE_NAME,$1,$(VER)) -t $(call FULL_IMAGE_NAME,$1,latest) \
+	-t $(call ALT_IMAGE_NAME,$1,$(VER)) -t $(call ALT_IMAGE_NAME,$1,latest) \
+	 -f $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile__$1 $(CACHE_FROM) \
+	 $(call $(IMAGE_NAME)_DIR,$1)
+COMMON_TAG=$(CNTR_TAG) $(call FULL_IMAGE_NAME,$1,$(VER)) $(call FULL_IMAGE_NAME,$1,latest)
+DO_IT_ARG= ($(call COMMON_INSPECT,$1) || ($(call COMMON_PULL,$1) && $(call COMMON_TAG,$1))) \
+	|| ($(call COMMON_PULL_LATEST,$1) ; $(call COMMON_BUILD,$1) && $(call COMMON_TAG,$1))
+DO_IT=$(call DO_IT_ARG,$*)
+DO_IT_NOARG=$(call DO_IT_ARG,NONE)
+COMMON_PULL=$(CNTR_PULL) $(call FULL_IMAGE_NAME,$1,$(VER))
+COMMON_PULL_LATEST=$(CNTR_PULL) $(call FULL_IMAGE_NAME,$1,latest)
 COMMON_PUSH=$(CNTR_PUSH) $(call FULL_IMAGE_NAME,$1,$(VER)) && \
 	$(CNTR_PUSH) $(call FULL_IMAGE_NAME,$1,latest) && \
 	$(CNTR_PUSH) $(call ALT_IMAGE_NAME,$1,$(VER)) && \
