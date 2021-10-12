@@ -619,6 +619,10 @@ static_targets:
       - wait
       - make push_ci_sanity &
 
+      - make devpi
+      - wait
+      - make push_devpi &
+
       - wait
 
 static_targets (scheduled):
@@ -651,6 +655,10 @@ static_targets (scheduled):
       - make VER=weekly_cron ci_sanity
       - wait
       - make VER=weekly_cron push_ci_sanity &
+
+      - make VER=weekly_cron devpi
+      - wait
+      - make VER=weekly_cron push_devpi &
 
       - wait
 test oldest 3 8:
