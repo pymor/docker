@@ -2,16 +2,17 @@ include common.mk
 
 THIS_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 SUBDIRS = $(patsubst %/,%,$(sort $(dir $(wildcard */))))
-DEPLOY_CHECKS = $(subst /,_,$(patsubst %/,%,$(sort $(dir $(wildcard deploy_checks/*/)))))
-PY_INDEPENDENT = demo $(DEPLOY_CHECKS) docker-in-docker docs ci_sanity pymor_source devpi
-PY_SUBDIRS = $(filter-out $(PY_INDEPENDENT),$(SUBDIRS))
+DEPLOY_CHECKS_VARIANTS = $(subst deploy_checks/,,$(patsubst %/,%,$(sort $(dir $(wildcard deploy_checks/*/)))))
+DEPLOY_CHECKS = $(addprefix deploy_checks_,$(DEPLOY_CHECKS_VARIANTS))
+OTHER_VARYING = deploy_checks
+PY_INDEPENDENT = demo docker-in-docker docs ci_sanity pymor_source devpi
+PY_SUBDIRS = $(filter-out $(OTHER_VARYING),$(filter-out $(PY_INDEPENDENT),$(SUBDIRS)))
 EXCLUDE_FROM_ALL = pypi-mirror_test docs pymor_source dolfinx
 PUSH_PYTHON_SUBDIRS = $(addprefix push_,$(filter-out $(EXCLUDE_FROM_ALL),$(PY_SUBDIRS)))
 CLEAN_PYTHON_SUBDIRS = $(addprefix clean_,$(filter-out $(EXCLUDE_FROM_ALL),$(PY_SUBDIRS)))
 PUSH_PYTHON_VERSIONS = $(addprefix push_,$(PYTHONS))
 PUSH = $(addprefix push_,$(filter-out $(EXCLUDE_FROM_ALL),$(PY_INDEPENDENT)))
 CLEAN = $(addprefix clean_,$(filter-out $(EXCLUDE_FROM_ALL),$(PY_INDEPENDENT)))
-
 
 IMAGE_TARGETS=real rp run cl ensure pull pl
 DEMOS = $(addprefix demo_,$(DEMO_TAGS))
@@ -32,6 +33,7 @@ $(CLEAN_PYTHON_SUBDIRS): % : $(addprefix %_,$(PYTHONS))
 
 $(PUSH_PYTHON_SUBDIRS): % : $(addprefix %_,$(PYTHONS))
 
+$(PYTHONS): % : $(addsuffix _%,$(filter-out $(EXCLUDE_FROM_ALL),$(PY_SUBDIRS)))
 $(PYTHONS): % : $(addsuffix _%,$(filter-out $(EXCLUDE_FROM_ALL),$(PY_SUBDIRS)))
 
 $(PUSH_PYTHON_VERSIONS): push_% : $(addsuffix _%,$(addprefix push_,$(filter-out $(EXCLUDE_FROM_ALL),$(PY_SUBDIRS))))
@@ -57,6 +59,13 @@ $(foreach subd,$(PY_INDEPENDENT),pull_$(subd)): pull_% : pl_%
 $(foreach subd,$(PY_INDEPENDENT),push_$(subd)): push_% : rp_%
 $(foreach subd,$(PY_INDEPENDENT),clean_$(subd)): clean_% : cl_%
 
+# other images with variants still need a manual block for this too
+subd=deploy_checks
+$(addprefix $(subd)_,$(DEPLOY_CHECKS_VARIANTS)): % : real_%
+$(addprefix pull_$(subd)_,$(DEPLOY_CHECKS_VARIANTS)): pull_% : pl_%
+$(addprefix push_$(subd)_,$(DEPLOY_CHECKS_VARIANTS)): push_% : rp_%
+$(addprefix clean_$(subd)_,$(DEPLOY_CHECKS_VARIANTS)): clean_% : cl_%
+
 cl_% : FORCE
 	for img in $$($(CNTR_CMD) images --format '{{.Repository}}:{{.Tag}}' | grep $(call FULL_IMAGE_NAME,$(lastword $(subst _, ,$*)),)) ; \
 		do $(CNTR_RMI) $${img} ; done
@@ -73,6 +82,13 @@ pl_% : FORCE
 
 run_%: %
 	$(CNTR_RUN) -it --entrypoint=/bin/bash $(call FULL_IMAGE_NAME,$(lastword $(subst _, ,$*)),$(VER))
+
+deploy_checks: $(DEPLOY_CHECKS)
+push_deploy_checks: % : $(addprefix push_,$(DEPLOY_CHECKS))
+$(addsuffix _deploy_checks_%,$(IMAGE_TARGETS)): IMAGE_NAME:=DEPLOY_CHECKS_IMAGE
+real_deploy_checks_%: FORCE
+	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
+	@$(DO_IT)
 
 push_pymor_source:
 pymor_source:
@@ -210,10 +226,6 @@ real_docs: FORCE
 	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT_NOARG)
 
-$(addsuffix _deploy_checks_%,$(IMAGE_TARGETS)): IMAGE_NAME:=DEPLOY_CHECKS_IMAGE
-real_deploy_checks_%: FORCE
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
-	@$(DO_IT)
 
 pull_latest_%: FORCE
 	$(MAKE) -C testing pull_latest_$*
@@ -234,7 +246,8 @@ ci_update:
 	./.ci/template.gitlab.py
 
 debug:
-	echo $(DSUB)
+	echo $(DEPLOY_CHECKS_VARIANTS)
+	echo $(DEPLOY_CHECKS)
 
 $(addsuffix _devpi,$(IMAGE_TARGETS)): IMAGE_NAME:=DEVPI_IMAGE
 real_devpi: FORCE
