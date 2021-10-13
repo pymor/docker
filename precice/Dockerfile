@@ -34,10 +34,10 @@ RUN MOUNT_CACHE \
       -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
       -DBUILD_SHARED_LIBS=ON \
     && make -j ${MAKE_PROCS} \
-    && make install
-
-RUN MOUNT_CACHE \
-  git clone https://github.com/precice/dealii-adapter ${PRECICE_PREFIX}/src/dealii-adapter \
+    && make install \
+    && cd /tmp \
+    && rm -rf /tmp/precice \
+  && git clone https://github.com/precice/dealii-adapter ${PRECICE_PREFIX}/src/dealii-adapter \
   && cd ${PRECICE_PREFIX}/src/dealii-adapter \
   && cmake . \
   && make \
