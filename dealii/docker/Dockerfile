@@ -32,7 +32,7 @@ RUN MOUNT_CACHE \
     openmpi-bin gosu && \
     pip install numpy
 
-ENV DEALII_VERSION=9.2.0
+ENV DEALII_VERSION=9.3.0
 RUN MOUNT_CACHE \
     cd /tmp && git clone https://github.com/dealii/dealii.git dealii-${DEALII_VERSION}-src && \
     cd dealii-${DEALII_VERSION}-src && \
