@@ -118,7 +118,7 @@ real_pypi-mirror_test_%: testing_% pypi-mirror_stable_% pypi-mirror_oldest_% pym
 	VARIANT=oldest PYPI_MIRROR_TAG=$(VER) CI_IMAGE_TAG=$(VER) CNTR_BASE_PYTHON=$* docker-compose -f mirror-test.docker-compose.yml up --build test
 
 $(addsuffix _cibase_%,$(IMAGE_TARGETS)): IMAGE_NAME:=CIBASE_IMAGE
-real_cibase_%: FORCE ngsolve_% fenics_% dealii_% pypi-mirror_stable_%
+real_cibase_%: FORCE precice_% ngsolve_% fenics_% dealii_% pypi-mirror_stable_%
 	@echo "Building $(IMAGE_NAME)"
 	@$(DO_IT)
 
@@ -162,6 +162,16 @@ real_petsc_%: FORCE python_%
 
 $(addsuffix _fenics_%,$(IMAGE_TARGETS)): IMAGE_NAME:=FENICS_IMAGE
 real_fenics_%: FORCE petsc_% ci_wheels_%
+	@echo "Building $(IMAGE_NAME)"
+	@$(DO_IT)
+
+$(addsuffix _precice_%,$(IMAGE_TARGETS)): IMAGE_NAME:=PRECICE_IMAGE
+real_precice_%: FORCE dealii_% petsc_% ci_wheels_%
+	@echo "Building $(IMAGE_NAME)"
+	@$(DO_IT)
+
+$(addsuffix _openfoam_%,$(IMAGE_TARGETS)): IMAGE_NAME:=OPENFOAM_IMAGE
+real_openfoam_%: FORCE python_%
 	@echo "Building $(IMAGE_NAME)"
 	@$(DO_IT)
 
