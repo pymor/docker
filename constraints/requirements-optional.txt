@@ -6,7 +6,6 @@ Qt.py>=1.2.4
 bash_kernel
 cython>=0.28;python_version != "3.9"
 cython>=0.29.12;python_version == "3.9"
-deal
 diskcache
 docopt-ng
 gmsh
