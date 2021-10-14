@@ -3,7 +3,7 @@ FROM REGISTRY/pymor/python_PYVER:VERTAG as foam_builder
 ENV OPENFOAM_DIR=/usr/local/src/openfoam
 
 RUN MOUNT_CACHE \
-  && apt update \
+  apt update \
   && ${APTINSTALL} libboost1.74-all-dev \
   && ${APTINSTALL} gnupg ca-certificates git debhelper build-essential \
                   flex libfl-dev gfortran \
