@@ -3,7 +3,7 @@
 BRANCH=$1
 shift
 
-set -eu
+set -eux
 
 git clone --branch=${BRANCH} https://github.com/pymor/pymor /tmp/pymor
 cd /tmp/pymor
