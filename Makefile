@@ -189,7 +189,7 @@ real_precice_%: FORCE dealii_% petsc_% ci_wheels_%
 
 $(addsuffix _openfoam_%,$(IMAGE_TARGETS)): IMAGE_NAME:=OPENFOAM_IMAGE
 real_openfoam_%: FORCE python_%
-	@echo "Building $($(IMAGE_NAME))
+	@echo "Building $($(IMAGE_NAME))"
 	@$(DO_IT)
 
 $(addsuffix _dolfinx_%,$(IMAGE_TARGETS)): IMAGE_NAME:=DOLFINX_IMAGE
