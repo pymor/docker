@@ -151,7 +151,6 @@ pythons = ["3.7", "3.8", "3.9"]
 manylinux = ["2010", "2014"]
 static_targets = [
     "docker-in-docker",
-    "docs",
     "demo_main",
     "deploy_checks",
     "ci_sanity",
