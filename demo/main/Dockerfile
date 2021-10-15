@@ -1,4 +1,4 @@
-FROM pymor/testing_py3.7:0792f9d2c00575d8cf10bfe43c0a645733bc5c07
+FROM pymor/testing_py3.9:8b53a0c0ef5397576c1f9800e5e0ad3008536ea8
 MAINTAINER René Fritze <rene.fritze@wwu.de>
 
 USER root
@@ -9,12 +9,11 @@ RUN apt-get update && apt-get install \
         libnetcdf-c++4-dev \
         libnetcdf-cxx-legacy-dev \
         libnetcdf-dev \
-        libarpack2-dev libboost-all-dev libgmsh-dev \
+        libarpack2-dev libgmsh-dev \
         liblapack-dev libmuparser-dev libmetis-dev libtbb-dev \
     && pip uninstall -y pymor numpy \
-    && ${PIP_INSTALL} -U pip==21.0 \
+    && ${PIP_INSTALL} -U pip~=21.1 \
     && ${PIP_INSTALL} git+https://github.com/pymor/pymor.git@main#egg=pymor[full] \
-    && ${PIP_INSTALL} -U git+https://github.com/pymor/pymor-deal.II#egg=pymor_dealii \
     && rm -rf ~/.matplotlib \
     && apt-get autoremove -y  \
     && rm -rf /var/lib/apt/lists/* \
