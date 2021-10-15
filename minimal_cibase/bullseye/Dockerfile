@@ -27,7 +27,7 @@ RUN MOUNT_CACHE \
         xauth gsl-bin git-lfs \
         vim gosu sudo \
         libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 \
-          libxcb-render-util0 libxcb-shape0 libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0 libxcb-util0\
+          libxcb-render-util0 libxcb-shape0 libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0 libxcb-util1\
         libxcursor1 libxinerama1 && \
     echo "alias ls='ls -h --color=auto'" >> /etc/bash.bashrc && \
     echo "alias ll='ls -lh'" >> /etc/bash.bashrc && \
