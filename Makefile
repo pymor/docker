@@ -84,6 +84,7 @@ run_%: %
 	$(CNTR_RUN) -it --entrypoint=/bin/bash $(call FULL_IMAGE_NAME,$(lastword $(subst _, ,$*)),$(VER))
 
 deploy_checks: $(DEPLOY_CHECKS)
+push_deploy_checks: IMAGE_NAME:=DEPLOY_CHECKS_IMAGE
 push_deploy_checks: % : $(addprefix push_,$(DEPLOY_CHECKS))
 $(addsuffix _deploy_checks_%,$(IMAGE_TARGETS)): IMAGE_NAME:=DEPLOY_CHECKS_IMAGE
 real_deploy_checks_%: FORCE
