@@ -1,4 +1,4 @@
-FROM docker.io/pymor/testing_py3.8:2020.2.0
+FROM docker.io/pymor/testing_py3.9:2020.2.0
 MAINTAINER René Fritze <rene.fritze@wwu.de>
 
 USER root
