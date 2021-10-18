@@ -77,7 +77,7 @@ RUN MOUNT_CACHE \
   python -c "import pymor_dealii" && \
   python -c "from dolfin import cpp"
 
-COPY openmpi-mca-params.conf /etc/openmpi/openmpi-mca-params.conf
+#COPY openmpi-mca-params.conf /etc/openmpi/openmpi-mca-params.conf
 COPY pymor-info /usr/local/bin/
 COPY entrypoint.sh /usr/local/bin/
 COPY *.pip.conf /usr/local/share/
