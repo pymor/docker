@@ -29,19 +29,20 @@ for i in fiat ufl ffcx ; do
   pip install --no-cache-dir .
 done
 
-apt update ; apt install -y ninja-build && \
-cd /src/dolfinx && \
-mkdir build && \
-cd build && \
+apt update
+apt install -y ninja-build
+cd /src/dolfinx
+mkdir build
+cd build
 PETSC_ARCH=linux-gnu-real-32 cmake -G Ninja \
   -DCMAKE_INSTALL_PREFIX=/usr/local/ \
   -DCMAKE_BUILD_TYPE=Release \
   -DPYTHON_INTERPRETER=/usr/local/bin/python3 \
-  ../cpp && \
-ninja install && \
-cd ../python && \
-PETSC_ARCH=linux-gnu-real-32 pip3 install . && \
-(find /usr/local/lib -maxdepth 1 -type f | xargs strip -p -d 2> /dev/null ) && \
-ldconfig && \
-rm -rf /src && \
+  ../cpp
+ninja install
+cd ../python
+PETSC_ARCH=linux-gnu-real-32 pip3 install .
+(find /usr/local/lib -maxdepth 1 -type f | xargs strip -p -d 2> /dev/null )
+ldconfig
+rm -rf /src 
 printenv >> /usr/local/share/dolfinx.env
