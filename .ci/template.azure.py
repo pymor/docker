@@ -91,12 +91,6 @@ stages:
 {{ pyjob('fenics', 3)}}
 
 {{ stage(4) }}
-{%- for ml in manylinux %}
-{%- set wml -%}
-    wheelbuilder_manylinux{{ml}}
-{%- endset -%}
-{{ pyjob(wml, 4)}}
-{% endfor %}
 {{ pyjob('cibase', 4)}}
 
 {{ stage(5) }}

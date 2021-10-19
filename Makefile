@@ -105,16 +105,6 @@ real_ci_wheels_%: FORCE python_%
 	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
-$(addsuffix _wheelbuilder_manylinux2010_%,$(IMAGE_TARGETS)): IMAGE_NAME:=WB2010_IMAGE
-real_wheelbuilder_manylinux2010_%: FORCE pypi-mirror_oldest_%
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
-	@$(DO_IT)
-
-$(addsuffix _wheelbuilder_manylinux2014_%,$(IMAGE_TARGETS)): IMAGE_NAME:=WB2014_IMAGE
-real_wheelbuilder_manylinux2014_%: FORCE pypi-mirror_oldest_%
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
-	@$(DO_IT)
-
 $(addsuffix _constraints_%,$(IMAGE_TARGETS)): IMAGE_NAME:=CONSTRAINTS_IMAGE
 real_constraints_%: FORCE real_ci_wheels_%
 	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
