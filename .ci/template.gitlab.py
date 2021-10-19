@@ -148,7 +148,6 @@ from pathlib import Path
 
 tpl = jinja2.Template(tpl)
 pythons = ["3.7", "3.8", "3.9"]
-manylinux = ["2010", "2014"]
 static_targets = [
     "docker-in-docker",
     "demo_main",
@@ -171,7 +170,6 @@ parameterized_targets = (
         "openfoam",
         "precice",
     ]
-    + [f"wheelbuilder_manylinux{ml}" for ml in manylinux]
     + ["cibase", "testing", "jupyter", "minimal_cibase", "minimal_testing"]
 )
 

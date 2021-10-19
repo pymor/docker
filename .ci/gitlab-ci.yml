@@ -97,16 +97,6 @@ parameterized_targets 3 7:
       - wait
       - make push_precice_3.7 &
 
-      - make wheelbuilder_manylinux2010_3.7
-      # wait for potentially running push
-      - wait
-      - make push_wheelbuilder_manylinux2010_3.7 &
-
-      - make wheelbuilder_manylinux2014_3.7
-      # wait for potentially running push
-      - wait
-      - make push_wheelbuilder_manylinux2014_3.7 &
-
       - make cibase_3.7
       # wait for potentially running push
       - wait
@@ -199,16 +189,6 @@ parameterized_targets 3 8:
       # wait for potentially running push
       - wait
       - make push_precice_3.8 &
-
-      - make wheelbuilder_manylinux2010_3.8
-      # wait for potentially running push
-      - wait
-      - make push_wheelbuilder_manylinux2010_3.8 &
-
-      - make wheelbuilder_manylinux2014_3.8
-      # wait for potentially running push
-      - wait
-      - make push_wheelbuilder_manylinux2014_3.8 &
 
       - make cibase_3.8
       # wait for potentially running push
@@ -303,16 +283,6 @@ parameterized_targets 3 9:
       - wait
       - make push_precice_3.9 &
 
-      - make wheelbuilder_manylinux2010_3.9
-      # wait for potentially running push
-      - wait
-      - make push_wheelbuilder_manylinux2010_3.9 &
-
-      - make wheelbuilder_manylinux2014_3.9
-      # wait for potentially running push
-      - wait
-      - make push_wheelbuilder_manylinux2014_3.9 &
-
       - make cibase_3.9
       # wait for potentially running push
       - wait
@@ -405,16 +375,6 @@ parameterized_targets 3 7 (scheduled):
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_precice_3.7 &
-
-      - make VER=weekly_cron wheelbuilder_manylinux2010_3.7
-      # wait for potentially running push
-      - wait
-      - make VER=weekly_cron push_wheelbuilder_manylinux2010_3.7 &
-
-      - make VER=weekly_cron wheelbuilder_manylinux2014_3.7
-      # wait for potentially running push
-      - wait
-      - make VER=weekly_cron push_wheelbuilder_manylinux2014_3.7 &
 
       - make VER=weekly_cron cibase_3.7
       # wait for potentially running push
@@ -509,16 +469,6 @@ parameterized_targets 3 8 (scheduled):
       - wait
       - make VER=weekly_cron push_precice_3.8 &
 
-      - make VER=weekly_cron wheelbuilder_manylinux2010_3.8
-      # wait for potentially running push
-      - wait
-      - make VER=weekly_cron push_wheelbuilder_manylinux2010_3.8 &
-
-      - make VER=weekly_cron wheelbuilder_manylinux2014_3.8
-      # wait for potentially running push
-      - wait
-      - make VER=weekly_cron push_wheelbuilder_manylinux2014_3.8 &
-
       - make VER=weekly_cron cibase_3.8
       # wait for potentially running push
       - wait
@@ -611,16 +561,6 @@ parameterized_targets 3 9 (scheduled):
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_precice_3.9 &
-
-      - make VER=weekly_cron wheelbuilder_manylinux2010_3.9
-      # wait for potentially running push
-      - wait
-      - make VER=weekly_cron push_wheelbuilder_manylinux2010_3.9 &
-
-      - make VER=weekly_cron wheelbuilder_manylinux2014_3.9
-      # wait for potentially running push
-      - wait
-      - make VER=weekly_cron push_wheelbuilder_manylinux2014_3.9 &
 
       - make VER=weekly_cron cibase_3.9
       # wait for potentially running push
