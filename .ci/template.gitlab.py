@@ -168,7 +168,6 @@ parameterized_targets = [
     "pypi-mirror_oldest",
     "ngsolve",
     "fenics",
-    "openfoam",
     "precice",
 ] + ["cibase", "testing", "jupyter", "minimal_cibase", "minimal_testing"]
 
