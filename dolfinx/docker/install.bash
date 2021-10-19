@@ -7,6 +7,8 @@ bash /tmp/cmake.sh --skip-license --prefix=/usr/local
 cmake --version
 
 pip install numba /tmp/mpi4py* pybind11
+pip install --no-deps petsc4py==${PETSC4PY_VERSION}
+python -c "import petsc4py"
 mkdir /src
 cd /src
 for i in basix fiat ufl ffcx dolfinx ; do
