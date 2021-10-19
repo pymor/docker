@@ -15,7 +15,7 @@ done
 
 mkdir /src/basix/build
 cd /src/basix/build
-cmake -B /src/basix/build -DCMAKE_BUILD_TYPE=Release -S /src/basix/
+cmake -B /src/basix/build -DCMAKE_BUILD_TYPE=Release -S /src/basix/ -DPYTHON_INTERPRETER=/usr/local/bin/python3
 cmake --build /src/basix/build
 cmake --install /src/basix/build
 
@@ -34,6 +34,7 @@ cd build && \
 PETSC_ARCH=linux-gnu-real-32 cmake -G Ninja \
   -DCMAKE_INSTALL_PREFIX=/usr/local/ \
   -DCMAKE_BUILD_TYPE=Release \
+  -DPYTHON_INTERPRETER=/usr/local/bin/python3 \
   ../cpp && \
 ninja install && \
 cd ../python && \
