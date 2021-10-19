@@ -22,7 +22,7 @@ COPY --from=REGISTRY/pymor/petsc_pyPYVER:VERTAG ${PETSC_DIR} ${PETSC_DIR}
 COPY catch.hpp /usr/local/include/
 # fake lsb-release to get ngsolve cmake to configure for deb package building
 RUN MOUNT_CACHE \
-    echo "DISTRIB_CODENAME=buster" > /etc/lsb-release && \
+    echo "DISTRIB_CODENAME=bullseye" > /etc/lsb-release && \
     git clone https://github.com/NGSolve/ngsolve.git ${NGSOLVE_SRC_DIR} && \
     cd ${NGSOLVE_SRC_DIR} && \
     git checkout ${NGSOLVE_VERSION} && \

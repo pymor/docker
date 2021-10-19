@@ -15,9 +15,9 @@ ENV DOCKER_NGSOLVE=1 \
 #     libxcb-render-util0 libxcb-shape0 libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0 libxcb-util0
 # gmsh: libxcursor1 libxinerama1
 RUN MOUNT_CACHE \
-    echo 'APT::Default-Release "buster";' > /etc/apt/apt.conf.d/default-release && \
-    echo "deb http://deb.debian.org/debian buster-backports main contrib non-free" > /etc/apt/sources.list.d/buster-backports.list && \
-    echo "deb http://deb.debian.org/debian/ buster contrib non-free" > /etc/apt/sources.list.d/buster-nonfree.list && \
+    echo 'APT::Default-Release "bullseye";' > /etc/apt/apt.conf.d/default-release && \
+    echo "#deb http://deb.debian.org/debian bullseye-backports main contrib non-free" > /etc/apt/sources.list.d/bullseye-backports.list && \
+    echo "#deb http://deb.debian.org/debian/ bullseye contrib non-free" > /etc/apt/sources.list.d/bullseye-nonfree.list && \
     apt update && \
     ${APTINSTALL} wget curl less \
         xvfb gnupg ca-certificates \
@@ -27,7 +27,7 @@ RUN MOUNT_CACHE \
         xauth gsl-bin git-lfs \
         vim gosu sudo \
         libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 \
-          libxcb-render-util0 libxcb-shape0 libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0 libxcb-util0\
+          libxcb-render-util0 libxcb-shape0 libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0 libxcb-util1\
         libxcursor1 libxinerama1 && \
     echo "alias ls='ls -h --color=auto'" >> /etc/bash.bashrc && \
     echo "alias ll='ls -lh'" >> /etc/bash.bashrc && \

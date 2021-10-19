@@ -1,4 +1,4 @@
-FROM python:3.9-slim-buster
+FROM python:3.9-slim-bullseye
 
 ENV DEVPI_SERVER_VERSION=6.2.0 \
   DEVPI_CLIENT_VERSION=5.2.2

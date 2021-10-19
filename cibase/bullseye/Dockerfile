@@ -11,7 +11,7 @@ ENV DOCKER_NGSOLVE=1 \
     DEBIAN_FRONTEND=teletype \
     PETSC_DIR=/usr/local/petsc-32 \
     LD_LIBRARY_PATH=/usr/local/petsc-32/lib/ \
-    BOOST_VERSION=1.71.0
+    BOOST_VERSION=1.74.0
 
 # -dev packages should be kept as few as possible, and listed here with reasoning
 # mpi-default-bin: mpi runtime for tests
@@ -28,11 +28,9 @@ ENV DOCKER_NGSOLVE=1 \
 # deal.II: libboost
 # precice: libxml2
 RUN MOUNT_CACHE \
-    echo 'APT::Default-Release "buster";' > /etc/apt/apt.conf.d/default-release && \
-    echo "deb http://deb.debian.org/debian buster-backports main contrib non-free" > /etc/apt/sources.list.d/buster-backports.list && \
-    echo "deb http://deb.debian.org/debian/ buster contrib non-free" > /etc/apt/sources.list.d/buster-nonfree.list && \
+    echo "deb http://deb.debian.org/debian/ bullseye contrib non-free" > /etc/apt/sources.list.d/bullseye-nonfree.list && \
     apt update && \
-    ${APTINSTALL} -t buster-backports libboost1.71-all && \
+    ${APTINSTALL} libboost1.74-all-dev && \
     ${APTINSTALL} wget curl less \
         texlive-base xvfb gnupg ca-certificates \
         gcc g++ gfortran make dirmngr pandoc \
@@ -41,11 +39,11 @@ RUN MOUNT_CACHE \
         xauth gsl-bin git-lfs \
         vim mpi-default-bin gosu sudo \
         liboce-modeling11 liboce-ocaf11 libopengl0 \
-        libumfpack5 libmuparser2v5 libatlas3-base libnetcdf-c++4 libgsl23 \
+        libumfpack5 libmuparser2v5 libatlas3-base libnetcdf-c++4  \
         libhdf5-mpi-dev \
         libeigen3-dev \
         libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 \
-          libxcb-render-util0 libxcb-shape0 libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0 libxcb-util0\
+          libxcb-render-util0 libxcb-shape0 libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0 libxcb-util1\
         libxcursor1 libxinerama1 \
         libxml2 \
         libsz2  && \
@@ -79,7 +77,6 @@ RUN MOUNT_CACHE \
   python -c "import pymor_dealii" && \
   python -c "from dolfin import cpp"
 
-COPY openmpi-mca-params.conf /etc/openmpi/openmpi-mca-params.conf
 COPY pymor-info /usr/local/bin/
 COPY entrypoint.sh /usr/local/bin/
 COPY *.pip.conf /usr/local/share/

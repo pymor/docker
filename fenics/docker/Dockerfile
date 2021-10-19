@@ -5,7 +5,7 @@ ENV FENICS_BUILD_TYPE=Release \
     FENICS_PREFIX=/usr/local \
     FENICS_VERSION=2019.1.0 \
     FENICS_PYTHON=python \
-    DOLFIN_VERSION="2019.1.0.post0" \
+    DOLFIN_VERSION="fix_gcc_10" \
     MSHR_VERSION="2019.1.0" \
     PYPI_FENICS_VERSION=">=2019.1.0,<2019.2.0" \
     FENICS_PYTHON=python
@@ -14,7 +14,7 @@ WORKDIR /tmp
 COPY --from=REGISTRY/pymor/ci_wheels_pyPYVER:VERTAG /wheelhouse/mpi4py*.whl /tmp/
 # Install Python environment
 # petsc4py would install a separate petsc copy w/o --no-deps
-RUN pip install numpy && \
+RUN MOUNT_CACHE pip install numpy && \
     pip install ply && \
     pip install pytest && \
     pip install scipy && \
@@ -23,7 +23,9 @@ RUN pip install numpy && \
     pip install sympy==1.5.1 && \
     pip install matplotlib && \
     pip install /tmp/mpi4py*.whl && \
-    pip install --no-deps petsc4py==${PETSC4PY_VERSION}
+    pip install --no-deps petsc4py==${PETSC4PY_VERSION} && \
+    apt update \
+    && ${APTINSTALL} build-essential ca-certificates  libboost1.74-all-dev 
 
 # Our helper scripts
 WORKDIR $FENICS_HOME
@@ -34,10 +36,9 @@ RUN PYTHON_SITE_DIR=$(python -c "import site; print(site.getsitepackages()[0])")
     echo "$FENICS_HOME/local/lib/python$PYTHON_VERSION/site-packages" >> $PYTHON_SITE_DIR/fenics-user.pth
 
 WORKDIR /tmp
-RUN /bin/bash -c "PIP_NO_CACHE_DIR=off ${FENICS_PYTHON} -m pip install 'fenics${PYPI_FENICS_VERSION}' && \
-                  git clone https://bitbucket.org/fenics-project/dolfin.git && \
+RUN MOUNT_CACHE /bin/bash -c "PIP_NO_CACHE_DIR=off ${FENICS_PYTHON} -m pip install 'fenics${PYPI_FENICS_VERSION}' && \
+                  git clone --branch=2019.1.0.post0_gcc_10 https://github.com/renefritze/dolfin && \
                   cd dolfin && \
-                  git checkout ${DOLFIN_VERSION} && \
                   mkdir build && \
                   cd build && \
                   cmake ../ \
