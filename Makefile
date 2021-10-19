@@ -124,7 +124,7 @@ real_pypi-mirror_test_%: testing_% pypi-mirror_stable_% pypi-mirror_oldest_%
 		docker-compose -f mirror-test.docker-compose.yml up --build test
 
 $(addsuffix _cibase_%,$(IMAGE_TARGETS)): IMAGE_NAME:=CIBASE_IMAGE
-real_cibase_%: FORCE precice_% ngsolve_% fenics_% dealii_% pypi-mirror_stable_%
+real_cibase_%: FORCE dolfinx_% precice_% ngsolve_% fenics_% dealii_% pypi-mirror_stable_%
 	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 

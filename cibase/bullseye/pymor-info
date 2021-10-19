@@ -19,10 +19,12 @@ env_keys_text = {
     "python": ".".join((str(f) for f in sys.version_info[0:4])),
     "deal.II": env("DEALII_VERSION", "dealii"),
     "FEniCS": env("FENICS_VERSION", "fenics"),
+    "FEniCSx": env("DOLFINX_VERSION", "dolfinx"),
     "NGSolve": env("NGSOLVE_VERSION", "ngsolve"),
     "PETSc": env("PETSC_VERSION", "petsc"),
     "pybind11": env("PYBIND11_VERSION", "petsc"),
     "Trilinos": env("TRILINOS_VERSION", "petsc"),
+    "preCICE": env("PRECICE_VERSION", "precice"),
 }
 
 tt.print(

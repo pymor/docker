@@ -40,4 +40,5 @@ RUN MOUNT_CACHE \
   && make \
   && ldconfig \
   && pip install pyprecice \
-  && python -c "import precice"
+  && python -c "import precice" \
+  && printenv >> /usr/local/share/precice.env
