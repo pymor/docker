@@ -1,4 +1,4 @@
-FROM docker.io/library/docker:19.03.13-dind
+FROM docker.io/library/docker:19.03.13-dind@sha256:7efc658176afab9a80c450510882e3176c351ec0fad557b6dd98636b5af474c7
 MAINTAINER René Fritze <rene.fritze@wwu.de>
 
 ENV DOCKER_BUILDKIT=1 \
