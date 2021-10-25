@@ -12,6 +12,7 @@ services:
         dockerfile: Dockerfile
         args:
             BASE: pymor/testing_py${CNTR_BASE_PYTHON}:${CI_IMAGE_TAG}
+            CONSTRAINTS_IMAGE: pymor/constraints_py${CNTR_BASE_PYTHON}:${CI_IMAGE_TAG}
 
     restart: "no"
     command: >
