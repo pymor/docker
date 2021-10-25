@@ -15,9 +15,7 @@ services:
 
     restart: "no"
     command: >
-      bash -c 'cd /pymor ; pip install -r requirements-optional.txt'
-    volumes:
-      - ./pymor_source:/pymor
+      bash -c 'pip install -r /requirements/requirements-optional.txt -c /requirements/${VARIANT}_constraints.txt'
 
   pypi_mirror:
     image: pymor/pypi-mirror_${VARIANT}_py${CNTR_BASE_PYTHON}:${PYPI_MIRROR_TAG}
