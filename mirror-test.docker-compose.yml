@@ -16,7 +16,7 @@ services:
 
     restart: "no"
     command: >
-      bash -c 'pip install -r /requirements/requirements-optional.txt -c /requirements/${VARIANT}_constraints.txt'
+      bash -c 'pip install -r /requirements/requirements-optional.txt -c /requirements/transformed_${VARIANT}_constraints.txt'
 
   pypi_mirror:
     image: pymor/pypi-mirror_${VARIANT}_py${CNTR_BASE_PYTHON}:${PYPI_MIRROR_TAG}
