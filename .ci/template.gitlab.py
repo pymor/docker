@@ -131,6 +131,15 @@ test {{mirror}} {{PY[0]}} {{PY[2]}}:
     image: $REGISTRY_PREFIX/testing_py{{PY}}:$CI_COMMIT_SHA
     script:
         - ./.ci/test.bash
+
+test compose {{mirror}} {{PY[0]}} {{PY[2]}}:
+    stage: test
+    extends: .base
+    {{ never_on_schedule_rule() }}
+
+    script:
+        - make pypi-mirror_test_{{PY}}
+
 {% endfor %}
 {% endfor %}
 

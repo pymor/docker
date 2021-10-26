@@ -675,6 +675,18 @@ test oldest 3 7:
     script:
         - ./.ci/test.bash
 
+test compose oldest 3 7:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+
+    script:
+        - make pypi-mirror_test_3.7
+
+
 test oldest 3 8:
     stage: test
     extends: .base
@@ -689,6 +701,18 @@ test oldest 3 8:
     script:
         - ./.ci/test.bash
 
+test compose oldest 3 8:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+
+    script:
+        - make pypi-mirror_test_3.8
+
+
 test oldest 3 9:
     stage: test
     extends: .base
@@ -702,6 +726,18 @@ test oldest 3 9:
     image: $REGISTRY_PREFIX/testing_py3.9:$CI_COMMIT_SHA
     script:
         - ./.ci/test.bash
+
+test compose oldest 3 9:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+
+    script:
+        - make pypi-mirror_test_3.9
+
 
 
 test stable 3 7:
@@ -718,6 +754,18 @@ test stable 3 7:
     script:
         - ./.ci/test.bash
 
+test compose stable 3 7:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+
+    script:
+        - make pypi-mirror_test_3.7
+
+
 test stable 3 8:
     stage: test
     extends: .base
@@ -732,6 +780,18 @@ test stable 3 8:
     script:
         - ./.ci/test.bash
 
+test compose stable 3 8:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+
+    script:
+        - make pypi-mirror_test_3.8
+
+
 test stable 3 9:
     stage: test
     extends: .base
@@ -745,6 +805,18 @@ test stable 3 9:
     image: $REGISTRY_PREFIX/testing_py3.9:$CI_COMMIT_SHA
     script:
         - ./.ci/test.bash
+
+test compose stable 3 9:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+
+    script:
+        - make pypi-mirror_test_3.9
+
 
 
 
