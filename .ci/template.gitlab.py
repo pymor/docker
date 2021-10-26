@@ -136,7 +136,8 @@ test compose {{mirror}} {{PY[0]}} {{PY[2]}}:
     stage: test
     extends: .base
     {{ never_on_schedule_rule() }}
-
+    resource_group: compose
+    needs: ["parameterized_targets {{PY[0]}} {{PY[2]}}"]
     script:
         - make pypi-mirror_test_{{PY}}
 

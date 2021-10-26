@@ -682,7 +682,8 @@ test compose oldest 3 7:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
     - when: on_success
-
+    resource_group: compose
+    needs: ["parameterized_targets 3 7"]
     script:
         - make pypi-mirror_test_3.7
 
@@ -708,7 +709,8 @@ test compose oldest 3 8:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
     - when: on_success
-
+    resource_group: compose
+    needs: ["parameterized_targets 3 8"]
     script:
         - make pypi-mirror_test_3.8
 
@@ -734,7 +736,8 @@ test compose oldest 3 9:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
     - when: on_success
-
+    resource_group: compose
+    needs: ["parameterized_targets 3 9"]
     script:
         - make pypi-mirror_test_3.9
 
@@ -761,7 +764,8 @@ test compose stable 3 7:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
     - when: on_success
-
+    resource_group: compose
+    needs: ["parameterized_targets 3 7"]
     script:
         - make pypi-mirror_test_3.7
 
@@ -787,7 +791,8 @@ test compose stable 3 8:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
     - when: on_success
-
+    resource_group: compose
+    needs: ["parameterized_targets 3 8"]
     script:
         - make pypi-mirror_test_3.8
 
@@ -813,7 +818,8 @@ test compose stable 3 9:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
     - when: on_success
-
+    resource_group: compose
+    needs: ["parameterized_targets 3 9"]
     script:
         - make pypi-mirror_test_3.9
 
