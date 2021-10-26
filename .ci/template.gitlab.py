@@ -116,7 +116,7 @@ static_targets (scheduled):
       - wait
 
 {%- for mirror in mirror_types %}
-{%- for PY in pythons[1:] %}
+{%- for PY in pythons %}
 test {{mirror}} {{PY[0]}} {{PY[2]}}:
     stage: test
     extends: .base
@@ -157,22 +157,19 @@ static_targets = [
     "devpi",
 ]
 mirror_types = ["oldest", "stable"]
-parameterized_targets = (
-    [
-        "python_builder",
-        "python",
-        "constraints",
-        "dealii",
-        "petsc",
-        "pypi-mirror_stable",
-        "pypi-mirror_oldest",
-        "ngsolve",
-        "fenics",
-        "openfoam",
-        "precice",
-    ]
-    + ["cibase", "testing", "jupyter", "minimal_cibase", "minimal_testing"]
-)
+parameterized_targets = [
+    "python_builder",
+    "python",
+    "constraints",
+    "dealii",
+    "petsc",
+    "pypi-mirror_stable",
+    "pypi-mirror_oldest",
+    "ngsolve",
+    "fenics",
+    "openfoam",
+    "precice",
+] + ["cibase", "testing", "jupyter", "minimal_cibase", "minimal_testing"]
 
 with open(os.path.join(os.path.dirname(__file__), "gitlab-ci.yml"), "wt") as yml:
     yml.write(tpl.render(**locals()))
