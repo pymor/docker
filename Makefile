@@ -91,10 +91,6 @@ real_deploy_checks_%: FORCE
 	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
-push_pymor_source:
-pymor_source:
-	test -d pymor_source || git clone --branch=$(PYMOR_BRANCH) https://github.com/pymor/pymor pymor_source
-
 $(addsuffix _docker-in-docker,$(IMAGE_TARGETS)): IMAGE_NAME:=DIND_IMAGE
 real_docker-in-docker: FORCE
 	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
@@ -121,9 +117,11 @@ real_pypi-mirror_oldest_%: FORCE constraints_%
 	@$(DO_IT)
 
 $(addsuffix _pypi-mirror_test_%,$(IMAGE_TARGETS)): IMAGE_NAME:=MIRROR_TEST_IMAGE
-real_pypi-mirror_test_%: testing_% pypi-mirror_stable_% pypi-mirror_oldest_% pymor_source
-	VARIANT=stable PYPI_MIRROR_TAG=$(VER) CI_IMAGE_TAG=$(VER) CNTR_BASE_PYTHON=$* docker-compose -f mirror-test.docker-compose.yml up --build test
-	VARIANT=oldest PYPI_MIRROR_TAG=$(VER) CI_IMAGE_TAG=$(VER) CNTR_BASE_PYTHON=$* docker-compose -f mirror-test.docker-compose.yml up --build test
+real_pypi-mirror_test_%: testing_% pypi-mirror_stable_% pypi-mirror_oldest_%
+	VARIANT=stable PYPI_MIRROR_TAG=$(VER) CI_IMAGE_TAG=$(VER) CNTR_BASE_PYTHON=$* \
+		docker-compose -f mirror-test.docker-compose.yml up --build test
+	VARIANT=oldest PYPI_MIRROR_TAG=$(VER) CI_IMAGE_TAG=$(VER) CNTR_BASE_PYTHON=$* \
+		docker-compose -f mirror-test.docker-compose.yml up --build test
 
 $(addsuffix _cibase_%,$(IMAGE_TARGETS)): IMAGE_NAME:=CIBASE_IMAGE
 real_cibase_%: FORCE precice_% ngsolve_% fenics_% dealii_% pypi-mirror_stable_%
