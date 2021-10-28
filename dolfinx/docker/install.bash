@@ -6,8 +6,8 @@ wget -O /tmp/cmake.sh https://github.com/Kitware/CMake/releases/download/v3.20.0
 bash /tmp/cmake.sh --skip-license --prefix=/usr/local
 cmake --version
 
-pip install numba /tmp/mpi4py* pybind11
-pip install --no-deps petsc4py==${PETSC4PY_VERSION}
+${PIP_INSTALL}  numba /tmp/mpi4py* pybind11
+${PIP_INSTALL} --no-deps petsc4py==${PETSC4PY_VERSION}
 python -c "import petsc4py"
 mkdir /src
 cd /src
@@ -31,7 +31,7 @@ pip install /src/basix/python
 # (for i in basix fiat ufl ffcx dolfinx; do cd /src/$i && git checkout ${DOLFINX_VERSION} || exit 1 ; done) && \
 for i in fiat ufl ffcx ; do
   cd /src/$i
-  pip install --no-cache-dir .
+  ${PIP_INSTALL} .
 done
 
 apt update
@@ -46,7 +46,7 @@ PETSC_ARCH=linux-gnu-real-32 cmake -G Ninja \
   ../cpp
 ninja install
 cd ../python
-PETSC_ARCH=linux-gnu-real-32 pip3 install .
+PETSC_ARCH=linux-gnu-real-32 ${PIP_INSTALL} install .
 (find /usr/local/lib -maxdepth 1 -type f | xargs strip -p -d 2> /dev/null )
 ldconfig
 rm -rf /src
