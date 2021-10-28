@@ -19,3 +19,7 @@ RUN MOUNT_CACHE \
 # RUN /bin/bash -l -c "cd /tmp/poisson_test && \
 #     time xvfb-run python demo_auto-adaptive_poisson.py && \
 #     rm -r /tmp/poisson_test"
+
+RUN MOUNT_CACHE \
+  python -c "import dolfinx" \
+  && rm -rf /usr/local/man

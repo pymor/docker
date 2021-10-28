@@ -60,6 +60,7 @@ COPY --from=REGISTRY/pymor/dealii_pyPYVER:VERTAG /usr/local/ /usr/local/
 COPY --from=REGISTRY/pymor/ngsolve_pyPYVER:VERTAG /usr/local/ /usr/local/
 COPY --from=REGISTRY/pymor/fenics_pyPYVER:VERTAG /usr/local/ /usr/local/
 COPY --from=REGISTRY/pymor/precice_pyPYVER:VERTAG /usr/local/ /usr/local/
+RUN rm -rf /usr/local/man
 COPY --from=REGISTRY/pymor/dolfinx_pyPYVER:VERTAG /usr/local/ /usr/local/
 
 RUN MOUNT_CACHE \
@@ -78,7 +79,7 @@ RUN MOUNT_CACHE \
   python -c "import precice" && \
   python -c "import pymor_dealii" && \
   python -c "from dolfin import cpp" && \
-  python -c "from dolfinx import *" 
+  python -c "from dolfinx import *"
 
 COPY pymor-info /usr/local/bin/
 COPY entrypoint.sh /usr/local/bin/
