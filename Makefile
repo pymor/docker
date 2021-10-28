@@ -208,7 +208,7 @@ pull_all_current_%: FORCE
 		$(CNTR_PULL) $(MAIN_CNTR_REGISTRY)/$(call $(v),$*,$(VER)) ; )
 
 update_python_templates:
-	cd python_builder && ./update.sh 3.8 3.9 3.10-rc
+	cd python_builder && ./update.sh 3.8 3.9 3.10
 
 ci_update:
 	# ./.ci/template.github_actions.py

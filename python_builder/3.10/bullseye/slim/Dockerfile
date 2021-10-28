@@ -5,7 +5,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
 ENV QUIET="-q" \
  VERYQUIET="-qq"
@@ -84,7 +84,7 @@ RUN apt-get update ${VERYQUIET} && apt-get install ${VERYQUIET} -y --no-install-
 	&& rm -rf /var/lib/apt/lists/*
 
 ENV GPG_KEY A035C8C19219BA821ECEA86B64E628F8D684696D
-ENV PYTHON_VERSION 3.10.0b4
+ENV PYTHON_VERSION 3.10.0
 
 RUN MOUNT_CACHE set -ex \
 	&& buildDeps=' \
@@ -92,8 +92,8 @@ RUN MOUNT_CACHE set -ex \
 		tcl-dev \
 		tk-dev \
 	' \
-	&& echo "deb http://cloudfront.debian.net/debian/ buster main contrib\n\
-deb http://cloudfront.debian.net/debian-security/ buster/updates main contrib" >> /etc/apt/sources.list \
+	&& echo "deb http://cloudfront.debian.net/debian/ bullseye main contrib\n\
+deb http://cloudfront.debian.net/debian-security/ bullseye-security/updates main contrib" >> /etc/apt/sources.list \
 	&& apt-get update ${VERYQUIET} && apt-get install ${VERYQUIET} -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
 	\
 	&& wget ${QUIET} -O python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" \
@@ -140,7 +140,7 @@ RUN cd /usr/local/bin \
 	&& ln -s python3-config python-config
 
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
-ENV PYTHON_PIP_VERSION 21.1.3
+ENV PYTHON_PIP_VERSION 21.2.4
 ENV PIP_INSTALL="pip install --no-cache-dir -qq"
 
 RUN set -ex; \
