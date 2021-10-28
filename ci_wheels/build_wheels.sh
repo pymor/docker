@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-set -ex
+set -exu
 
-WHEELHOUSE=/wheelhouse
+rm -rf /src
 mkdir /src
 pip install wheel
 
