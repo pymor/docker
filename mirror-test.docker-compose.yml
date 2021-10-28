@@ -17,7 +17,10 @@ services:
     restart: "no"
     container_name: test_mirror_exec_${CNTR_BASE_PYTHON}_${CI_IMAGE_TAG}
     command: >
-      bash -c 'pip install -r /requirements/requirements-optional.txt -c /requirements/transformed_${VARIANT}_constraints.txt'
+      bash -c 'pip install -r /requirements/requirements-optional.txt \
+                -c /requirements/transformed_${VARIANT}_constraints.txt
+              && python /usrl/local/bin/check_reqs.py /requirements/requirements-optional.txt
+              && python /usrl/local/bin/check_import.py'
 
   pypi_mirror:
     image: pymor/pypi-mirror_${VARIANT}_py${CNTR_BASE_PYTHON}:${PYPI_MIRROR_TAG}
