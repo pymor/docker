@@ -15,6 +15,11 @@ for i in basix fiat ufl ffcx dolfinx ; do
   git clone https://github.com/FEniCS/$i /src/$i
 done
 
+cd /src/dolfinx
+git remote add fork  https://github.com/renefritze/dolfinx
+git fetch fork
+git checkout fork/fix_interpreter_passing
+
 mkdir /src/basix/build
 cd /src/basix/build
 cmake -B /src/basix/build -DCMAKE_BUILD_TYPE=Release -S /src/basix/ -DPYTHON_INTERPRETER=/usr/local/bin/python3
@@ -44,5 +49,5 @@ cd ../python
 PETSC_ARCH=linux-gnu-real-32 pip3 install .
 (find /usr/local/lib -maxdepth 1 -type f | xargs strip -p -d 2> /dev/null )
 ldconfig
-rm -rf /src 
+rm -rf /src
 printenv >> /usr/local/share/dolfinx.env
