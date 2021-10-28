@@ -163,6 +163,7 @@ parameterized_targets = [
     "constraints",
     "dealii",
     "petsc",
+    "dolfinx",
     "pypi-mirror_stable",
     "pypi-mirror_oldest",
     "ngsolve",

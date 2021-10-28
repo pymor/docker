@@ -67,6 +67,11 @@ parameterized_targets 3 7:
       - wait
       - make push_petsc_3.7 &
 
+      - make dolfinx_3.7
+      # wait for potentially running push
+      - wait
+      - make push_dolfinx_3.7 &
+
       - make pypi-mirror_stable_3.7
       # wait for potentially running push
       - wait
@@ -159,6 +164,11 @@ parameterized_targets 3 8:
       # wait for potentially running push
       - wait
       - make push_petsc_3.8 &
+
+      - make dolfinx_3.8
+      # wait for potentially running push
+      - wait
+      - make push_dolfinx_3.8 &
 
       - make pypi-mirror_stable_3.8
       # wait for potentially running push
@@ -253,6 +263,11 @@ parameterized_targets 3 9:
       - wait
       - make push_petsc_3.9 &
 
+      - make dolfinx_3.9
+      # wait for potentially running push
+      - wait
+      - make push_dolfinx_3.9 &
+
       - make pypi-mirror_stable_3.9
       # wait for potentially running push
       - wait
@@ -345,6 +360,11 @@ parameterized_targets 3 7 (scheduled):
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_petsc_3.7 &
+
+      - make VER=weekly_cron dolfinx_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_dolfinx_3.7 &
 
       - make VER=weekly_cron pypi-mirror_stable_3.7
       # wait for potentially running push
@@ -439,6 +459,11 @@ parameterized_targets 3 8 (scheduled):
       - wait
       - make VER=weekly_cron push_petsc_3.8 &
 
+      - make VER=weekly_cron dolfinx_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_dolfinx_3.8 &
+
       - make VER=weekly_cron pypi-mirror_stable_3.8
       # wait for potentially running push
       - wait
@@ -531,6 +556,11 @@ parameterized_targets 3 9 (scheduled):
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_petsc_3.9 &
+
+      - make VER=weekly_cron dolfinx_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_dolfinx_3.9 &
 
       - make VER=weekly_cron pypi-mirror_stable_3.9
       # wait for potentially running push
