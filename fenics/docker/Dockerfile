@@ -12,9 +12,10 @@ ENV FENICS_BUILD_TYPE=Release \
 WORKDIR /tmp
 
 COPY --from=REGISTRY/pymor/ci_wheels_pyPYVER:VERTAG /wheelhouse/mpi4py*.whl /tmp/
+COPY --from=REGISTRY/pymor/ci_wheels_pyPYVER:VERTAG /wheelhouse/petsc4py*.whl /tmp/
 # Install Python environment
 # petsc4py would install a separate petsc copy w/o --no-deps
-RUN MOUNT_CACHE pip install numpy && \
+RUN MOUNT_CACHE pip install oldest-supported-numpy && \
     pip install ply && \
     pip install pytest && \
     pip install scipy && \
@@ -22,10 +23,9 @@ RUN MOUNT_CACHE pip install numpy && \
     pip install urllib3 && \
     pip install sympy==1.5.1 && \
     pip install matplotlib && \
-    pip install /tmp/mpi4py*.whl && \
-    pip install --no-deps petsc4py==${PETSC4PY_VERSION} && \
+    pip install /tmp/*.whl && \
     apt update \
-    && ${APTINSTALL} build-essential ca-certificates  libboost1.74-all-dev 
+    && ${APTINSTALL} build-essential ca-certificates  libboost1.74-all-dev
 
 # Our helper scripts
 WORKDIR $FENICS_HOME

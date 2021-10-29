@@ -4,11 +4,13 @@ set -exu
 
 rm -rf /src
 mkdir /src
-pip install wheel
+pip install -U wheel oldest-supported-numpy
+declare -A VERSIONS=( ["slycot"]="~=0.4" ["mpi4py"]=">=3" ["gmsh"]=">=4.8" ["petsc4py"]="==${PETSC4PY_VERSION}" ["mpi4py"]=">=3")
 
 for pkg in ${WHEEL_PKGS} ; do
   cd /src
-  pip download --no-deps $pkg -d /src/
+  ver="${VERSIONS[${pkg}]}"
+  pip download --no-deps ${pkg}${ver} -d /src/
   unp /src/${pkg}*.tar.gz && rm /src/${pkg}*.tar.gz
   cd ${pkg}*
   pip wheel --use-feature=in-tree-build . -w ${WHEELHOUSE}/tmp

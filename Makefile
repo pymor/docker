@@ -97,7 +97,7 @@ real_docker-in-docker: FORCE
 	@$(DO_IT_NOARG)
 
 $(addsuffix _ci_wheels_%,$(IMAGE_TARGETS)): IMAGE_NAME:=CI_WHEELS_IMAGE
-real_ci_wheels_%: FORCE python_%
+real_ci_wheels_%: FORCE python_% petsc_%
 	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 

@@ -1,17 +1,19 @@
 # syntax = docker/dockerfile:experimental
-FROM REGISTRY/pymor/python_PYVER:VERTAG as builder
+FROM REGISTRY/pymor/petsc_pyPYVER:VERTAG as builder
 
 MAINTAINER René Fritze <rene.fritze@wwu.de>
 
+SHELL ["/bin/bash", "-c"]
+
 ENV WHEEL_VERSION=0.36.1 \
-  WHEEL_PKGS="slycot mpi4py gmsh"
+  WHEEL_PKGS="slycot mpi4py gmsh petsc4py"
 
 # libopenblas-dev cmake: needed for slycot
 # mpi-default-dev: mpi4py
 RUN MOUNT_CACHE apt update && \
   apt install -y unp \
-      libopenblas-dev cmake \
-      mpi-default-dev unzip
+    libopenblas-dev cmake \
+    mpi-default-dev unzip
 
 
 COPY build_*.sh /builder/

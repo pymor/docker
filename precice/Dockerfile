@@ -20,6 +20,7 @@ RUN MOUNT_CACHE \
   && ${APTINSTALL} build-essential ca-certificates cmake ninja-build \
     libxml2-dev libeigen3-dev libboost1.74-all-dev \
   && cd /tmp/precice/build \
+  && python -m pip install oldest-supported-numpy \
   && cmake ../ \
       -DCMAKE_INSTALL_PREFIX=${PRECICE_PREFIX} \
       -DCMAKE_BUILD_TYPE=${PRECICE_BUILD_TYPE} \
