@@ -163,11 +163,11 @@ parameterized_targets = [
     "constraints",
     "dealii",
     "petsc",
+    "dolfinx",
     "pypi-mirror_stable",
     "pypi-mirror_oldest",
     "ngsolve",
     "fenics",
-    "openfoam",
     "precice",
 ] + ["cibase", "testing", "jupyter", "minimal_cibase", "minimal_testing"]
 

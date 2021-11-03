@@ -5,7 +5,7 @@ COPY --from=REGISTRY/pymor/petsc_pyPYVER:VERTAG /usr/local/ /usr/local/
 
 ENV PRECICE_BUILD_TYPE=Release \
     PRECICE_PREFIX=/usr/local \
-    PRECICE_VERSION=v2.2.1 \
+    PRECICE_VERSION=v2.3.0 \
     PETSC_DIR=/usr/local/petsc-32 \
     LD_LIBRARY_PATH=/usr/local/petsc-32/lib/
 
@@ -40,4 +40,5 @@ RUN MOUNT_CACHE \
   && make \
   && ldconfig \
   && pip install pyprecice \
-  && python -c "import precice"
+  && python -c "import precice" \
+  && printenv >> /usr/local/share/precice.env
