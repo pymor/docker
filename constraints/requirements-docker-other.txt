@@ -1,6 +1,8 @@
 cmake
 cmarkgfm
 jupytext
+pyvista
+itkwidgets
 MonkeyType
 mypy
 pyicontract-lint
