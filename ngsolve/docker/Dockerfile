@@ -9,7 +9,7 @@ RUN MOUNT_CACHE \
     libglu1-mesa-dev ccache openssh-client openmpi-bin libopenmpi-dev \
     python3 libpython3-dev python3-pytest python3-numpy python3-sphinx python3-pip \
     liboce-ocaf-dev libsuitesparse-dev python3-tk && \
-    pip3 install sphinx_rtd_theme pybind11_stubgen
+    pip3 install sphinx_rtd_theme pybind11_stubgen pybind11==${PYBIND11_VERSION}
 ENV PATH="/opt/netgen/bin:${PATH}" \
     NGSOLVE_VERSION=v6.2.2101 \
     NGSOLVE_SRC_DIR=/root/src/ngsolve_src \
