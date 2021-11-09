@@ -2,6 +2,7 @@ FROM REGISTRY/pymor/dealii_pyPYVER:VERTAG
 MAINTAINER René Fritze <rene.fritze@wwu.de>
 
 COPY --from=REGISTRY/pymor/petsc_pyPYVER:VERTAG /usr/local/ /usr/local/
+COPY --from=REGISTRY/pymor/ci_wheels_pyPYVER:VERTAG /wheelhouse/mpi4py*.whl /tmp/
 
 ENV PRECICE_BUILD_TYPE=Release \
     PRECICE_PREFIX=/usr/local \
@@ -12,7 +13,8 @@ ENV PRECICE_BUILD_TYPE=Release \
 WORKDIR /tmp
 
 RUN MOUNT_CACHE \
-  git clone https://github.com/precice/precice.git /tmp/precice \
+  ${PIP_INSTALL} /tmp/mpi4py*whl \
+  && git clone https://github.com/precice/precice.git /tmp/precice \
                   && cd /tmp/precice \
                   && git checkout ${PRECICE_VERSION} \
                   && mkdir /tmp/precice/build \
@@ -40,6 +42,6 @@ RUN MOUNT_CACHE \
   && cmake . \
   && make \
   && ldconfig \
-  && pip install pyprecice \
+  && ${PIP_INSTALL} pyprecice \
   && python -c "import precice" \
   && printenv >> /usr/local/share/precice.env
