@@ -141,7 +141,7 @@ RUN cd /usr/local/bin \
 
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
 ENV PYTHON_PIP_VERSION 21.2.4
-ENV PIP_INSTALL="pip install --no-cache-dir -qq"
+ENV PIP_INSTALL="python3 -m pip install --no-cache-dir "
 
 RUN set -ex; \
 	\

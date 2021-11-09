@@ -7,7 +7,7 @@ ENV MIRROR_VERSION=4.0.5 \
   DOWNLOAD="pip download --no-deps -d /pymor/downloads"
 
 RUN MOUNT_CACHE \
-  pip install -qq "python-pypi-mirror==${MIRROR_VERSION}" \
+  ${PIP_INSTALL} install "python-pypi-mirror==${MIRROR_VERSION}" \
     pypi-oldest-requirements>=2020.4.1 requests-toolbelt
 
 COPY --from=zivgitlab.wwu.io/pymor/docker/pymor/constraints_pyPYVER:VERTAG /requirements/*.txt ${SERVER_ROOT}/requirements/

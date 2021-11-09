@@ -37,7 +37,7 @@ RUN MOUNT_CACHE \
     rm -rf /var/lib/apt/lists/*
 
 RUN MOUNT_CACHE \
-    pip install termtables python-dotenv # for pymor-info script
+    ${PIP_INSTALL} termtables python-dotenv # for pymor-info script
 
 COPY pymor-info /usr/local/bin/
 COPY entrypoint.sh /usr/local/bin/
@@ -46,7 +46,7 @@ COPY packages.list.txt /tmp
 COPY --from=pymor/pypi-mirror_stable_pyPYVER:VERTAG /pymor/downloads/* /tmp/dependencies/
 RUN MOUNT_CACHE \
     set -exu \
-    && pip install --no-cache-dir -f /tmp/dependencies/ -r /tmp/packages.list.txt \
+    && ${PIP_INSTALL} -f /tmp/dependencies/ -r /tmp/packages.list.txt \
     && rm -rf /tmp/*
 
 
