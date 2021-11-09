@@ -31,7 +31,7 @@ RUN MOUNT_CACHE \
 # next line is necessary for xfvb/qt/gl demo to work, needed till imaged rebased on pymor/testing
     xauth x11-apps xvfb libgl1-mesa-dri libglu1-mesa \
     openmpi-bin gosu && \
-    pip install numpy
+    ${PIP_INSTALL} oldest-supported-numpy
 
 ENV DEALII_VERSION=9.3.0
 RUN MOUNT_CACHE \
