@@ -64,8 +64,10 @@ RUN rm -rf /usr/local/man
 COPY --from=REGISTRY/pymor/dolfinx_pyPYVER:VERTAG /usr/local/ /usr/local/
 
 RUN MOUNT_CACHE \
-    pip install /usr/local/tmp/pymor_dealii-*.whl && \
-    pip install pyprecice && \
+    ${PIP_INSTALL} /usr/local/tmp/pymor_dealii-*.whl && \
+    pip uninstall -y numpy || true && \
+    pip uninstall -y numpy || true && \
+    ${PIP_INSTALL} oldest-supported-numpy && \
     ldconfig && \
     python -c "import ngsolve" && \
     python -c "import pymor_dealii" && \
