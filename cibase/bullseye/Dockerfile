@@ -65,8 +65,6 @@ COPY --from=REGISTRY/pymor/dolfinx_pyPYVER:VERTAG /usr/local/ /usr/local/
 
 RUN MOUNT_CACHE \
     ${PIP_INSTALL} /usr/local/tmp/pymor_dealii-*.whl && \
-    pip uninstall -y numpy || true && \
-    pip uninstall -y numpy || true && \
     ${PIP_INSTALL} oldest-supported-numpy && \
     ldconfig && \
     python -c "import ngsolve" && \

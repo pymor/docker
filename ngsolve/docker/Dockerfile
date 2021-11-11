@@ -48,3 +48,4 @@ RUN MOUNT_CACHE \
     find /usr/local/lib -maxdepth 1 -type f | xargs strip -p -d 2> /dev/null ; \
     rm -rf ${NGSOLVE_BUILD_DIR} ${NGSOLVE_SRC_DIR} && \
     printenv >> /usr/local/share/ngsolve.env
+RUN python -c "import ngsolve"
