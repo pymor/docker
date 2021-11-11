@@ -7,8 +7,7 @@ RUN MOUNT_CACHE \
     apt-get update && \
     apt-get -y install libxmu-dev tk-dev tcl-dev cmake git g++ \
     libglu1-mesa-dev ccache openssh-client openmpi-bin libopenmpi-dev \
-    liboce-ocaf-dev libsuitesparse-dev python3-tk && \
-    pip3 install sphinx_rtd_theme pybind11_stubgen pybind11==${PYBIND11_VERSION} oldest-supported-numpy
+    liboce-ocaf-dev libsuitesparse-dev python3-tk
 ENV PATH="/opt/netgen/bin:${PATH}" \
     NGSOLVE_VERSION=v6.2.2104 \
     NGSOLVE_SRC_DIR=/root/src/ngsolve_src \
@@ -18,10 +17,8 @@ ENV MUMPS_DIR=${PETSC_DIR}
 
 COPY --from=REGISTRY/pymor/petsc_pyPYVER:VERTAG ${PETSC_DIR} ${PETSC_DIR}
 
-COPY catch.hpp /usr/local/include/
-# fake lsb-release to get ngsolve cmake to configure for deb package building
 RUN MOUNT_CACHE \
-    echo "DISTRIB_CODENAME=bullseye" > /etc/lsb-release && \
+    ${PIP_INSTALL} sphinx_rtd_theme pybind11_stubgen pybind11==${PYBIND11_VERSION} oldest-supported-numpy && \
     git clone https://github.com/NGSolve/ngsolve.git ${NGSOLVE_SRC_DIR} && \
     cd ${NGSOLVE_SRC_DIR} && \
     git checkout ${NGSOLVE_VERSION} && \
