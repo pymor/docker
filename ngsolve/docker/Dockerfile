@@ -10,7 +10,7 @@ RUN MOUNT_CACHE \
     liboce-ocaf-dev libsuitesparse-dev python3-tk && \
     pip3 install sphinx_rtd_theme pybind11_stubgen pybind11==${PYBIND11_VERSION} oldest-supported-numpy
 ENV PATH="/opt/netgen/bin:${PATH}" \
-    NGSOLVE_VERSION=v6.2.2101 \
+    NGSOLVE_VERSION=v6.2.2104 \
     NGSOLVE_SRC_DIR=/root/src/ngsolve_src \
     NGSOLVE_BUILD_DIR=/root/src/ngsolve_build \
     PETSC_DIR=/usr/local/petsc-32
@@ -51,5 +51,3 @@ RUN MOUNT_CACHE \
     find /usr/local/lib -maxdepth 1 -type f | xargs strip -p -d 2> /dev/null ; \
     rm -rf ${NGSOLVE_BUILD_DIR} ${NGSOLVE_SRC_DIR} && \
     printenv >> /usr/local/share/ngsolve.env
-RUN ldconfig && \
-python -c "import ngsolve"
