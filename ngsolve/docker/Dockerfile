@@ -7,9 +7,8 @@ RUN MOUNT_CACHE \
     apt-get update && \
     apt-get -y install libxmu-dev tk-dev tcl-dev cmake git g++ \
     libglu1-mesa-dev ccache openssh-client openmpi-bin libopenmpi-dev \
-    python3 libpython3-dev python3-pytest python3-numpy python3-sphinx python3-pip \
     liboce-ocaf-dev libsuitesparse-dev python3-tk && \
-    pip3 install sphinx_rtd_theme pybind11_stubgen pybind11==${PYBIND11_VERSION}
+    pip3 install sphinx_rtd_theme pybind11_stubgen pybind11==${PYBIND11_VERSION} oldest-supported-numpy
 ENV PATH="/opt/netgen/bin:${PATH}" \
     NGSOLVE_VERSION=v6.2.2101 \
     NGSOLVE_SRC_DIR=/root/src/ngsolve_src \
@@ -37,7 +36,7 @@ RUN MOUNT_CACHE \
     -DUSE_HYPRE=OFF \
     -DUSE_MUMPS=OFF \
     -DOpenGL_GL_PREFERENCE=GLVND \
-    -DUSE_CCACHE=OFF \
+    -DUSE_CCACHE=ON \
     -DUSE_MKL=OFF \
     -DUSE_UMFPACK=ON \
     -DINSTALL_PROFILES=OFF \
@@ -52,3 +51,5 @@ RUN MOUNT_CACHE \
     find /usr/local/lib -maxdepth 1 -type f | xargs strip -p -d 2> /dev/null ; \
     rm -rf ${NGSOLVE_BUILD_DIR} ${NGSOLVE_SRC_DIR} && \
     printenv >> /usr/local/share/ngsolve.env
+RUN ldconfig && \
+python -c "import ngsolve"
