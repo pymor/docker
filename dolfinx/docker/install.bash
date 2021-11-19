@@ -16,9 +16,6 @@ for i in basix fiat ufl ffcx dolfinx ; do
 done
 
 cd /src/dolfinx
-git remote add fork  https://github.com/renefritze/dolfinx
-git fetch fork
-git checkout fork/fix_interpreter_passing
 
 mkdir /src/basix/build
 cd /src/basix/build
