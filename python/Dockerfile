@@ -10,7 +10,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     MAKE_PROCS=2 \
     CCACHE_DIR=/cache/ccache \
     XDG_CACHE_HOME=/cache \
-    PATH=/usr/lib/ccache:${PATH}
+    PATH=/usr/lib/ccache:${PATH} \
+    PYBIND11_VERSION=2.8.1
 
 # python's configured to use system's expat and ffi libs
 RUN MOUNT_CACHE \
@@ -39,6 +40,7 @@ RUN MOUNT_CACHE \
 	&& rm -rf /tmp/* /var/tmp/*
 
 COPY --from=REGISTRY/pymor/python_builder_PYVER:VERTAG /usr/local/ /usr/local/
-RUN ldconfig
+RUN ldconfig \
+  && printenv > /usr/local/share/python.env
 
 CMD ["python3"]

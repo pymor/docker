@@ -48,7 +48,7 @@ RUN MOUNT_CACHE \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     pip install \
         flufl.lock \
-        numpy \
+        oldest-supported-numpy \
         ply \
         pytest \
         scipy \
@@ -62,10 +62,8 @@ ENV PETSC_VERSION=3.14.3 \
     PETSC4PY_VERSION=3.14.1 \
     TRILINOS_VERSION=12.10.1 \
     OPENBLAS_NUM_THREADS=1 \
-    OPENBLAS_VERBOSE=0 \
-    PYBIND11_VERSION=2.6.1
+    OPENBLAS_VERBOSE=0
 
-# petsc4py would install a separate petsc copy w/o --no-deps
 # Install PETSc from source
 RUN MOUNT_CACHE \
     git clone -b release https://gitlab.com/petsc/petsc.git petsc && \
@@ -86,17 +84,7 @@ RUN MOUNT_CACHE \
                 --download-superlu \
                 --prefix=/usr/local/petsc-32 && \
      make -j ${MAKE_PROCS} && \
-     make install && \
-  PETSC_DIR=/usr/local/petsc-32 PETSC_ARCH="" pip3 install --no-deps petsc4py==${PETSC4PY_VERSION} && \
-  wget -nc --quiet https://github.com/pybind/pybind11/archive/v${PYBIND11_VERSION}.tar.gz && \
-  tar -xf v${PYBIND11_VERSION}.tar.gz && \
-  cd pybind11-${PYBIND11_VERSION} && \
-  mkdir build && \
-  cd build && \
-  cmake -DPYBIND11_TEST=False ../ && \
-  make -j ${MAKE_PROCS} && \
-  make install && \
-  rm -rf /tmp/*
+     make install
 
 # By default use the 32-bit build of PETSc.
 # these can not be moved, configure behaves differently when these are already in the env
