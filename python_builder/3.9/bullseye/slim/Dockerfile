@@ -84,7 +84,7 @@ RUN apt-get update ${VERYQUIET} && apt-get install ${VERYQUIET} -y --no-install-
 	&& rm -rf /var/lib/apt/lists/*
 
 ENV GPG_KEY E3FF2839C048B25C084DEBE9B26995E310250568
-ENV PYTHON_VERSION 3.9.7
+ENV PYTHON_VERSION 3.9.8
 
 RUN MOUNT_CACHE set -ex \
 	&& buildDeps=' \
@@ -141,7 +141,7 @@ RUN cd /usr/local/bin \
 
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
 ENV PYTHON_PIP_VERSION 21.2.4
-ENV PIP_INSTALL="pip install --no-cache-dir -qq"
+ENV PIP_INSTALL="python3 -m pip install --no-cache-dir "
 
 RUN set -ex; \
 	\

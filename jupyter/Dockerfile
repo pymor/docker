@@ -7,13 +7,13 @@ MAINTAINER René Fritze <rene.fritze@wwu.de>
 RUN MOUNT_CACHE \
     /bin/bash -c "curl -sL https://deb.nodesource.com/setup_lts.x | bash - \
     &&  apt update && ${APTINSTALL} nodejs &&\
-    pip install jupyterlab pythreejs && \
+    ${PIP_INSTALL} jupyterlab pythreejs && \
     jupyter nbextension install --py --symlink --sys-prefix pythreejs && \
     jupyter nbextension install --py --symlink --sys-prefix ngsolve && \
     jupyter nbextension enable --py --sys-prefix pythreejs && \
     jupyter nbextension enable --py --sys-prefix ngsolve && \
     jupyter labextension install jupyter-threejs && \
-    pip install nbresuse jupyter_contrib_nbextensions && \
+    ${PIP_INSTALL} nbresuse jupyter_contrib_nbextensions && \
     jupyter contrib nbextension install --sys-prefix && \
     jupyter nbextension enable collapsible_headings/main && \
     jupyter nbextension enable codefolding/main && \

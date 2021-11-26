@@ -9,7 +9,7 @@ ENV MIRROR_VERSION=4.0.5 \
   PIP="/tmp/venv/bin/pip"
 
 RUN MOUNT_CACHE \
-  pip install -qq "python-pypi-mirror==${MIRROR_VERSION}"  \
+  ${PIP_INSTALL} "python-pypi-mirror==${MIRROR_VERSION}"  \
     pypi-oldest-requirements>=2020.4.1 requests-toolbelt virtualenv \
   && useradd --shell /bin/bash -u 1000 -o -m -d /data -c "" -m pymor \
   && mkdir ${SERVER_ROOT} \

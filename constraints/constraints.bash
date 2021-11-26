@@ -6,13 +6,13 @@ set -exo pipefail
 REQUIREMENTS="requirements.txt requirements-ci.txt requirements-optional.txt requirements-docker-other.txt"
 
 # these are copied from the pymor/ci_wheels image
-pip install /ci_wheels/*whl
+${PIP_INSTALL} /ci_wheels/*whl
 
 cd /requirements/
 for fn in ${REQUIREMENTS} ; do
     PARG="-r ${fn} ${PARG}"
 done
-pip install ${PARG}
+${PIP_INSTALL} ${PARG}
 
 for fn in ${REQUIREMENTS} ; do
     check_reqs.py ${fn}
@@ -31,8 +31,8 @@ done
 
 virtualenv /tmp/venv_old
 
-/tmp/venv_old/bin/pip install /ci_wheels/*whl
-/tmp/venv_old/bin/pip install -r combined_oldest.txt
+/tmp/venv_old/bin/${PIP_INSTALL} /ci_wheels/*whl
+/tmp/venv_old/bin/${PIP_INSTALL} -r combined_oldest.txt
 /tmp/venv_old/bin/python /usr/local/bin/check_reqs.py combined_oldest.txt
 
 # torch is still excluded here since it cannot be installed from pypi

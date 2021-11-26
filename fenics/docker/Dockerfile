@@ -15,16 +15,16 @@ COPY --from=REGISTRY/pymor/ci_wheels_pyPYVER:VERTAG /wheelhouse/mpi4py*.whl /tmp
 COPY --from=REGISTRY/pymor/ci_wheels_pyPYVER:VERTAG /wheelhouse/petsc4py*.whl /tmp/
 # Install Python environment
 # petsc4py would install a separate petsc copy w/o --no-deps
-RUN MOUNT_CACHE pip install oldest-supported-numpy && \
-    pip install ply && \
-    pip install pytest && \
-    pip install scipy && \
-    pip install six && \
+RUN MOUNT_CACHE ${PIP_INSTALL} oldest-supported-numpy && \
+    ${PIP_INSTALL} ply && \
+    ${PIP_INSTALL} pytest && \
+    ${PIP_INSTALL} scipy && \
+    ${PIP_INSTALL} six && \
     ${PIP_INSTALL} pybind11==${PYBIND11_VERSION} && \
-    pip install urllib3 && \
-    pip install sympy==1.5.1 && \
-    pip install matplotlib && \
-    pip install /tmp/*.whl && \
+    ${PIP_INSTALL} sympy==1.5.1 && \
+    ${PIP_INSTALL} matplotlib && \
+    ${PIP_INSTALL} /tmp/mpi4py*.whl && \
+    ${PIP_INSTALL} /tmp/*.whl && \
     apt update \
     && ${APTINSTALL} build-essential ca-certificates  libboost1.74-all-dev
 
@@ -37,7 +37,7 @@ RUN PYTHON_SITE_DIR=$(python -c "import site; print(site.getsitepackages()[0])")
     echo "$FENICS_HOME/local/lib/python$PYTHON_VERSION/site-packages" >> $PYTHON_SITE_DIR/fenics-user.pth
 
 WORKDIR /tmp
-RUN MOUNT_CACHE PIP_NO_CACHE_DIR=off ${FENICS_PYTHON} -m pip install "fenics${PYPI_FENICS_VERSION}" && \
+RUN MOUNT_CACHE ${PIP_INSTALL} "fenics${PYPI_FENICS_VERSION}" && \
                   git clone --branch=2019.1.0.post0_gcc_10 https://github.com/renefritze/dolfin && \
                   cd dolfin && \
                   mkdir build && \
@@ -75,7 +75,7 @@ RUN MOUNT_CACHE PIP_NO_CACHE_DIR=off ${FENICS_PYTHON} -m pip install "fenics${PY
                   make install && \
                   ls -l /tmp/ && \
                   cd /tmp/dolfin/python && \
-                  PIP_NO_CACHE_DIR=off ${FENICS_PYTHON} -m pip install . && \
+                  ${PIP_INSTALL} . && \
                   ldconfig && \
                   rm -rf /tmp/*
 
