@@ -19,7 +19,7 @@ services:
     command: >
       bash -c 'pip install -r /requirements/requirements-optional.txt \
                 -c /requirements/transformed_${VARIANT}_constraints.txt
-              && python /usrl/local/bin/check_reqs.py /requirements/requirements-optional.txt
+              && check_reqs /requirements/requirements-optional.txt
               && python /usrl/local/bin/check_import.py'
 
   pypi_mirror:
