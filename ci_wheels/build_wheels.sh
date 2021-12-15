@@ -5,7 +5,7 @@ set -exu
 rm -rf /src
 mkdir /src
 pip install -U wheel oldest-supported-numpy
-declare -A VERSIONS=( ["slycot"]="~=0.4" ["mpi4py"]=">=3" ["gmsh"]=">=4.8" ["petsc4py"]="==${PETSC4PY_VERSION}" ["mpi4py"]=">=3")
+declare -A VERSIONS=( ["slycot"]="~=0.4.0" ["mpi4py"]=">=3" ["gmsh"]="~=4.8.0" ["petsc4py"]="==${PETSC4PY_VERSION}" ["mpi4py"]=">=3")
 
 for pkg in ${WHEEL_PKGS} ; do
   cd /src
