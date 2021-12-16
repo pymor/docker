@@ -11,6 +11,8 @@ ${PIP_INSTALL} --no-deps petsc4py==${PETSC4PY_VERSION}
 python -c "import petsc4py"
 mkdir /src
 cd /src
+
+cd /src
 for i in basix fiat ufl ffcx dolfinx ; do
   git clone https://github.com/FEniCS/$i /src/$i
 done
@@ -20,7 +22,8 @@ cd /src/dolfinx
 export PYBIND11_ROOT=$(python3 -c "import sysconfig; print(sysconfig.get_path('purelib'))")
 mkdir /src/basix/build
 cd /src/basix/build
-cmake -B /src/basix/build -DCMAKE_BUILD_TYPE=Release -S /src/basix/ -DPYTHON_INTERPRETER=/usr/local/bin/python3
+cmake -B /src/basix/build -DCMAKE_BUILD_TYPE=Release -S /src/basix/ -DPYTHON_INTERPRETER=/usr/local/bin/python3 \
+    -DDOWNLOAD_XTENSOR_LIBS=On
 cmake --build /src/basix/build
 cmake --install /src/basix/build
 
