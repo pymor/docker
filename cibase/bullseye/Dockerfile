@@ -65,7 +65,7 @@ COPY --from=REGISTRY/pymor/dolfinx_pyPYVER:VERTAG /usr/local/ /usr/local/
 
 RUN MOUNT_CACHE \
     ${PIP_INSTALL} /usr/local/tmp/pymor_dealii-*.whl && \
-    ${PIP_INSTALL} oldest-supported-numpy && \
+    ${PIP_INSTALL} pymor-oldest-supported-numpy~=2021.1.0 && \
     ldconfig && \
     python -c "import ngsolve" && \
     python -c "import pymor_dealii" && \

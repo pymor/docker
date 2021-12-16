@@ -4,7 +4,7 @@ set -exu
 
 rm -rf /src
 mkdir /src
-pip install -U wheel oldest-supported-numpy
+pip install -U wheel pymor-oldest-supported-numpy~=2021.1.0
 declare -A VERSIONS=( ["slycot"]="~=0.4.0" ["mpi4py"]=">=3" ["gmsh"]="~=4.8.0" ["petsc4py"]="==${PETSC4PY_VERSION}" ["mpi4py"]=">=3")
 
 for pkg in ${WHEEL_PKGS} ; do

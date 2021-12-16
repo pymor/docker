@@ -48,7 +48,7 @@ RUN MOUNT_CACHE \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     pip install \
         flufl.lock \
-        oldest-supported-numpy \
+        pymor-oldest-supported-numpy~=2021.1.0 \
         ply \
         pytest \
         scipy \

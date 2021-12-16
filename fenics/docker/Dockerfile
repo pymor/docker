@@ -15,7 +15,7 @@ COPY --from=REGISTRY/pymor/ci_wheels_pyPYVER:VERTAG /wheelhouse/mpi4py*.whl /tmp
 COPY --from=REGISTRY/pymor/ci_wheels_pyPYVER:VERTAG /wheelhouse/petsc4py*.whl /tmp/
 # Install Python environment
 # petsc4py would install a separate petsc copy w/o --no-deps
-RUN MOUNT_CACHE ${PIP_INSTALL} oldest-supported-numpy && \
+RUN MOUNT_CACHE ${PIP_INSTALL} pymor-oldest-supported-numpy~=2021.1.0 && \
     ${PIP_INSTALL} ply && \
     ${PIP_INSTALL} pytest && \
     ${PIP_INSTALL} scipy && \
