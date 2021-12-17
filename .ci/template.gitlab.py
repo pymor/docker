@@ -139,7 +139,7 @@ test compose {{mirror}} {{PY[0]}} {{PY[2]}}:
     resource_group: compose
     needs: ["parameterized_targets {{PY[0]}} {{PY[2]}}"]
     script:
-        - make pypi-mirror_test_{{PY}}
+        - echo DISABLED make pypi-mirror_test_{{PY}}
 
 {% endfor %}
 {% endfor %}
