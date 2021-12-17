@@ -7,6 +7,7 @@ REQUIREMENTS="requirements.txt requirements-ci.txt requirements-optional.txt req
 
 # these are copied from the pymor/ci_wheels image
 ${PIP_INSTALL} /ci_wheels/*whl
+${PIP_INSTALL} check_reqs
 
 cd /requirements/
 for fn in ${REQUIREMENTS} ; do
@@ -15,7 +16,7 @@ done
 ${PIP_INSTALL} ${PARG}
 
 for fn in ${REQUIREMENTS} ; do
-    check_reqs.py ${fn}
+    check_reqs ${fn}
 done
 
 pip freeze --all | grep -v fenics | grep -v dolfin |grep -v dealii \
@@ -32,8 +33,9 @@ done
 virtualenv /tmp/venv_old
 
 /tmp/venv_old/bin/${PIP_INSTALL} /ci_wheels/*whl
+/tmp/venv_old/bin/${PIP_INSTALL} check_reqs
 /tmp/venv_old/bin/${PIP_INSTALL} -r combined_oldest.txt
-/tmp/venv_old/bin/python /usr/local/bin/check_reqs.py combined_oldest.txt
+/tmp/venv_old/bin/python -m check_reqs combined_oldest.txt
 
 # torch is still excluded here since it cannot be installed from pypi
 /tmp/venv_old/bin/pip freeze --all | grep -v fenics | grep -v torch | grep -v dolfin |grep -v dealii \

@@ -685,7 +685,7 @@ test compose oldest 3 7:
     resource_group: compose
     needs: ["parameterized_targets 3 7"]
     script:
-        - make pypi-mirror_test_3.7
+        - echo DISABLED make pypi-mirror_test_3.7
 
 
 test oldest 3 8:
@@ -712,7 +712,7 @@ test compose oldest 3 8:
     resource_group: compose
     needs: ["parameterized_targets 3 8"]
     script:
-        - make pypi-mirror_test_3.8
+        - echo DISABLED make pypi-mirror_test_3.8
 
 
 test oldest 3 9:
@@ -739,7 +739,7 @@ test compose oldest 3 9:
     resource_group: compose
     needs: ["parameterized_targets 3 9"]
     script:
-        - make pypi-mirror_test_3.9
+        - echo DISABLED make pypi-mirror_test_3.9
 
 
 
@@ -767,7 +767,7 @@ test compose stable 3 7:
     resource_group: compose
     needs: ["parameterized_targets 3 7"]
     script:
-        - make pypi-mirror_test_3.7
+        - echo DISABLED make pypi-mirror_test_3.7
 
 
 test stable 3 8:
@@ -794,7 +794,7 @@ test compose stable 3 8:
     resource_group: compose
     needs: ["parameterized_targets 3 8"]
     script:
-        - make pypi-mirror_test_3.8
+        - echo DISABLED make pypi-mirror_test_3.8
 
 
 test stable 3 9:
@@ -821,7 +821,7 @@ test compose stable 3 9:
     resource_group: compose
     needs: ["parameterized_targets 3 9"]
     script:
-        - make pypi-mirror_test_3.9
+        - echo DISABLED make pypi-mirror_test_3.9
 
 
 

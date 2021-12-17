@@ -18,7 +18,7 @@ RUN MOUNT_CACHE apt update && \
 
 COPY build_*.sh /builder/
 RUN MOUNT_CACHE \
-  python -m pip install oldest-supported-numpy && \
+  python -m pip install pymor-oldest-supported-numpy~=2021.1.0 && \
   WHEELHOUSE=/wheelhouse /builder/build_wheels.sh && \
   echo "${WHEEL_PKGS}" > /wheelhouse/ci_wheels.list
 
