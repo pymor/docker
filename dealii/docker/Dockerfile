@@ -49,7 +49,10 @@ RUN MOUNT_CACHE \
     ninja -j ${MAKE_PROCS} && \
     ninja -j 1 install && \
     find /usr/local/lib -maxdepth 1 -type f | xargs strip -p -d 2> /dev/null ; \
-    cd / && rm -rf /tmp/deal* && \
+    cd / && rm -rf /tmp/deal*
+
+COPY cache_buster /tmp
+RUN MOUNT_CACHE \
     cd /tmp && git clone --recurse-submodules --branch=main https://github.com/pymor/pymor-deal.II deal && \
     cd deal && python setup.py bdist_wheel && \
     mkdir /usr/local/tmp/ && \
