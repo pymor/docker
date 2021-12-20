@@ -42,9 +42,8 @@ RUN MOUNT_CACHE \
     -DNG_INSTALL_DIR_LIB=lib/netgen \
     -DNG_INSTALL_DIR_INCLUDE=include/netgen \
     -DCMAKE_INSTALL_PREFIX=/usr/local && \
-    make -j ${MAKE_PROCS} && \
-    cd ${NGSOLVE_BUILD_DIR} && \
-    make install && \
+    cmake --build ${NGSOLVE_BUILD_DIR} -- MAKE_ARGS && \
+    cmake --install ${NGSOLVE_BUILD_DIR} && \
     find /usr/local/lib -maxdepth 1 -type f | xargs strip -p -d 2> /dev/null ; \
     rm -rf ${NGSOLVE_BUILD_DIR} ${NGSOLVE_SRC_DIR} && \
     printenv >> /usr/local/share/ngsolve.env

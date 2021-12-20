@@ -34,7 +34,7 @@ RUN MOUNT_CACHE \
       -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
       -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
       -DBUILD_SHARED_LIBS=ON \
-    && make -j ${MAKE_PROCS} \
+    && make MAKE_ARGS \
     && make install \
     && cd /tmp \
     && rm -rf /tmp/precice \

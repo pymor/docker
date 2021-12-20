@@ -66,6 +66,7 @@ ENV PETSC_VERSION=3.14.3 \
 
 # Install PETSc from source
 RUN MOUNT_CACHE \
+    nproc --ignore=1 && \
     git clone -b release https://gitlab.com/petsc/petsc.git petsc && \
     cd petsc && \
     git checkout v${PETSC_VERSION} && \
@@ -83,7 +84,7 @@ RUN MOUNT_CACHE \
                 --download-suitesparse \
                 --download-superlu \
                 --prefix=/usr/local/petsc-32 && \
-     make -j ${MAKE_PROCS} && \
+     make MAKE_ARGS && \
      make install
 
 # By default use the 32-bit build of PETSc.

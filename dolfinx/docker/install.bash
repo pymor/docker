@@ -2,6 +2,9 @@
 
 set -eux
 
+MAKE_ARGS=${1}
+shift
+
 wget -O /tmp/cmake.sh https://github.com/Kitware/CMake/releases/download/v3.20.0/cmake-3.20.0-linux-x86_64.sh
 bash /tmp/cmake.sh --skip-license --prefix=/usr/local
 cmake --version
@@ -24,7 +27,7 @@ mkdir /src/basix/build
 cd /src/basix/build
 cmake -B /src/basix/build -DCMAKE_BUILD_TYPE=Release -S /src/basix/ -DPYTHON_INTERPRETER=/usr/local/bin/python3 \
     -DDOWNLOAD_XTENSOR_LIBS=On
-cmake --build /src/basix/build
+cmake --build /src/basix/build -- ${MAKE_ARGS}
 cmake --install /src/basix/build
 
 pip install /src/basix/python

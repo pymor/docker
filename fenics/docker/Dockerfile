@@ -52,7 +52,7 @@ RUN MOUNT_CACHE ${PIP_INSTALL} "fenics${PYPI_FENICS_VERSION}" && \
                     -Dpybind11_DIR=$(python3 -c "import sysconfig; print(sysconfig.get_path('purelib'))") \
                     -DPYBIND11_DIR=$(python3 -c "import sysconfig; print(sysconfig.get_path('purelib'))") \
                     -DDOLFIN_ENABLE_HDF5=on && \
-                  make -j ${MAKE_PROCS} && \
+                  make MAKE_ARGS && \
                   make install && \
                   mv /usr/local/share/dolfin/demo /tmp/demo && \
                   mkdir -p /usr/local/share/dolfin/demo && \
@@ -71,7 +71,7 @@ RUN MOUNT_CACHE ${PIP_INSTALL} "fenics${PYPI_FENICS_VERSION}" && \
                   mkdir build && \
                   cd build && \
                   cmake ../ && \
-                  make -j ${MAKE_PROCS} && \
+                  make MAKE_ARGS && \
                   make install && \
                   ls -l /tmp/ && \
                   cd /tmp/dolfin/python && \

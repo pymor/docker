@@ -7,7 +7,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=C.UTF-8 \
     LANG=C.UTF-8 \
     LANGUAGE=C.UTF-8 \
-    MAKE_PROCS=2 \
     CCACHE_DIR=/cache/ccache \
     XDG_CACHE_HOME=/cache \
     PATH=/usr/lib/ccache:${PATH} \
