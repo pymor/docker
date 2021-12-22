@@ -195,6 +195,7 @@ $(DEMOS): demo_% : IS_DIRTY
 	$(CNTR_BUILD) -t $(MAIN_CNTR_REGISTRY)/pymor/demo:$* \
 	  -t $(ALT_CNTR_REGISTRY)/pymor/demo:$* demo/$*
 demo: FORCE $(DEMOS)
+real_demo: FORCE $(DEMOS)
 
 clean_demo: $(addprefix clean_,$(DEMOS))
 push_demo: $(addprefix push_,$(DEMOS))
