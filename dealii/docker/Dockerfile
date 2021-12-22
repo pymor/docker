@@ -46,8 +46,8 @@ RUN MOUNT_CACHE \
           -DDEAL_II_ALLOW_BUNDLED=OFF \
           -GNinja \
           ../ && \
-    ninja -j ${MAKE_PROCS} && \
-    ninja -j 1 install && \
+    cmake --build . -- MAKE_ARGS && \
+    cmake --install . && \
     find /usr/local/lib -maxdepth 1 -type f | xargs strip -p -d 2> /dev/null ; \
     cd / && rm -rf /tmp/deal*
 
