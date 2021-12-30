@@ -1,4 +1,4 @@
-FROM pymor/testing_py3.9:8b53a0c0ef5397576c1f9800e5e0ad3008536ea8
+FROM pymor/testing_py3.9:eb048594eee4e97b1b714503a06e7a5bfe3cabf6
 MAINTAINER René Fritze <rene.fritze@wwu.de>
 
 USER root

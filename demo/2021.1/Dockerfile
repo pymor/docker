@@ -3,7 +3,7 @@ MAINTAINER René Fritze <rene.fritze@wwu.de>
 
 USER root
 RUN useradd --shell /bin/bash -u 1000 -o -c "" -m pymor \
-    && ${PIP_INSTALL} "pymor~=2021.1.0"
+    && ${PIP_INSTALL} "pymor>=2021.1.0,<2021.2"
 USER pymor
 
 RUN pymor-demo --help && python -c "from pymor.basic import *"
