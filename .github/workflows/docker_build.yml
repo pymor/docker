@@ -1,0 +1,380 @@
+
+name: Docker build
+
+on: [push]
+
+jobs:
+  bugout:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          all_but_latest: true
+          # also works on 'pull_request' targets
+          ignore_sha: true
+          access_token: ${{ github.token }}
+  static:
+    runs-on: self-hosted
+    concurrency:
+      group: static
+    steps:
+        - name: Dockerhub Login
+          uses: docker/login-action@v1
+          with:
+              registry: docker.io
+              username: ${{ secrets.DH_USER }}
+              password: ${{ secrets.DH_PW }}
+        - name: Zivgitlab Login
+          uses: docker/login-action@v1
+          with:
+              registry: zivgitlab.wwu.io/pymor/docker
+              username: ${{ secrets.ZIV_USER }}
+              password: ${{ secrets.ZIV_PW }}
+        - uses: actions/checkout@v2
+        - name: build
+          run: |
+            make docker-in-docker
+            wait
+            make push_docker-in-docker &
+
+            make docs
+            wait
+            make push_docs &
+
+            make demo_main
+            wait
+            make push_demo_main &
+
+            make deploy_checks
+            wait
+            make push_deploy_checks &
+
+            make ci_sanity
+            wait
+            make push_ci_sanity &
+
+            make devpi
+            wait
+            make push_devpi &
+
+            wait
+  parameterized_3_7:
+    name: Python 3.7
+    runs-on: self-hosted
+    needs: static
+    concurrency:
+      group: param_3.7
+    env:
+        PYVER: "3.7"
+    steps:
+        - name: Dockerhub Login
+          uses: docker/login-action@v1
+          with:
+              registry: docker.io
+              username: ${{ secrets.DH_USER }}
+              password: ${{ secrets.DH_PW }}
+        - name: Zivgitlab Login
+          uses: docker/login-action@v1
+          with:
+              registry: zivgitlab.wwu.io/pymor/docker
+              username: ${{ secrets.ZIV_USER }}
+              password: ${{ secrets.ZIV_PW }}
+        - uses: actions/checkout@v2
+        - name: build
+          run: |
+            make python_builder_3.7
+            # wait for potentially running push
+            wait
+            make push_python_builder_3.7 &
+
+            make python_3.7
+            # wait for potentially running push
+            wait
+            make push_python_3.7 &
+
+            make constraints_3.7
+            # wait for potentially running push
+            wait
+            make push_constraints_3.7 &
+
+            make dealii_3.7
+            # wait for potentially running push
+            wait
+            make push_dealii_3.7 &
+
+            make petsc_3.7
+            # wait for potentially running push
+            wait
+            make push_petsc_3.7 &
+
+            make dolfinx_3.7
+            # wait for potentially running push
+            wait
+            make push_dolfinx_3.7 &
+
+            make pypi-mirror_stable_3.7
+            # wait for potentially running push
+            wait
+            make push_pypi-mirror_stable_3.7 &
+
+            make pypi-mirror_oldest_3.7
+            # wait for potentially running push
+            wait
+            make push_pypi-mirror_oldest_3.7 &
+
+            make ngsolve_3.7
+            # wait for potentially running push
+            wait
+            make push_ngsolve_3.7 &
+
+            make fenics_3.7
+            # wait for potentially running push
+            wait
+            make push_fenics_3.7 &
+
+            make precice_3.7
+            # wait for potentially running push
+            wait
+            make push_precice_3.7 &
+
+            make cibase_3.7
+            # wait for potentially running push
+            wait
+            make push_cibase_3.7 &
+
+            make testing_3.7
+            # wait for potentially running push
+            wait
+            make push_testing_3.7 &
+
+            make jupyter_3.7
+            # wait for potentially running push
+            wait
+            make push_jupyter_3.7 &
+
+            make minimal_cibase_3.7
+            # wait for potentially running push
+            wait
+            make push_minimal_cibase_3.7 &
+
+            make minimal_testing_3.7
+            # wait for potentially running push
+            wait
+            make push_minimal_testing_3.7 &
+
+            wait
+
+  parameterized_3_8:
+    name: Python 3.8
+    runs-on: self-hosted
+    needs: static
+    concurrency:
+      group: param_3.8
+    env:
+        PYVER: "3.8"
+    steps:
+        - name: Dockerhub Login
+          uses: docker/login-action@v1
+          with:
+              registry: docker.io
+              username: ${{ secrets.DH_USER }}
+              password: ${{ secrets.DH_PW }}
+        - name: Zivgitlab Login
+          uses: docker/login-action@v1
+          with:
+              registry: zivgitlab.wwu.io/pymor/docker
+              username: ${{ secrets.ZIV_USER }}
+              password: ${{ secrets.ZIV_PW }}
+        - uses: actions/checkout@v2
+        - name: build
+          run: |
+            make python_builder_3.8
+            # wait for potentially running push
+            wait
+            make push_python_builder_3.8 &
+
+            make python_3.8
+            # wait for potentially running push
+            wait
+            make push_python_3.8 &
+
+            make constraints_3.8
+            # wait for potentially running push
+            wait
+            make push_constraints_3.8 &
+
+            make dealii_3.8
+            # wait for potentially running push
+            wait
+            make push_dealii_3.8 &
+
+            make petsc_3.8
+            # wait for potentially running push
+            wait
+            make push_petsc_3.8 &
+
+            make dolfinx_3.8
+            # wait for potentially running push
+            wait
+            make push_dolfinx_3.8 &
+
+            make pypi-mirror_stable_3.8
+            # wait for potentially running push
+            wait
+            make push_pypi-mirror_stable_3.8 &
+
+            make pypi-mirror_oldest_3.8
+            # wait for potentially running push
+            wait
+            make push_pypi-mirror_oldest_3.8 &
+
+            make ngsolve_3.8
+            # wait for potentially running push
+            wait
+            make push_ngsolve_3.8 &
+
+            make fenics_3.8
+            # wait for potentially running push
+            wait
+            make push_fenics_3.8 &
+
+            make precice_3.8
+            # wait for potentially running push
+            wait
+            make push_precice_3.8 &
+
+            make cibase_3.8
+            # wait for potentially running push
+            wait
+            make push_cibase_3.8 &
+
+            make testing_3.8
+            # wait for potentially running push
+            wait
+            make push_testing_3.8 &
+
+            make jupyter_3.8
+            # wait for potentially running push
+            wait
+            make push_jupyter_3.8 &
+
+            make minimal_cibase_3.8
+            # wait for potentially running push
+            wait
+            make push_minimal_cibase_3.8 &
+
+            make minimal_testing_3.8
+            # wait for potentially running push
+            wait
+            make push_minimal_testing_3.8 &
+
+            wait
+
+  parameterized_3_9:
+    name: Python 3.9
+    runs-on: self-hosted
+    needs: static
+    concurrency:
+      group: param_3.9
+    env:
+        PYVER: "3.9"
+    steps:
+        - name: Dockerhub Login
+          uses: docker/login-action@v1
+          with:
+              registry: docker.io
+              username: ${{ secrets.DH_USER }}
+              password: ${{ secrets.DH_PW }}
+        - name: Zivgitlab Login
+          uses: docker/login-action@v1
+          with:
+              registry: zivgitlab.wwu.io/pymor/docker
+              username: ${{ secrets.ZIV_USER }}
+              password: ${{ secrets.ZIV_PW }}
+        - uses: actions/checkout@v2
+        - name: build
+          run: |
+            make python_builder_3.9
+            # wait for potentially running push
+            wait
+            make push_python_builder_3.9 &
+
+            make python_3.9
+            # wait for potentially running push
+            wait
+            make push_python_3.9 &
+
+            make constraints_3.9
+            # wait for potentially running push
+            wait
+            make push_constraints_3.9 &
+
+            make dealii_3.9
+            # wait for potentially running push
+            wait
+            make push_dealii_3.9 &
+
+            make petsc_3.9
+            # wait for potentially running push
+            wait
+            make push_petsc_3.9 &
+
+            make dolfinx_3.9
+            # wait for potentially running push
+            wait
+            make push_dolfinx_3.9 &
+
+            make pypi-mirror_stable_3.9
+            # wait for potentially running push
+            wait
+            make push_pypi-mirror_stable_3.9 &
+
+            make pypi-mirror_oldest_3.9
+            # wait for potentially running push
+            wait
+            make push_pypi-mirror_oldest_3.9 &
+
+            make ngsolve_3.9
+            # wait for potentially running push
+            wait
+            make push_ngsolve_3.9 &
+
+            make fenics_3.9
+            # wait for potentially running push
+            wait
+            make push_fenics_3.9 &
+
+            make precice_3.9
+            # wait for potentially running push
+            wait
+            make push_precice_3.9 &
+
+            make cibase_3.9
+            # wait for potentially running push
+            wait
+            make push_cibase_3.9 &
+
+            make testing_3.9
+            # wait for potentially running push
+            wait
+            make push_testing_3.9 &
+
+            make jupyter_3.9
+            # wait for potentially running push
+            wait
+            make push_jupyter_3.9 &
+
+            make minimal_cibase_3.9
+            # wait for potentially running push
+            wait
+            make push_minimal_cibase_3.9 &
+
+            make minimal_testing_3.9
+            # wait for potentially running push
+            wait
+            make push_minimal_testing_3.9 &
+
+            wait
+# THIS FILE IS AUTOGENERATED -- DO NOT EDIT #
+#   Edit and Re-run template.ci.py instead       #
