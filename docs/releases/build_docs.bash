@@ -5,6 +5,8 @@ shift
 
 set -eux
 
+export PYBIND11_DIR=$(python3 -c "import sysconfig; print(sysconfig.get_path('purelib'))")
+
 git clone --branch=${BRANCH} https://github.com/pymor/pymor /tmp/pymor
 cd /tmp/pymor
 python setup.py build_ext -i
