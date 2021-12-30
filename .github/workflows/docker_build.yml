@@ -84,88 +84,120 @@ jobs:
               username: ${{ secrets.ZIV_USER }}
               password: ${{ secrets.ZIV_PW }}
         - uses: actions/checkout@v2
-        - name: build
+        - name: python_builder_3.7
           run: |
             make python_builder_3.7
             # wait for potentially running push
             wait
             make push_python_builder_3.7 &
 
+        - name: python_3.7
+          run: |
             make python_3.7
             # wait for potentially running push
             wait
             make push_python_3.7 &
 
+        - name: constraints_3.7
+          run: |
             make constraints_3.7
             # wait for potentially running push
             wait
             make push_constraints_3.7 &
 
+        - name: dealii_3.7
+          run: |
             make dealii_3.7
             # wait for potentially running push
             wait
             make push_dealii_3.7 &
 
+        - name: petsc_3.7
+          run: |
             make petsc_3.7
             # wait for potentially running push
             wait
             make push_petsc_3.7 &
 
+        - name: dolfinx_3.7
+          run: |
             make dolfinx_3.7
             # wait for potentially running push
             wait
             make push_dolfinx_3.7 &
 
+        - name: pypi-mirror_stable_3.7
+          run: |
             make pypi-mirror_stable_3.7
             # wait for potentially running push
             wait
             make push_pypi-mirror_stable_3.7 &
 
+        - name: pypi-mirror_oldest_3.7
+          run: |
             make pypi-mirror_oldest_3.7
             # wait for potentially running push
             wait
             make push_pypi-mirror_oldest_3.7 &
 
+        - name: ngsolve_3.7
+          run: |
             make ngsolve_3.7
             # wait for potentially running push
             wait
             make push_ngsolve_3.7 &
 
+        - name: fenics_3.7
+          run: |
             make fenics_3.7
             # wait for potentially running push
             wait
             make push_fenics_3.7 &
 
+        - name: precice_3.7
+          run: |
             make precice_3.7
             # wait for potentially running push
             wait
             make push_precice_3.7 &
 
+        - name: cibase_3.7
+          run: |
             make cibase_3.7
             # wait for potentially running push
             wait
             make push_cibase_3.7 &
 
+        - name: testing_3.7
+          run: |
             make testing_3.7
             # wait for potentially running push
             wait
             make push_testing_3.7 &
 
+        - name: jupyter_3.7
+          run: |
             make jupyter_3.7
             # wait for potentially running push
             wait
             make push_jupyter_3.7 &
 
+        - name: minimal_cibase_3.7
+          run: |
             make minimal_cibase_3.7
             # wait for potentially running push
             wait
             make push_minimal_cibase_3.7 &
 
+        - name: minimal_testing_3.7
+          run: |
             make minimal_testing_3.7
             # wait for potentially running push
             wait
             make push_minimal_testing_3.7 &
 
+        - name: finalize push
+          run: |
             wait
 
   parameterized_3_8:
@@ -190,88 +222,120 @@ jobs:
               username: ${{ secrets.ZIV_USER }}
               password: ${{ secrets.ZIV_PW }}
         - uses: actions/checkout@v2
-        - name: build
+        - name: python_builder_3.8
           run: |
             make python_builder_3.8
             # wait for potentially running push
             wait
             make push_python_builder_3.8 &
 
+        - name: python_3.8
+          run: |
             make python_3.8
             # wait for potentially running push
             wait
             make push_python_3.8 &
 
+        - name: constraints_3.8
+          run: |
             make constraints_3.8
             # wait for potentially running push
             wait
             make push_constraints_3.8 &
 
+        - name: dealii_3.8
+          run: |
             make dealii_3.8
             # wait for potentially running push
             wait
             make push_dealii_3.8 &
 
+        - name: petsc_3.8
+          run: |
             make petsc_3.8
             # wait for potentially running push
             wait
             make push_petsc_3.8 &
 
+        - name: dolfinx_3.8
+          run: |
             make dolfinx_3.8
             # wait for potentially running push
             wait
             make push_dolfinx_3.8 &
 
+        - name: pypi-mirror_stable_3.8
+          run: |
             make pypi-mirror_stable_3.8
             # wait for potentially running push
             wait
             make push_pypi-mirror_stable_3.8 &
 
+        - name: pypi-mirror_oldest_3.8
+          run: |
             make pypi-mirror_oldest_3.8
             # wait for potentially running push
             wait
             make push_pypi-mirror_oldest_3.8 &
 
+        - name: ngsolve_3.8
+          run: |
             make ngsolve_3.8
             # wait for potentially running push
             wait
             make push_ngsolve_3.8 &
 
+        - name: fenics_3.8
+          run: |
             make fenics_3.8
             # wait for potentially running push
             wait
             make push_fenics_3.8 &
 
+        - name: precice_3.8
+          run: |
             make precice_3.8
             # wait for potentially running push
             wait
             make push_precice_3.8 &
 
+        - name: cibase_3.8
+          run: |
             make cibase_3.8
             # wait for potentially running push
             wait
             make push_cibase_3.8 &
 
+        - name: testing_3.8
+          run: |
             make testing_3.8
             # wait for potentially running push
             wait
             make push_testing_3.8 &
 
+        - name: jupyter_3.8
+          run: |
             make jupyter_3.8
             # wait for potentially running push
             wait
             make push_jupyter_3.8 &
 
+        - name: minimal_cibase_3.8
+          run: |
             make minimal_cibase_3.8
             # wait for potentially running push
             wait
             make push_minimal_cibase_3.8 &
 
+        - name: minimal_testing_3.8
+          run: |
             make minimal_testing_3.8
             # wait for potentially running push
             wait
             make push_minimal_testing_3.8 &
 
+        - name: finalize push
+          run: |
             wait
 
   parameterized_3_9:
@@ -296,88 +360,120 @@ jobs:
               username: ${{ secrets.ZIV_USER }}
               password: ${{ secrets.ZIV_PW }}
         - uses: actions/checkout@v2
-        - name: build
+        - name: python_builder_3.9
           run: |
             make python_builder_3.9
             # wait for potentially running push
             wait
             make push_python_builder_3.9 &
 
+        - name: python_3.9
+          run: |
             make python_3.9
             # wait for potentially running push
             wait
             make push_python_3.9 &
 
+        - name: constraints_3.9
+          run: |
             make constraints_3.9
             # wait for potentially running push
             wait
             make push_constraints_3.9 &
 
+        - name: dealii_3.9
+          run: |
             make dealii_3.9
             # wait for potentially running push
             wait
             make push_dealii_3.9 &
 
+        - name: petsc_3.9
+          run: |
             make petsc_3.9
             # wait for potentially running push
             wait
             make push_petsc_3.9 &
 
+        - name: dolfinx_3.9
+          run: |
             make dolfinx_3.9
             # wait for potentially running push
             wait
             make push_dolfinx_3.9 &
 
+        - name: pypi-mirror_stable_3.9
+          run: |
             make pypi-mirror_stable_3.9
             # wait for potentially running push
             wait
             make push_pypi-mirror_stable_3.9 &
 
+        - name: pypi-mirror_oldest_3.9
+          run: |
             make pypi-mirror_oldest_3.9
             # wait for potentially running push
             wait
             make push_pypi-mirror_oldest_3.9 &
 
+        - name: ngsolve_3.9
+          run: |
             make ngsolve_3.9
             # wait for potentially running push
             wait
             make push_ngsolve_3.9 &
 
+        - name: fenics_3.9
+          run: |
             make fenics_3.9
             # wait for potentially running push
             wait
             make push_fenics_3.9 &
 
+        - name: precice_3.9
+          run: |
             make precice_3.9
             # wait for potentially running push
             wait
             make push_precice_3.9 &
 
+        - name: cibase_3.9
+          run: |
             make cibase_3.9
             # wait for potentially running push
             wait
             make push_cibase_3.9 &
 
+        - name: testing_3.9
+          run: |
             make testing_3.9
             # wait for potentially running push
             wait
             make push_testing_3.9 &
 
+        - name: jupyter_3.9
+          run: |
             make jupyter_3.9
             # wait for potentially running push
             wait
             make push_jupyter_3.9 &
 
+        - name: minimal_cibase_3.9
+          run: |
             make minimal_cibase_3.9
             # wait for potentially running push
             wait
             make push_minimal_cibase_3.9 &
 
+        - name: minimal_testing_3.9
+          run: |
             make minimal_testing_3.9
             # wait for potentially running push
             wait
             make push_minimal_testing_3.9 &
 
+        - name: finalize push
+          run: |
             wait
 
   test_compose_oldest_3_7:

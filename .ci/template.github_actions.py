@@ -69,14 +69,16 @@ jobs:
               username: {% raw %}${{ secrets.ZIV_USER }}{% endraw %}
               password: {% raw %}${{ secrets.ZIV_PW }}{% endraw %}
         - uses: actions/checkout@v2
-        - name: build
-          run: |
 {%- for target in parameterized_targets %}
+        - name: {{target}}_{{PY}}
+          run: |
             make {{target}}_{{PY}}
             # wait for potentially running push
             wait
             make push_{{target}}_{{PY}} &
 {% endfor %}
+        - name: finalize push
+          run: |
             wait
 {% endfor -%}
 
