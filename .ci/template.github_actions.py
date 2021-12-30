@@ -3,7 +3,10 @@
 tpl = """
 name: Docker build
 
-on: [push]
+on:
+    push:
+    schedule:
+        - cron: "0 1 * * 0"
 
 jobs:
   bugout:
