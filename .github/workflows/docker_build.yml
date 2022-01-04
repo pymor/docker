@@ -1,4 +1,6 @@
 
+
+
 name: Docker build
 
 on:
@@ -7,21 +9,21 @@ on:
         - cron: "0 1 * * 0"
 
 jobs:
-  bugout:
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-        with:
-          all_but_latest: true
-          # also works on 'pull_request' targets
-          ignore_sha: true
-          access_token: ${{ github.token }}
-  static:
-    runs-on: self-hosted
-    concurrency:
-      group: static
-    steps:
+    bugout:
+        runs-on: ubuntu-20.04
+        steps:
+        - name: Cancel Previous Runs
+          uses: styfle/cancel-workflow-action@0.9.1
+          with:
+              all_but_latest: true
+              # also works on 'pull_request' targets
+              ignore_sha: true
+              access_token: ${{ github.token }}
+    static:
+        runs-on: self-hosted
+        concurrency:
+          group: static
+        steps:
         - name: Dockerhub Login
           uses: docker/login-action@v1
           with:
@@ -34,6 +36,7 @@ jobs:
               registry: zivgitlab.wwu.io/pymor/docker
               username: ${{ secrets.ZIV_USER }}
               password: ${{ secrets.ZIV_PW }}
+
         - uses: actions/checkout@v2
         - name: build
           run: |
@@ -62,15 +65,15 @@ jobs:
             make push_devpi &
 
             wait
-  parameterized_3_7:
-    name: Python 3.7
-    runs-on: self-hosted
-    needs: static
-    concurrency:
-      group: param_3.7
-    env:
-        PYVER: "3.7"
-    steps:
+    parameterized_3_7:
+        name: Python 3.7
+        runs-on: self-hosted
+        needs: static
+        concurrency:
+          group: param_3.7
+        env:
+            PYVER: "3.7"
+        steps:
         - name: Dockerhub Login
           uses: docker/login-action@v1
           with:
@@ -83,6 +86,7 @@ jobs:
               registry: zivgitlab.wwu.io/pymor/docker
               username: ${{ secrets.ZIV_USER }}
               password: ${{ secrets.ZIV_PW }}
+
         - uses: actions/checkout@v2
         - name: python_builder_3.7
           run: |
@@ -200,15 +204,15 @@ jobs:
           run: |
             wait
 
-  parameterized_3_8:
-    name: Python 3.8
-    runs-on: self-hosted
-    needs: static
-    concurrency:
-      group: param_3.8
-    env:
-        PYVER: "3.8"
-    steps:
+    parameterized_3_8:
+        name: Python 3.8
+        runs-on: self-hosted
+        needs: static
+        concurrency:
+          group: param_3.8
+        env:
+            PYVER: "3.8"
+        steps:
         - name: Dockerhub Login
           uses: docker/login-action@v1
           with:
@@ -221,6 +225,7 @@ jobs:
               registry: zivgitlab.wwu.io/pymor/docker
               username: ${{ secrets.ZIV_USER }}
               password: ${{ secrets.ZIV_PW }}
+
         - uses: actions/checkout@v2
         - name: python_builder_3.8
           run: |
@@ -338,15 +343,15 @@ jobs:
           run: |
             wait
 
-  parameterized_3_9:
-    name: Python 3.9
-    runs-on: self-hosted
-    needs: static
-    concurrency:
-      group: param_3.9
-    env:
-        PYVER: "3.9"
-    steps:
+    parameterized_3_9:
+        name: Python 3.9
+        runs-on: self-hosted
+        needs: static
+        concurrency:
+          group: param_3.9
+        env:
+            PYVER: "3.9"
+        steps:
         - name: Dockerhub Login
           uses: docker/login-action@v1
           with:
@@ -359,6 +364,7 @@ jobs:
               registry: zivgitlab.wwu.io/pymor/docker
               username: ${{ secrets.ZIV_USER }}
               password: ${{ secrets.ZIV_PW }}
+
         - uses: actions/checkout@v2
         - name: python_builder_3.9
           run: |
@@ -476,55 +482,35 @@ jobs:
           run: |
             wait
 
-  test_compose_oldest_3_7:
-    needs: parameterized_3_7
-    runs-on: self-hosted
-    steps:
+    test_compose_3_7:
+        needs: parameterized_3_7
+        runs-on: self-hosted
+        concurrency:
+          group: param_3.7
+        steps:
+        # this checks both oldest+stable mirror variants
         - name: test_3.7
           run: make pypi-mirror_test_3.7
 
-
-  test_compose_oldest_3_8:
-    needs: parameterized_3_8
-    runs-on: self-hosted
-    steps:
+    test_compose_3_8:
+        needs: parameterized_3_8
+        runs-on: self-hosted
+        concurrency:
+          group: param_3.8
+        steps:
+        # this checks both oldest+stable mirror variants
         - name: test_3.8
           run: make pypi-mirror_test_3.8
 
-
-  test_compose_oldest_3_9:
-    needs: parameterized_3_9
-    runs-on: self-hosted
-    steps:
+    test_compose_3_9:
+        needs: parameterized_3_9
+        runs-on: self-hosted
+        concurrency:
+          group: param_3.9
+        steps:
+        # this checks both oldest+stable mirror variants
         - name: test_3.9
           run: make pypi-mirror_test_3.9
-
-
-
-  test_compose_stable_3_7:
-    needs: parameterized_3_7
-    runs-on: self-hosted
-    steps:
-        - name: test_3.7
-          run: make pypi-mirror_test_3.7
-
-
-  test_compose_stable_3_8:
-    needs: parameterized_3_8
-    runs-on: self-hosted
-    steps:
-        - name: test_3.8
-          run: make pypi-mirror_test_3.8
-
-
-  test_compose_stable_3_9:
-    needs: parameterized_3_9
-    runs-on: self-hosted
-    steps:
-        - name: test_3.9
-          run: make pypi-mirror_test_3.9
-
-
 
 
 # THIS FILE IS AUTOGENERATED -- DO NOT EDIT #
