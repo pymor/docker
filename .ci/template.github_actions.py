@@ -87,6 +87,8 @@ jobs:
   test_compose_{{mirror}}_{{PY[0]}}_{{PY[2:]}}:
     needs: parameterized_{{PY[0]}}_{{PY[2:]}}
     runs-on: self-hosted
+    concurrency:
+      group: param_{{PY}}
     steps:
         - name: test_{{PY}}
           run: make pypi-mirror_test_{{PY}}
