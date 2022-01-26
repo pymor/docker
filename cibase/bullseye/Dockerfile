@@ -27,6 +27,7 @@ ENV DOCKER_NGSOLVE=1 \
 # gmsh: libxcursor1 libxinerama1
 # deal.II: libboost libtbb
 # precice: libxml2
+# dolfinx: libscotch-6.1
 RUN MOUNT_CACHE \
     echo "deb http://deb.debian.org/debian/ bullseye contrib non-free" > /etc/apt/sources.list.d/bullseye-nonfree.list && \
     apt update && \
@@ -46,7 +47,7 @@ RUN MOUNT_CACHE \
           libxcb-render-util0 libxcb-shape0 libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0 libxcb-util1\
         libxcursor1 libxinerama1 \
         libxml2 libtbb2 \
-        libsz2  && \
+    libsz2  libptscotch-6.1 && \
     echo "alias ls='ls -h --color=auto'" >> /etc/bash.bashrc && \
     echo "alias ll='ls -lh'" >> /etc/bash.bashrc && \
     echo "source /usr/local/share/dolfin/dolfin.conf" >> /etc/bash.bashrc && \

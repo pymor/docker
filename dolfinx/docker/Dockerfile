@@ -10,7 +10,9 @@ COPY --from=REGISTRY/pymor/ci_wheels_pyPYVER:VERTAG /wheelhouse/mpi4py*.whl /tmp
 
 COPY install.bash /tmp
 RUN MOUNT_CACHE \
-  bash /tmp/install.bash "MAKE_ARGS"
+  apt update \
+  && ${APTINSTALL} libptscotch-dev \
+  && bash /tmp/install.bash "MAKE_ARGS"
 # Make sure we get something that basically works on this stable build.  It
 # would be better to run unit tests, but at the moment even the quick tests
 # take too long to run.
