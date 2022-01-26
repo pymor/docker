@@ -15,9 +15,8 @@ WORKDIR /tmp
 # need to install pyprecice w/o isolation or else get too new numpy
 RUN MOUNT_CACHE \
   ${PIP_INSTALL} /tmp/mpi4py*whl \
-  && git clone https://github.com/precice/precice.git /tmp/precice \
+  && git clone --branch=disable-data-count-decrease https://github.com/uekerman/precice /tmp/precice \
                   && cd /tmp/precice \
-                  && git checkout ${PRECICE_VERSION} \
                   && mkdir /tmp/precice/build \
   && apt update \
   && ${APTINSTALL} build-essential ca-certificates cmake ninja-build \
