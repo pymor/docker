@@ -23,7 +23,6 @@ env_keys_text = {
     "NGSolve": env("NGSOLVE_VERSION", "ngsolve"),
     "PETSc": env("PETSC_VERSION", "petsc"),
     "pybind11": env("PYBIND11_VERSION", "python"),
-    "Trilinos": env("TRILINOS_VERSION", "petsc"),
 }
 
 tt.print(
