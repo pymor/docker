@@ -23,7 +23,7 @@
 from dolfin import *
 
 # Create mesh and define function space
-mesh = UnitSquareMesh(4, 4)
+mesh = UnitSquareMesh(100, 100)
 V = FunctionSpace(mesh, "Lagrange", 1)
 
 # Define boundary condition
@@ -41,21 +41,14 @@ L = f * v * dx() + g * v * ds()
 # Define function for the solution
 u = Function(V)
 
-# Define goal functional (quantity of interest)
-M = u * dx()
-
-# Define error tolerance
-tol = 1.0e-5
-
 # Solve equation a = L with respect to u and the given boundary
 # conditions, such that the estimated error (measured in M) is less
 # than tol
 problem = LinearVariationalProblem(a, L, u, bc)
-solver = AdaptiveLinearVariationalSolver(problem, M)
-solver.parameters["error_control"]["dual_variational_solver"]["linear_solver"] = "cg"
-solver.solve(tol)
+solver = LinearVariationalSolver(problem)
+solver.solve()
 
-solver.summary()
+# solver.summary()
 
 # Plot solution(s)
 plot(u.root_node(), title="Solution on initial mesh")

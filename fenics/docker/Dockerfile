@@ -94,5 +94,5 @@ RUN /bin/bash -c "cp -r /usr/local/share/dolfin/demo $FENICS_HOME/demo && \
 RUN apt-get update && apt-get -y install xvfb
 COPY demo_auto-adaptive_poisson.py /tmp/poisson_test/
 RUN /bin/bash -l -c "cd /tmp/poisson_test && \
-    time xvfb-run python demo_auto-adaptive_poisson.py && \
+    time xvfb-run -a python demo_auto-adaptive_poisson.py && \
     rm -r /tmp/poisson_test"
