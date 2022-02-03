@@ -38,7 +38,7 @@ RUN PYTHON_SITE_DIR=$(python -c "import site; print(site.getsitepackages()[0])")
 
 WORKDIR /tmp
 RUN MOUNT_CACHE ${PIP_INSTALL} "fenics${PYPI_FENICS_VERSION}" && \
-                  git clone --branch=2019.1.0.post0_gcc_10 https://github.com/renefritze/dolfin && \
+    git clone https://github.com/renefritze/legacy-dolfin dolfin && \
                   cd dolfin && \
                   mkdir build && \
                   cd build && \
