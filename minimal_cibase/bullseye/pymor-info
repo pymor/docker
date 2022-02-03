@@ -3,7 +3,6 @@
 import os
 import sys
 import termtables as tt
-import dolfin as df
 from dotenv import dotenv_values
 
 
