@@ -27,6 +27,7 @@ ENV DOCKER_NGSOLVE=1 \
 # gmsh: libxcursor1 libxinerama1
 # deal.II: libboost libtbb
 # precice: libxml2
+# dolfinx: libscotch-6.1
 RUN MOUNT_CACHE \
     echo "deb http://deb.debian.org/debian/ bullseye contrib non-free" > /etc/apt/sources.list.d/bullseye-nonfree.list && \
     apt update && \
@@ -46,7 +47,7 @@ RUN MOUNT_CACHE \
           libxcb-render-util0 libxcb-shape0 libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0 libxcb-util1\
         libxcursor1 libxinerama1 \
         libxml2 libtbb2 \
-        libsz2  && \
+    libsz2  libptscotch-6.1 && \
     echo "alias ls='ls -h --color=auto'" >> /etc/bash.bashrc && \
     echo "alias ll='ls -lh'" >> /etc/bash.bashrc && \
     echo "source /usr/local/share/dolfin/dolfin.conf" >> /etc/bash.bashrc && \
@@ -61,7 +62,7 @@ COPY --from=REGISTRY/pymor/ngsolve_pyPYVER:VERTAG /usr/local/ /usr/local/
 COPY --from=REGISTRY/pymor/fenics_pyPYVER:VERTAG /usr/local/ /usr/local/
 COPY --from=REGISTRY/pymor/precice_pyPYVER:VERTAG /usr/local/ /usr/local/
 RUN rm -rf /usr/local/man
-COPY --from=REGISTRY/pymor/dolfinx_pyPYVER:VERTAG /usr/local/ /usr/local/
+# COPY --from=REGISTRY/pymor/dolfinx_pyPYVER:VERTAG /usr/local/ /usr/local/
 
 RUN MOUNT_CACHE \
     ${PIP_INSTALL} /usr/local/tmp/pymor_dealii-*.whl && \
@@ -71,15 +72,15 @@ RUN MOUNT_CACHE \
     python -c "import pymor_dealii" && \
     python -c "import precice" && \
     python -c "from dolfin import cpp" && \
-    python -c "from dolfinx import *" && \
+    # python -c "from dolfinx import *" && \
     pip install termtables python-dotenv # for pymor-info script
 RUN MOUNT_CACHE \
   (find /usr/local/lib -maxdepth 1 -type f | xargs strip -p -d 2> /dev/null ) && \
   python -c "import ngsolve" && \
   python -c "import precice" && \
   python -c "import pymor_dealii" && \
-  python -c "from dolfin import cpp" && \
-  python -c "from dolfinx import *"
+    python -c "from dolfin import cpp"
+    #   python -c "from dolfinx import *"
 
 COPY pymor-info /usr/local/bin/
 COPY entrypoint.sh /usr/local/bin/

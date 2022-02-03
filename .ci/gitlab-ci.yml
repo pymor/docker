@@ -1,0 +1,841 @@
+
+
+stages:
+  - sanity
+  - static_targets
+  - parameterized_targets
+  - test
+
+#************ definition of base jobs *********************************************************************************#
+# https://docs.gitlab.com/ee/ci/yaml/README.html#workflowrules-templates
+include:
+  - template: 'Workflows/Branch-Pipelines.gitlab-ci.yml'
+
+.base:
+    retry:
+        max: 2
+        when:
+            - runner_system_failure
+            - stuck_or_timeout_failure
+            - api_failure
+
+    tags:
+      - amm-only_sb_dind
+    variables:
+      DOCKER_CLI_EXPERIMENTAL: enabled
+      REGISTRY_PREFIX: $CI_REGISTRY/pymor/docker/pymor
+
+.docker_base:
+    extends: .base
+    before_script:
+      - docker buildx --help
+      - apk add make sed rsync bash git python3
+      - pip3 install jinja2
+      - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+      - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD docker.io
+
+sanity:
+    extends: .docker_base
+    stage: sanity
+    script:
+        - docker ps
+        - make ci_update
+        - make CNTR_CMD="echo docker" all
+        - make IS_DIRTY
+parameterized_targets 3 7:
+    extends: .docker_base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    resource_group: cache_3.7
+    stage: parameterized_targets
+    variables:
+        PYVER: "3.7"
+    script:
+      - make python_builder_3.7
+      # wait for potentially running push
+      - wait
+      - make push_python_builder_3.7 &
+
+      - make python_3.7
+      # wait for potentially running push
+      - wait
+      - make push_python_3.7 &
+
+      - make constraints_3.7
+      # wait for potentially running push
+      - wait
+      - make push_constraints_3.7 &
+
+      - make dealii_3.7
+      # wait for potentially running push
+      - wait
+      - make push_dealii_3.7 &
+
+      - make petsc_3.7
+      # wait for potentially running push
+      - wait
+      - make push_petsc_3.7 &
+
+      - make dolfinx_3.7
+      # wait for potentially running push
+      - wait
+      - make push_dolfinx_3.7 &
+
+      - make pypi-mirror_stable_3.7
+      # wait for potentially running push
+      - wait
+      - make push_pypi-mirror_stable_3.7 &
+
+      - make pypi-mirror_oldest_3.7
+      # wait for potentially running push
+      - wait
+      - make push_pypi-mirror_oldest_3.7 &
+
+      - make ngsolve_3.7
+      # wait for potentially running push
+      - wait
+      - make push_ngsolve_3.7 &
+
+      - make fenics_3.7
+      # wait for potentially running push
+      - wait
+      - make push_fenics_3.7 &
+
+      - make precice_3.7
+      # wait for potentially running push
+      - wait
+      - make push_precice_3.7 &
+
+      - make cibase_3.7
+      # wait for potentially running push
+      - wait
+      - make push_cibase_3.7 &
+
+      - make testing_3.7
+      # wait for potentially running push
+      - wait
+      - make push_testing_3.7 &
+
+      - make jupyter_3.7
+      # wait for potentially running push
+      - wait
+      - make push_jupyter_3.7 &
+
+      - make minimal_cibase_3.7
+      # wait for potentially running push
+      - wait
+      - make push_minimal_cibase_3.7 &
+
+      - make minimal_testing_3.7
+      # wait for potentially running push
+      - wait
+      - make push_minimal_testing_3.7 &
+
+      - wait
+
+parameterized_targets 3 8:
+    extends: .docker_base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    resource_group: cache_3.8
+    stage: parameterized_targets
+    variables:
+        PYVER: "3.8"
+    script:
+      - make python_builder_3.8
+      # wait for potentially running push
+      - wait
+      - make push_python_builder_3.8 &
+
+      - make python_3.8
+      # wait for potentially running push
+      - wait
+      - make push_python_3.8 &
+
+      - make constraints_3.8
+      # wait for potentially running push
+      - wait
+      - make push_constraints_3.8 &
+
+      - make dealii_3.8
+      # wait for potentially running push
+      - wait
+      - make push_dealii_3.8 &
+
+      - make petsc_3.8
+      # wait for potentially running push
+      - wait
+      - make push_petsc_3.8 &
+
+      - make dolfinx_3.8
+      # wait for potentially running push
+      - wait
+      - make push_dolfinx_3.8 &
+
+      - make pypi-mirror_stable_3.8
+      # wait for potentially running push
+      - wait
+      - make push_pypi-mirror_stable_3.8 &
+
+      - make pypi-mirror_oldest_3.8
+      # wait for potentially running push
+      - wait
+      - make push_pypi-mirror_oldest_3.8 &
+
+      - make ngsolve_3.8
+      # wait for potentially running push
+      - wait
+      - make push_ngsolve_3.8 &
+
+      - make fenics_3.8
+      # wait for potentially running push
+      - wait
+      - make push_fenics_3.8 &
+
+      - make precice_3.8
+      # wait for potentially running push
+      - wait
+      - make push_precice_3.8 &
+
+      - make cibase_3.8
+      # wait for potentially running push
+      - wait
+      - make push_cibase_3.8 &
+
+      - make testing_3.8
+      # wait for potentially running push
+      - wait
+      - make push_testing_3.8 &
+
+      - make jupyter_3.8
+      # wait for potentially running push
+      - wait
+      - make push_jupyter_3.8 &
+
+      - make minimal_cibase_3.8
+      # wait for potentially running push
+      - wait
+      - make push_minimal_cibase_3.8 &
+
+      - make minimal_testing_3.8
+      # wait for potentially running push
+      - wait
+      - make push_minimal_testing_3.8 &
+
+      - wait
+
+parameterized_targets 3 9:
+    extends: .docker_base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    resource_group: cache_3.9
+    stage: parameterized_targets
+    variables:
+        PYVER: "3.9"
+    script:
+      - make python_builder_3.9
+      # wait for potentially running push
+      - wait
+      - make push_python_builder_3.9 &
+
+      - make python_3.9
+      # wait for potentially running push
+      - wait
+      - make push_python_3.9 &
+
+      - make constraints_3.9
+      # wait for potentially running push
+      - wait
+      - make push_constraints_3.9 &
+
+      - make dealii_3.9
+      # wait for potentially running push
+      - wait
+      - make push_dealii_3.9 &
+
+      - make petsc_3.9
+      # wait for potentially running push
+      - wait
+      - make push_petsc_3.9 &
+
+      - make dolfinx_3.9
+      # wait for potentially running push
+      - wait
+      - make push_dolfinx_3.9 &
+
+      - make pypi-mirror_stable_3.9
+      # wait for potentially running push
+      - wait
+      - make push_pypi-mirror_stable_3.9 &
+
+      - make pypi-mirror_oldest_3.9
+      # wait for potentially running push
+      - wait
+      - make push_pypi-mirror_oldest_3.9 &
+
+      - make ngsolve_3.9
+      # wait for potentially running push
+      - wait
+      - make push_ngsolve_3.9 &
+
+      - make fenics_3.9
+      # wait for potentially running push
+      - wait
+      - make push_fenics_3.9 &
+
+      - make precice_3.9
+      # wait for potentially running push
+      - wait
+      - make push_precice_3.9 &
+
+      - make cibase_3.9
+      # wait for potentially running push
+      - wait
+      - make push_cibase_3.9 &
+
+      - make testing_3.9
+      # wait for potentially running push
+      - wait
+      - make push_testing_3.9 &
+
+      - make jupyter_3.9
+      # wait for potentially running push
+      - wait
+      - make push_jupyter_3.9 &
+
+      - make minimal_cibase_3.9
+      # wait for potentially running push
+      - wait
+      - make push_minimal_cibase_3.9 &
+
+      - make minimal_testing_3.9
+      # wait for potentially running push
+      - wait
+      - make push_minimal_testing_3.9 &
+
+      - wait
+
+parameterized_targets 3 7 (scheduled):
+    extends: .docker_base
+    rules:
+    - if: $CI_PIPELINE_SOURCE != "schedule"
+      when: never
+    - when: on_success
+    resource_group: cache_3.7
+    stage: parameterized_targets
+    variables:
+        PYVER: "3.7"
+    script:
+      - make VER=weekly_cron python_builder_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_python_builder_3.7 &
+
+      - make VER=weekly_cron python_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_python_3.7 &
+
+      - make VER=weekly_cron constraints_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_constraints_3.7 &
+
+      - make VER=weekly_cron dealii_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_dealii_3.7 &
+
+      - make VER=weekly_cron petsc_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_petsc_3.7 &
+
+      - make VER=weekly_cron dolfinx_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_dolfinx_3.7 &
+
+      - make VER=weekly_cron pypi-mirror_stable_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_pypi-mirror_stable_3.7 &
+
+      - make VER=weekly_cron pypi-mirror_oldest_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_pypi-mirror_oldest_3.7 &
+
+      - make VER=weekly_cron ngsolve_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_ngsolve_3.7 &
+
+      - make VER=weekly_cron fenics_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_fenics_3.7 &
+
+      - make VER=weekly_cron precice_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_precice_3.7 &
+
+      - make VER=weekly_cron cibase_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_cibase_3.7 &
+
+      - make VER=weekly_cron testing_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_testing_3.7 &
+
+      - make VER=weekly_cron jupyter_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_jupyter_3.7 &
+
+      - make VER=weekly_cron minimal_cibase_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_minimal_cibase_3.7 &
+
+      - make VER=weekly_cron minimal_testing_3.7
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_minimal_testing_3.7 &
+
+      - wait
+
+parameterized_targets 3 8 (scheduled):
+    extends: .docker_base
+    rules:
+    - if: $CI_PIPELINE_SOURCE != "schedule"
+      when: never
+    - when: on_success
+    resource_group: cache_3.8
+    stage: parameterized_targets
+    variables:
+        PYVER: "3.8"
+    script:
+      - make VER=weekly_cron python_builder_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_python_builder_3.8 &
+
+      - make VER=weekly_cron python_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_python_3.8 &
+
+      - make VER=weekly_cron constraints_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_constraints_3.8 &
+
+      - make VER=weekly_cron dealii_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_dealii_3.8 &
+
+      - make VER=weekly_cron petsc_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_petsc_3.8 &
+
+      - make VER=weekly_cron dolfinx_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_dolfinx_3.8 &
+
+      - make VER=weekly_cron pypi-mirror_stable_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_pypi-mirror_stable_3.8 &
+
+      - make VER=weekly_cron pypi-mirror_oldest_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_pypi-mirror_oldest_3.8 &
+
+      - make VER=weekly_cron ngsolve_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_ngsolve_3.8 &
+
+      - make VER=weekly_cron fenics_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_fenics_3.8 &
+
+      - make VER=weekly_cron precice_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_precice_3.8 &
+
+      - make VER=weekly_cron cibase_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_cibase_3.8 &
+
+      - make VER=weekly_cron testing_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_testing_3.8 &
+
+      - make VER=weekly_cron jupyter_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_jupyter_3.8 &
+
+      - make VER=weekly_cron minimal_cibase_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_minimal_cibase_3.8 &
+
+      - make VER=weekly_cron minimal_testing_3.8
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_minimal_testing_3.8 &
+
+      - wait
+
+parameterized_targets 3 9 (scheduled):
+    extends: .docker_base
+    rules:
+    - if: $CI_PIPELINE_SOURCE != "schedule"
+      when: never
+    - when: on_success
+    resource_group: cache_3.9
+    stage: parameterized_targets
+    variables:
+        PYVER: "3.9"
+    script:
+      - make VER=weekly_cron python_builder_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_python_builder_3.9 &
+
+      - make VER=weekly_cron python_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_python_3.9 &
+
+      - make VER=weekly_cron constraints_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_constraints_3.9 &
+
+      - make VER=weekly_cron dealii_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_dealii_3.9 &
+
+      - make VER=weekly_cron petsc_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_petsc_3.9 &
+
+      - make VER=weekly_cron dolfinx_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_dolfinx_3.9 &
+
+      - make VER=weekly_cron pypi-mirror_stable_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_pypi-mirror_stable_3.9 &
+
+      - make VER=weekly_cron pypi-mirror_oldest_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_pypi-mirror_oldest_3.9 &
+
+      - make VER=weekly_cron ngsolve_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_ngsolve_3.9 &
+
+      - make VER=weekly_cron fenics_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_fenics_3.9 &
+
+      - make VER=weekly_cron precice_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_precice_3.9 &
+
+      - make VER=weekly_cron cibase_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_cibase_3.9 &
+
+      - make VER=weekly_cron testing_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_testing_3.9 &
+
+      - make VER=weekly_cron jupyter_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_jupyter_3.9 &
+
+      - make VER=weekly_cron minimal_cibase_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_minimal_cibase_3.9 &
+
+      - make VER=weekly_cron minimal_testing_3.9
+      # wait for potentially running push
+      - wait
+      - make VER=weekly_cron push_minimal_testing_3.9 &
+
+      - wait
+static_targets:
+    extends: .docker_base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    resource_group: cache_
+    stage: static_targets
+    variables:
+        PYVER: ""
+    script:
+      - make docker-in-docker
+      - wait
+      - make push_docker-in-docker &
+
+      - make docs
+      - wait
+      - make push_docs &
+
+      - make demo_main
+      - wait
+      - make push_demo_main &
+
+      - make deploy_checks
+      - wait
+      - make push_deploy_checks &
+
+      - make ci_sanity
+      - wait
+      - make push_ci_sanity &
+
+      - make devpi
+      - wait
+      - make push_devpi &
+
+      - wait
+
+static_targets (scheduled):
+    extends: .docker_base
+    rules:
+    - if: $CI_PIPELINE_SOURCE != "schedule"
+      when: never
+    - when: on_success
+    resource_group: cache_
+    stage: static_targets
+    variables:
+        PYVER: ""
+    script:
+      - make VER=weekly_cron docker-in-docker
+      - wait
+      - make VER=weekly_cron push_docker-in-docker &
+
+      - make VER=weekly_cron docs
+      - wait
+      - make VER=weekly_cron push_docs &
+
+      - make VER=weekly_cron demo_main
+      - wait
+      - make VER=weekly_cron push_demo_main &
+
+      - make VER=weekly_cron deploy_checks
+      - wait
+      - make VER=weekly_cron push_deploy_checks &
+
+      - make VER=weekly_cron ci_sanity
+      - wait
+      - make VER=weekly_cron push_ci_sanity &
+
+      - make VER=weekly_cron devpi
+      - wait
+      - make VER=weekly_cron push_devpi &
+
+      - wait
+test oldest 3 7:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    services:
+        - name: $REGISTRY_PREFIX/pypi-mirror_oldest_py3.7:$CI_COMMIT_SHA
+          alias: pypi_mirror
+    image: $REGISTRY_PREFIX/testing_py3.7:$CI_COMMIT_SHA
+    script:
+        - ./.ci/test.bash
+
+test compose oldest 3 7:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    resource_group: compose
+    needs: ["parameterized_targets 3 7"]
+    script:
+        - echo DISABLED make pypi-mirror_test_3.7
+
+
+test oldest 3 8:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    services:
+        - name: $REGISTRY_PREFIX/pypi-mirror_oldest_py3.8:$CI_COMMIT_SHA
+          alias: pypi_mirror
+    image: $REGISTRY_PREFIX/testing_py3.8:$CI_COMMIT_SHA
+    script:
+        - ./.ci/test.bash
+
+test compose oldest 3 8:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    resource_group: compose
+    needs: ["parameterized_targets 3 8"]
+    script:
+        - echo DISABLED make pypi-mirror_test_3.8
+
+
+test oldest 3 9:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    services:
+        - name: $REGISTRY_PREFIX/pypi-mirror_oldest_py3.9:$CI_COMMIT_SHA
+          alias: pypi_mirror
+    image: $REGISTRY_PREFIX/testing_py3.9:$CI_COMMIT_SHA
+    script:
+        - ./.ci/test.bash
+
+test compose oldest 3 9:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    resource_group: compose
+    needs: ["parameterized_targets 3 9"]
+    script:
+        - echo DISABLED make pypi-mirror_test_3.9
+
+
+
+test stable 3 7:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    services:
+        - name: $REGISTRY_PREFIX/pypi-mirror_stable_py3.7:$CI_COMMIT_SHA
+          alias: pypi_mirror
+    image: $REGISTRY_PREFIX/testing_py3.7:$CI_COMMIT_SHA
+    script:
+        - ./.ci/test.bash
+
+test compose stable 3 7:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    resource_group: compose
+    needs: ["parameterized_targets 3 7"]
+    script:
+        - echo DISABLED make pypi-mirror_test_3.7
+
+
+test stable 3 8:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    services:
+        - name: $REGISTRY_PREFIX/pypi-mirror_stable_py3.8:$CI_COMMIT_SHA
+          alias: pypi_mirror
+    image: $REGISTRY_PREFIX/testing_py3.8:$CI_COMMIT_SHA
+    script:
+        - ./.ci/test.bash
+
+test compose stable 3 8:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    resource_group: compose
+    needs: ["parameterized_targets 3 8"]
+    script:
+        - echo DISABLED make pypi-mirror_test_3.8
+
+
+test stable 3 9:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    services:
+        - name: $REGISTRY_PREFIX/pypi-mirror_stable_py3.9:$CI_COMMIT_SHA
+          alias: pypi_mirror
+    image: $REGISTRY_PREFIX/testing_py3.9:$CI_COMMIT_SHA
+    script:
+        - ./.ci/test.bash
+
+test compose stable 3 9:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    resource_group: compose
+    needs: ["parameterized_targets 3 9"]
+    script:
+        - echo DISABLED make pypi-mirror_test_3.9
+
+
+
+
+# THIS FILE IS AUTOGENERATED -- DO NOT EDIT #
+#   Edit and Re-run template.ci.py instead       #

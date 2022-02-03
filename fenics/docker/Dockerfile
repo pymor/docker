@@ -38,7 +38,7 @@ RUN PYTHON_SITE_DIR=$(python -c "import site; print(site.getsitepackages()[0])")
 
 WORKDIR /tmp
 RUN MOUNT_CACHE ${PIP_INSTALL} "fenics${PYPI_FENICS_VERSION}" && \
-                  git clone --branch=2019.1.0.post0_gcc_10 https://github.com/renefritze/dolfin && \
+    git clone https://github.com/renefritze/legacy-dolfin dolfin && \
                   cd dolfin && \
                   mkdir build && \
                   cd build && \
@@ -94,5 +94,5 @@ RUN /bin/bash -c "cp -r /usr/local/share/dolfin/demo $FENICS_HOME/demo && \
 RUN apt-get update && apt-get -y install xvfb
 COPY demo_auto-adaptive_poisson.py /tmp/poisson_test/
 RUN /bin/bash -l -c "cd /tmp/poisson_test && \
-    time xvfb-run python demo_auto-adaptive_poisson.py && \
+    time xvfb-run -a python demo_auto-adaptive_poisson.py && \
     rm -r /tmp/poisson_test"

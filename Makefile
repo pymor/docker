@@ -7,7 +7,7 @@ DEPLOY_CHECKS = $(addprefix deploy_checks_,$(DEPLOY_CHECKS_VARIANTS))
 OTHER_VARYING = deploy_checks
 PY_INDEPENDENT = demo docker-in-docker docs ci_sanity pymor_source devpi
 PY_SUBDIRS = $(filter-out $(OTHER_VARYING),$(filter-out $(PY_INDEPENDENT),$(SUBDIRS)))
-EXCLUDE_FROM_ALL = pypi-mirror_test docs pymor_source dolfinx
+EXCLUDE_FROM_ALL = pypi-mirror_test docs pymor_source
 PUSH_PYTHON_SUBDIRS = $(addprefix push_,$(filter-out $(EXCLUDE_FROM_ALL),$(PY_SUBDIRS)))
 CLEAN_PYTHON_SUBDIRS = $(addprefix clean_,$(filter-out $(EXCLUDE_FROM_ALL),$(PY_SUBDIRS)))
 PUSH_PYTHON_VERSIONS = $(addprefix push_,$(PYTHONS))
@@ -124,7 +124,7 @@ real_pypi-mirror_test_%: testing_% pypi-mirror_stable_% pypi-mirror_oldest_%
 		docker-compose -f mirror-test.docker-compose.yml up --build test
 
 $(addsuffix _cibase_%,$(IMAGE_TARGETS)): IMAGE_NAME:=CIBASE_IMAGE
-real_cibase_%: FORCE dolfinx_% precice_% ngsolve_% fenics_% dealii_% pypi-mirror_stable_%
+real_cibase_%: FORCE precice_% ngsolve_% fenics_% dealii_% pypi-mirror_stable_%
 	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
@@ -227,7 +227,7 @@ update_python_templates:
 	cd python_builder && ./update.sh 3.6 3.7 3.8 3.9
 
 ci_update:
-	./.ci/template.azure.py
+	# ./.ci/template.github_actions.py
 	./.ci/template.gitlab.py
 
 debug:
