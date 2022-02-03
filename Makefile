@@ -227,7 +227,7 @@ update_python_templates:
 	cd python_builder && ./update.sh 3.6 3.7 3.8 3.9
 
 ci_update:
-	./.ci/template.azure.py
+	# ./.ci/template.github_actions.py
 	./.ci/template.gitlab.py
 
 debug:

@@ -46,7 +46,7 @@ JUPYTER_IMAGE = pymor/jupyter_py$1:$2
 JUPYTER_IMAGE_DIR = jupyter
 MIRROR_TEST_IMAGE = pymor/pypi-mirror_test_py$1:$2
 MIRROR_TEST_IMAGE_DIR = pypi-mirror_test
-# CNTR_BUILD=$(CNTR_CMD) build --squash
+
 MAIN_CNTR_REGISTRY?=zivgitlab.wwu.io/pymor/docker
 ALT_CNTR_REGISTRY?=docker.io
 CNTR_CMD?=docker

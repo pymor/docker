@@ -3,6 +3,7 @@
 tpl = """
 
 stages:
+  - sanity
   - static_targets
   - parameterized_targets
   - test
@@ -44,9 +45,19 @@ include:
     extends: .base
     before_script:
       - docker buildx --help
-      - apk add make sed rsync bash git
+      - apk add make sed rsync bash git python3
+      - pip3 install jinja2
       - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
       - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD docker.io
+
+sanity:
+    extends: .docker_base
+    stage: sanity
+    script:
+        - docker ps
+        - make ci_update
+        - make CNTR_CMD="echo docker" all
+        - make IS_DIRTY
 
 {%- for PY in pythons %}
 parameterized_targets {{PY[0]}} {{PY[2]}}:
@@ -152,8 +163,6 @@ test compose {{mirror}} {{PY[0]}} {{PY[2]}}:
 
 import os
 import jinja2
-import sys
-from itertools import product
 from pathlib import Path
 
 tpl = jinja2.Template(tpl)
