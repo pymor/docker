@@ -41,6 +41,8 @@ RUN MOUNT_CACHE \
 
 COPY --from=REGISTRY/pymor/python_builder_PYVER:VERTAG /usr/local/ /usr/local/
 RUN ldconfig \
+  && PIP_SELF_UPDATE \
+  && PIP_CHECK \
   && printenv > /usr/local/share/python.env
 
 CMD ["python3"]

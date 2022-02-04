@@ -1,15 +1,21 @@
 #!/usr/bin/env bash
-set -exo pipefail
+set -uexo pipefail
 # fenics and pymor-deallii packages need to be filtered from the freeze command since they're already installed
 # in the constaints base image and cannot be installed from pypi
 
+PYTHON_PIP_VERSION="${1}"
+shift
+
 REQUIREMENTS="requirements.txt requirements-ci.txt requirements-optional.txt requirements-docker-other.txt"
+
+python -m pip install pip==${PYTHON_PIP_VERSION}
 
 # these are copied from the pymor/ci_wheels image
 ${PIP_INSTALL} /ci_wheels/*whl
 ${PIP_INSTALL} check_reqs
 
 cd /requirements/
+PARG=
 for fn in ${REQUIREMENTS} ; do
     PARG="-r ${fn} ${PARG}"
 done
@@ -30,11 +36,8 @@ for pkg in $(cat /ci_wheels/ci_wheels.list) ; do
   sed -i "/${pkg}/d" combined_oldest.txt
 done
 
-set -u
+python -m virtualenv --pip "${PYTHON_PIP_VERSION}" /tmp/venv_old
 
-python -m virtualenv /tmp/venv_old
-
-/tmp/venv_old/bin/python -m pip install pip==${PYTHON_PIP_VERSION}
 /tmp/venv_old/bin/${PIP_INSTALL} /ci_wheels/*whl
 /tmp/venv_old/bin/${PIP_INSTALL} check_reqs
 /tmp/venv_old/bin/${PIP_INSTALL} -r combined_oldest.txt

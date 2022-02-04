@@ -46,6 +46,8 @@ RUN MOUNT_CACHE \
     git lfs install && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    PIP_SELF_UPDATE && \
+    PIP_CHECK && \
     pip install \
         flufl.lock \
         pymor-oldest-supported-numpy~=2021.1.0 \

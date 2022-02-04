@@ -46,6 +46,8 @@ COPY packages.list.txt /tmp
 COPY --from=pymor/pypi-mirror_stable_pyPYVER:VERTAG /pymor/downloads/* /tmp/dependencies/
 RUN MOUNT_CACHE \
     set -exu \
+    && PIP_SELF_UPDATE \
+    && PIP_CHECK \
     && ${PIP_INSTALL} -f /tmp/dependencies/ -r /tmp/packages.list.txt \
     && rm -rf /tmp/*
 
