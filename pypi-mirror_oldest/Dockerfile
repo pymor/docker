@@ -20,7 +20,9 @@ COPY --from=zivgitlab.wwu.io/pymor/docker/pymor/constraints_pyPYVER:VERTAG /requ
 # non-installable package cannot be downloaded and would error out the whole process
 COPY --from=REGISTRY/pymor/ci_wheels_pyPYVER:VERTAG /wheelhouse/*.whl /tmp/
 RUN MOUNT_CACHE \
-  ${DOWNLOAD} /tmp/*whl && rm -f /tmp/*whl \
+  PIP_SELF_UPDATE \
+  && PIP_CHECK \
+  && ${DOWNLOAD} /tmp/*whl && rm -f /tmp/*whl \
   && set -uex \
   && grep -v "file\:" ${SERVER_ROOT}/requirements/oldest_constraints.txt > ${SERVER_ROOT}/requirements/no_files_oldest_constraints.txt \
   && ${DOWNLOAD} -r  ${SERVER_ROOT}/requirements/no_files_oldest_constraints.txt \

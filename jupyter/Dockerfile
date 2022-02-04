@@ -7,6 +7,8 @@ MAINTAINER René Fritze <rene.fritze@wwu.de>
 RUN MOUNT_CACHE \
     /bin/bash -c "curl -sL https://deb.nodesource.com/setup_lts.x | bash - \
     &&  apt update && ${APTINSTALL} nodejs &&\
+    PIP_SELF_UPDATE && \
+    PIP_CHECK && \
     ${PIP_INSTALL} jupyterlab pythreejs && \
     jupyter nbextension install --py --symlink --sys-prefix pythreejs && \
     jupyter nbextension install --py --symlink --sys-prefix ngsolve && \

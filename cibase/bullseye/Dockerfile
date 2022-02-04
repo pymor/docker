@@ -65,6 +65,8 @@ RUN rm -rf /usr/local/man
 # COPY --from=REGISTRY/pymor/dolfinx_pyPYVER:VERTAG /usr/local/ /usr/local/
 
 RUN MOUNT_CACHE \
+    PIP_SELF_UPDATE && \
+    PIP_CHECK && \
     ${PIP_INSTALL} /usr/local/tmp/pymor_dealii-*.whl && \
     ${PIP_INSTALL} pymor-oldest-supported-numpy~=2021.1.0 && \
     ldconfig && \

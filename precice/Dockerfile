@@ -14,7 +14,8 @@ WORKDIR /tmp
 
 # need to install pyprecice w/o isolation or else get too new numpy
 RUN MOUNT_CACHE \
-  ${PIP_INSTALL} /tmp/mpi4py*whl \
+  PIP_SELF_UPDATE \
+  && ${PIP_INSTALL} /tmp/mpi4py*whl \
   && git clone https://github.com/precice/precice.git /tmp/precice \
                   && cd /tmp/precice \
                   && git checkout ${PRECICE_VERSION} \
