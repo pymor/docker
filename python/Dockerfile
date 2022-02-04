@@ -4,6 +4,7 @@ FROM debian:bullseye-slim
 ENV DEBIAN_FRONTEND=noninteractive \
     APTINSTALL="apt-get install -qq -y --no-install-recommends" \
     PIP_INSTALL="python3 -m pip install --no-cache-dir " \
+	PYTHON_PIP_VERSION=22.0.3 \
     LC_ALL=C.UTF-8 \
     LANG=C.UTF-8 \
     LANGUAGE=C.UTF-8 \

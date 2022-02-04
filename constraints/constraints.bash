@@ -30,8 +30,11 @@ for pkg in $(cat /ci_wheels/ci_wheels.list) ; do
   sed -i "/${pkg}/d" combined_oldest.txt
 done
 
-virtualenv /tmp/venv_old
+set -u
 
+python -m virtualenv /tmp/venv_old
+
+/tmp/venv_old/bin/python -m pip install pip==${PYTHON_PIP_VERSION}
 /tmp/venv_old/bin/${PIP_INSTALL} /ci_wheels/*whl
 /tmp/venv_old/bin/${PIP_INSTALL} check_reqs
 /tmp/venv_old/bin/${PIP_INSTALL} -r combined_oldest.txt
