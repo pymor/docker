@@ -94,7 +94,8 @@ RUN MOUNT_CACHE \
      rm ${pkg} ; done)
 
 # from here on images are user facing, unset away from mounted cache
+# empty cache home leads to a bunch of programs segfaulting
 ENV CCACHE_DIR=/tmp/ccache \
-    XDG_CACHE_HOME=
+    XDG_CACHE_HOME=/tmp/
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["./.ci/gitlab/script.bash"]
