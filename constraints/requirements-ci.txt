@@ -9,6 +9,7 @@ flake8-docstrings
 flake8-rst-docstrings
 hypothesis[numpy,pytest]>=6.10
 nbconvert
+pymor
 pybind11
 pypi-oldest-requirements>=2021.2
 pytest-cov
@@ -20,3 +21,4 @@ pytest>=6.0
 readme_renderer[md]
 rstcheck
 twine
+wurlitzer
