@@ -16,7 +16,9 @@ COPY --from=REGISTRY/pymor/ci_wheels_pyPYVER:VERTAG /wheelhouse/*.whl /tmp/
 COPY extra_version_downloads.txt /tmp/
 RUN MOUNT_CACHE \
   set +x ; \
-  ${DOWNLOAD} /tmp/*whl && rm -f /tmp/*whl \
+  PIP_SELF_UPDATE \
+  && PIP_CHECK \
+  && ${DOWNLOAD} /tmp/*whl && rm -f /tmp/*whl \
   && set -uex \
   && grep -v "file\:" ${SERVER_ROOT}/requirements/constraints.txt > ${SERVER_ROOT}/requirements/no_files_constraints.txt \
   && ${DOWNLOAD} --platform=manylinux2014_x86_64 -r ${SERVER_ROOT}/requirements/no_files_constraints.txt \

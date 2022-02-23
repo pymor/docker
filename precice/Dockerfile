@@ -14,10 +14,10 @@ WORKDIR /tmp
 
 # need to install pyprecice w/o isolation or else get too new numpy
 RUN MOUNT_CACHE \
-  ${PIP_INSTALL} /tmp/mpi4py*whl \
-  && git clone https://github.com/precice/precice.git /tmp/precice \
+  PIP_SELF_UPDATE \
+  && ${PIP_INSTALL} /tmp/mpi4py*whl \
+  && git clone --branch=disable-data-count-decrease https://github.com/uekerman/precice /tmp/precice \
                   && cd /tmp/precice \
-                  && git checkout ${PRECICE_VERSION} \
                   && mkdir /tmp/precice/build \
   && apt update \
   && ${APTINSTALL} build-essential ca-certificates cmake ninja-build \
@@ -27,9 +27,11 @@ RUN MOUNT_CACHE \
   && cmake ../ \
       -DCMAKE_INSTALL_PREFIX=${PRECICE_PREFIX} \
       -DCMAKE_BUILD_TYPE=${PRECICE_BUILD_TYPE} \
+      -DPython3_ROOT_DIR=/usr/local/ \
+      -DPython3_EXECUTABLE=/usr/local/bin/python3 \
+      -DPython3_COMPILER=/usr/local/bin/python3 \
       -DPRECICE_MPICommunication=ON \
       -DPRECICE_PETScMapping=ON \
-      -DPYTHON_EXECUTABLE:FILEPATH=$(which python) \
       -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
       -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
       -DCMAKE_POSITION_INDEPENDENT_CODE=ON \

@@ -65,6 +65,8 @@ RUN rm -rf /usr/local/man
 # COPY --from=REGISTRY/pymor/dolfinx_pyPYVER:VERTAG /usr/local/ /usr/local/
 
 RUN MOUNT_CACHE \
+    PIP_SELF_UPDATE && \
+    PIP_CHECK && \
     ${PIP_INSTALL} /usr/local/tmp/pymor_dealii-*.whl && \
     ${PIP_INSTALL} pymor-oldest-supported-numpy~=2021.1.0 && \
     ldconfig && \
@@ -92,7 +94,8 @@ RUN MOUNT_CACHE \
      rm ${pkg} ; done)
 
 # from here on images are user facing, unset away from mounted cache
+# empty cache home leads to a bunch of programs segfaulting
 ENV CCACHE_DIR=/tmp/ccache \
-    XDG_CACHE_HOME=
+    XDG_CACHE_HOME=/tmp/
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["./.ci/gitlab/script.bash"]

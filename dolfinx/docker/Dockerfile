@@ -14,6 +14,8 @@ RUN MOUNT_CACHE \
   && wget -O /tmp/cmake.sh https://github.com/Kitware/CMake/releases/download/v3.20.0/cmake-3.20.0-linux-x86_64.sh \
   && bash /tmp/cmake.sh --skip-license --prefix=/usr/local \
   && cmake --version \
+  && PIP_SELF_UPDATE \
+  && PIP_CHECK \
   && ${PIP_INSTALL}  numba /tmp/mpi4py* pybind11==${PYBIND11_VERSION} pymor-oldest-supported-numpy~=2021.1.0 \
   && ${PIP_INSTALL} --no-deps petsc4py==${PETSC4PY_VERSION} \
   && python -c "import petsc4py" \

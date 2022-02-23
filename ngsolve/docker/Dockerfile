@@ -18,6 +18,8 @@ ENV MUMPS_DIR=${PETSC_DIR}
 COPY --from=REGISTRY/pymor/petsc_pyPYVER:VERTAG ${PETSC_DIR} ${PETSC_DIR}
 
 RUN MOUNT_CACHE \
+    PIP_SELF_UPDATE && \
+    PIP_CHECK && \
     ${PIP_INSTALL} sphinx_rtd_theme pybind11_stubgen pybind11==${PYBIND11_VERSION} pymor-oldest-supported-numpy~=2021.1.0 && \
     git clone https://github.com/NGSolve/ngsolve.git ${NGSOLVE_SRC_DIR} && \
     cd ${NGSOLVE_SRC_DIR} && \

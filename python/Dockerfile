@@ -4,6 +4,7 @@ FROM debian:bullseye-slim
 ENV DEBIAN_FRONTEND=noninteractive \
     APTINSTALL="apt-get install -qq -y --no-install-recommends" \
     PIP_INSTALL="python3 -m pip install --no-cache-dir " \
+	PYTHON_PIP_VERSION=22.0.3 \
     LC_ALL=C.UTF-8 \
     LANG=C.UTF-8 \
     LANGUAGE=C.UTF-8 \
@@ -40,6 +41,8 @@ RUN MOUNT_CACHE \
 
 COPY --from=REGISTRY/pymor/python_builder_PYVER:VERTAG /usr/local/ /usr/local/
 RUN ldconfig \
+  && PIP_SELF_UPDATE \
+  && PIP_CHECK \
   && printenv > /usr/local/share/python.env
 
 CMD ["python3"]

@@ -31,6 +31,8 @@ RUN MOUNT_CACHE \
 # next line is necessary for xfvb/qt/gl demo to work, needed till imaged rebased on pymor/testing
     xauth x11-apps xvfb libgl1-mesa-dri libglu1-mesa \
     openmpi-bin gosu && \
+    PIP_SELF_UPDATE && \
+    PIP_CHECK && \
     ${PIP_INSTALL} pymor-oldest-supported-numpy~=2021.1.0
 
 ENV DEALII_VERSION=9.3.0
