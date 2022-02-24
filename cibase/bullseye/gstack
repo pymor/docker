@@ -1,0 +1,4 @@
+#!/bin/sh
+
+ARGS=${GSTACK_ARGS:--id}
+sudo eu-stack ${ARGS} -p ${@}
