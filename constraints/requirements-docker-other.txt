@@ -1,6 +1,5 @@
 cmake
 cmarkgfm
-Cython==0.29.24
 jupytext
 pyvista
 itkwidgets
@@ -19,3 +18,4 @@ sphinx-icontract
 virtualenv
 # numpy git specific
 wheel==0.37.0
+Cython==0.29.28
