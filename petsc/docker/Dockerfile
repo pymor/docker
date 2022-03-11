@@ -12,13 +12,12 @@ WORKDIR /tmp
 
 # Non-Python utilities and libraries
 RUN MOUNT_CACHE \
-    echo 'APT::Default-Release "bullseye";' > /etc/apt/apt.conf.d/default-release && \
-    echo "#deb http://deb.debian.org/debian bullseye-backports main contrib non-free" > /etc/apt/sources.list.d/bullseye-backports.list && \
-    echo "deb http://deb.debian.org/debian/ bullseye contrib non-free" > /etc/apt/sources.list.d/bullseye-nonfree.list && \
     apt update && \
-    apt-get install -q=100 -y --no-install-recommends libboost1.74-all-dev && \
-    apt-get -y install curl \
+    ${APTINSTALL} libboost1.74-all-dev && \
+    ${APTINSTALL} curl \
         bison \
+        build-essential \
+        ca-certificates \
         cmake \
         doxygen \
         flex \
@@ -44,6 +43,7 @@ RUN MOUNT_CACHE \
         git-lfs \
         bash-completion && \
     git lfs install && \
+    update-ca-certificates && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     PIP_SELF_UPDATE && \
