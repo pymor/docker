@@ -47,6 +47,7 @@ RUN MOUNT_CACHE \
           libxcb-render-util0 libxcb-shape0 libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0 libxcb-util1\
         libxcursor1 libxinerama1 \
         libxml2 libtbb2 \
+        elfutils \
     libsz2  libptscotch-6.1 && \
     echo "alias ls='ls -h --color=auto'" >> /etc/bash.bashrc && \
     echo "alias ll='ls -lh'" >> /etc/bash.bashrc && \
@@ -55,6 +56,9 @@ RUN MOUNT_CACHE \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# openmpi wants to call gstack to get traces, which is not available on debian
+# provide a wrapper with name that forwards calls to eu-stack instead
+COPY gstack /usr/local/bin/
 
 COPY --from=REGISTRY/pymor/petsc_pyPYVER:VERTAG /usr/local/ /usr/local/
 COPY --from=REGISTRY/pymor/dealii_pyPYVER:VERTAG /usr/local/ /usr/local/
