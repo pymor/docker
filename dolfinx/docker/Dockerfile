@@ -52,7 +52,6 @@ RUN MOUNT_CACHE \
   && ninja install \
   && cd ../python \
   && ${PIP_INSTALL} install . \
-  && (find /usr/local/lib -maxdepth 1 -type f | xargs strip -p -d 2> /dev/null ) \
   && ldconfig \
   && rm -rf /src \
   && printenv >> /usr/local/share/dolfinx.env
@@ -66,6 +65,6 @@ RUN MOUNT_CACHE \
 #     time xvfb-run python demo_auto-adaptive_poisson.py && \
 #     rm -r /tmp/poisson_test"
 
-RUN MOUNT_CACHE \
-  python -c "import dolfinx" \
-  && rm -rf /usr/local/man
+# RUN MOUNT_CACHE \
+#   python -c "import dolfinx" \
+#   && rm -rf /usr/local/man
