@@ -1,0 +1,15 @@
+[submodule "dolfinx/docker/modules/basix"]
+	path = dolfinx/docker/modules/basix
+	url = https://github.com/FEniCS/basix
+[submodule "dolfinx/docker/modules/fiat"]
+	path = dolfinx/docker/modules/fiat
+	url = https://github.com/FEniCS/fiat
+[submodule "dolfinx/docker/modules/ufl"]
+	path = dolfinx/docker/modules/ufl
+	url = https://github.com/FEniCS/ufl
+[submodule "dolfinx/docker/modules/ffcx"]
+	path = dolfinx/docker/modules/ffcx
+	url = https://github.com/FEniCS/ffcx
+[submodule "dolfinx/docker/modules/dolfinx"]
+	path = dolfinx/docker/modules/dolfinx
+	url = https://github.com/FEniCS/dolfinx

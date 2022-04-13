@@ -76,10 +76,8 @@ RUN MOUNT_CACHE ${PIP_INSTALL} "fenics${PYPI_FENICS_VERSION}" && \
                   cmake ../ && \
                   make MAKE_ARGS && \
                   make install && \
-                  ls -l /tmp/ && \
-                  cd /tmp/dolfin/python && \
-                  ${PIP_INSTALL} . && \
-                  ldconfig && \
+                  ${PIP_INSTALL} /tmp/dolfin/python && \
+                  ${PIP_INSTALL} /tmp/mshr/python && \
                   rm -rf /tmp/*
 
 # Install fenics as root user into /usr/local then remove the fenics-* scripts
@@ -94,8 +92,12 @@ RUN /bin/bash -c "cp -r /usr/local/share/dolfin/demo $FENICS_HOME/demo && \
 # Make sure we get something that basically works on this stable build.  It
 # would be better to run unit tests, but at the moment even the quick tests
 # take too long to run.
-RUN apt-get update && apt-get -y install xvfb
 COPY demo_auto-adaptive_poisson.py /tmp/poisson_test/
-RUN /bin/bash -l -c "cd /tmp/poisson_test && \
-    time xvfb-run -a python demo_auto-adaptive_poisson.py && \
-    rm -r /tmp/poisson_test"
+RUN apt-get update && apt-get -y install xvfb && \
+    cd /tmp/poisson_test && \
+    python3 -c "import mshr" && \
+    xvfb-run -a python demo_auto-adaptive_poisson.py && \
+    rm -r /tmp/poisson_test && \
+    apt remove -y xvfb && \
+    apt autoremove -y && \
+    rm -rf /var/lib/apt

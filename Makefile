@@ -43,6 +43,9 @@ IS_DIRTY:
 	(git update-index -q --really-refresh && git diff --no-ext-diff --quiet --exit-code) || \
 	(git diff --no-ext-diff ; exit 1)
 
+submodules:
+	git submodule update --init --recursive
+
 .PHONY: FORCE IS_DIRTY
 
 FORCE: IS_DIRTY
@@ -177,7 +180,7 @@ real_precice_%: FORCE dealii_% petsc_% ci_wheels_%
 	@$(DO_IT)
 
 $(addsuffix _dolfinx_%,$(IMAGE_TARGETS)): IMAGE_NAME:=DOLFINX_IMAGE
-real_dolfinx_%: FORCE petsc_% ci_wheels_%
+real_dolfinx_%: FORCE petsc_% ci_wheels_% submodules
 	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
