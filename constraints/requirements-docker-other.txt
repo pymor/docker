@@ -11,7 +11,7 @@ pytest-pycharm
 pytimings
 rich
 scikit-build
-sphinx>=3.4
+sphinx>=4.0
 sphinx-autodoc-typehints
 sphinxcontrib-bibtex
 sphinx-icontract
