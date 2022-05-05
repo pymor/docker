@@ -9,18 +9,9 @@ RUN MOUNT_CACHE \
     &&  apt update && ${APTINSTALL} nodejs &&\
     PIP_SELF_UPDATE && \
     PIP_CHECK && \
-    ${PIP_INSTALL} jupyterlab pythreejs && \
-    jupyter nbextension install --py --symlink --sys-prefix pythreejs && \
-    jupyter nbextension install --py --symlink --sys-prefix ngsolve && \
-    jupyter nbextension enable --py --sys-prefix pythreejs && \
-    jupyter nbextension enable --py --sys-prefix ngsolve && \
-    jupyter labextension install jupyter-threejs && \
+    ${PIP_INSTALL} jupyterlab && \
+    ${PIP_INSTALL} pythreejs && \
     ${PIP_INSTALL} nbresuse jupyter_contrib_nbextensions && \
-    jupyter contrib nbextension install --sys-prefix && \
-    jupyter nbextension enable collapsible_headings/main && \
-    jupyter nbextension enable codefolding/main && \
-    jupyter nbextension enable notify/notify && \
-    jupyter nbextension enable scroll_down/main && \
     find /usr -name .cache | xargs rm -rf"
 COPY dev-entrypoint.bash /usr/local/bin/
 COPY ipython_kernel_config.py /etc/ipython/
