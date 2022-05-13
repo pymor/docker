@@ -84,7 +84,7 @@ RUN apt-get update ${VERYQUIET} && apt-get install ${VERYQUIET} -y --no-install-
 	&& rm -rf /var/lib/apt/lists/*
 
 ENV GPG_KEY E3FF2839C048B25C084DEBE9B26995E310250568
-ENV PYTHON_VERSION 3.9.10
+ENV PYTHON_VERSION 3.9.12
 
 RUN MOUNT_CACHE set -ex \
 	&& buildDeps=' \
