@@ -93,14 +93,12 @@ jobs:
 """
 
 
-import os
 import jinja2
-import sys
 from itertools import product
 from pathlib import Path
 
 tpl = jinja2.Template(tpl)
-pythons = ["3.7", "3.8", "3.9"]
+pythons = ["3.8", "3.9"]
 static_targets = [
     "docker-in-docker",
     "docs",

@@ -161,12 +161,11 @@ test compose {{mirror}} {{PY[0]}} {{PY[2]}}:
 """
 
 
-import os
 import jinja2
 from pathlib import Path
 
 tpl = jinja2.Template(tpl)
-pythons = ["3.7", "3.8", "3.9"]
+pythons = ["3.8", "3.9"]
 static_targets = [
     "docker-in-docker",
     "docs",
@@ -190,5 +189,5 @@ parameterized_targets = [
     "precice",
 ] + ["cibase", "testing", "jupyter", "minimal_cibase", "minimal_testing"]
 
-with open(os.path.join(os.path.dirname(__file__), "gitlab-ci.yml"), "wt") as yml:
+with open(Path(__file__).resolve().parent / "gitlab-ci.yml", "wt") as yml:
     yml.write(tpl.render(**locals()))
