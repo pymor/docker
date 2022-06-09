@@ -21,7 +21,7 @@ services:
               && check_reqs /requirements/requirements-optional.txt
               && pip install -r /requirements/requirements-ci.txt
               && check_reqs /requirements/requirements-ci.txt
-              && python /usrl/local/bin/check_import.py'
+              && python /usr/local/bin/check_import.py'
 
   pypi_mirror:
     image: pymor/pypi-mirror_${VARIANT}_py${CNTR_BASE_PYTHON}:${PYPI_MIRROR_TAG}
