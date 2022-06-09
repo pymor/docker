@@ -1,7 +1,6 @@
 cmake
 cmarkgfm
 jupytext
-pyvista
 itkwidgets
 MonkeyType
 mypy
