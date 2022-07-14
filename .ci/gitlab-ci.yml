@@ -10,6 +10,7 @@ stages:
 # https://docs.gitlab.com/ee/ci/yaml/README.html#workflowrules-templates
 include:
   - template: 'Workflows/Branch-Pipelines.gitlab-ci.yml'
+  - template: 'Security/Container-Scanning.gitlab-ci.yml'
 
 .base:
     retry:
@@ -594,6 +595,525 @@ test compose stable 3 9:
     script:
         - echo DISABLED make pypi-mirror_test_3.9
 
+
+
+scan python_builder 3 8:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "python_builder/Dockerfile__3.8"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo python_builder_3.8 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan python 3 8:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "python/Dockerfile__3.8"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo python_3.8 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan constraints 3 8:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "constraints/Dockerfile__3.8"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo constraints_3.8 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan dealii 3 8:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "dealii/Dockerfile__3.8"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo dealii_3.8 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan petsc 3 8:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "petsc/Dockerfile__3.8"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo petsc_3.8 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan dolfinx 3 8:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "dolfinx/Dockerfile__3.8"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo dolfinx_3.8 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan pypi-mirror_stable 3 8:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "pypi-mirror_stable/Dockerfile__3.8"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo pypi-mirror_stable_3.8 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan pypi-mirror_oldest 3 8:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "pypi-mirror_oldest/Dockerfile__3.8"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo pypi-mirror_oldest_3.8 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan ngsolve 3 8:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "ngsolve/Dockerfile__3.8"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo ngsolve_3.8 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan fenics 3 8:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "fenics/Dockerfile__3.8"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo fenics_3.8 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan precice 3 8:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "precice/Dockerfile__3.8"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo precice_3.8 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan cibase 3 8:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "cibase/Dockerfile__3.8"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo cibase_3.8 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan testing 3 8:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "testing/Dockerfile__3.8"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo testing_3.8 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan jupyter 3 8:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "jupyter/Dockerfile__3.8"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo jupyter_3.8 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan minimal_cibase 3 8:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "minimal_cibase/Dockerfile__3.8"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo minimal_cibase_3.8 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan minimal_testing 3 8:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "minimal_testing/Dockerfile__3.8"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo minimal_testing_3.8 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+
+scan python_builder 3 9:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "python_builder/Dockerfile__3.9"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo python_builder_3.9 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan python 3 9:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "python/Dockerfile__3.9"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo python_3.9 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan constraints 3 9:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "constraints/Dockerfile__3.9"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo constraints_3.9 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan dealii 3 9:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "dealii/Dockerfile__3.9"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo dealii_3.9 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan petsc 3 9:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "petsc/Dockerfile__3.9"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo petsc_3.9 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan dolfinx 3 9:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "dolfinx/Dockerfile__3.9"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo dolfinx_3.9 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan pypi-mirror_stable 3 9:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "pypi-mirror_stable/Dockerfile__3.9"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo pypi-mirror_stable_3.9 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan pypi-mirror_oldest 3 9:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "pypi-mirror_oldest/Dockerfile__3.9"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo pypi-mirror_oldest_3.9 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan ngsolve 3 9:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "ngsolve/Dockerfile__3.9"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo ngsolve_3.9 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan fenics 3 9:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "fenics/Dockerfile__3.9"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo fenics_3.9 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan precice 3 9:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "precice/Dockerfile__3.9"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo precice_3.9 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan cibase 3 9:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "cibase/Dockerfile__3.9"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo cibase_3.9 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan testing 3 9:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "testing/Dockerfile__3.9"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo testing_3.9 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan jupyter 3 9:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "jupyter/Dockerfile__3.9"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo jupyter_3.9 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan minimal_cibase 3 9:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "minimal_cibase/Dockerfile__3.9"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo minimal_cibase_3.9 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+scan minimal_testing 3 9:
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+    extends: container_scanning
+    stage: test
+    variables:
+        DOCKERFILE_PATH: "minimal_testing/Dockerfile__3.9"
+        GIT_STRATEGY: fetch
+    before_script:
+        - sudo apt update
+        - sudo apt install -y make rsync
+        - export DOCKER_IMAGE=zivgitlab.wwu.io/pymor/docker/$(make CNTR_CMD=echo minimal_testing_3.9 | tail -n1 | cut -d ' ' -f 2)
+        - echo ${DOCKER_IMAGE}
+
+
+container_scanning:
+    rules:
+        - when: never
 
 
 
