@@ -101,7 +101,6 @@ tpl = jinja2.Template(tpl)
 pythons = ["3.8", "3.9"]
 static_targets = [
     "docker-in-docker",
-    "docs",
     "demo_main",
     "deploy_checks",
     "ci_sanity",
