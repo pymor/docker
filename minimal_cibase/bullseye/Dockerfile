@@ -15,9 +15,7 @@ ENV DOCKER_NGSOLVE=1 \
 #     libxcb-render-util0 libxcb-shape0 libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0 libxcb-util0
 # gmsh: libxcursor1 libxinerama1
 RUN MOUNT_CACHE \
-    echo 'APT::Default-Release "bullseye";' > /etc/apt/apt.conf.d/default-release && \
-    echo "#deb http://deb.debian.org/debian bullseye-backports main contrib non-free" > /etc/apt/sources.list.d/bullseye-backports.list && \
-    echo "#deb http://deb.debian.org/debian/ bullseye contrib non-free" > /etc/apt/sources.list.d/bullseye-nonfree.list && \
+    echo "deb http://deb.debian.org/debian/ bullseye contrib non-free" > /etc/apt/sources.list.d/bullseye-nonfree.list && \
     apt update && \
     ${APTINSTALL} wget curl less \
         xvfb gnupg ca-certificates \
