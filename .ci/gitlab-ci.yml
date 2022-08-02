@@ -428,10 +428,6 @@ static_targets:
       - wait
       - make push_docker-in-docker &
 
-      - make docs
-      - wait
-      - make push_docs &
-
       - make demo_main
       - wait
       - make push_demo_main &
@@ -464,10 +460,6 @@ static_targets (scheduled):
       - make VER=weekly_cron docker-in-docker
       - wait
       - make VER=weekly_cron push_docker-in-docker &
-
-      - make VER=weekly_cron docs
-      - wait
-      - make VER=weekly_cron push_docs &
 
       - make VER=weekly_cron demo_main
       - wait

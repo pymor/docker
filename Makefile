@@ -5,9 +5,9 @@ SUBDIRS = $(patsubst %/,%,$(sort $(dir $(wildcard */))))
 DEPLOY_CHECKS_VARIANTS = $(subst deploy_checks/,,$(patsubst %/,%,$(sort $(dir $(wildcard deploy_checks/*/)))))
 DEPLOY_CHECKS = $(addprefix deploy_checks_,$(DEPLOY_CHECKS_VARIANTS))
 OTHER_VARYING = deploy_checks
-PY_INDEPENDENT = demo docker-in-docker docs ci_sanity pymor_source devpi
+PY_INDEPENDENT = demo docker-in-docker ci_sanity pymor_source devpi
 PY_SUBDIRS = $(filter-out $(OTHER_VARYING),$(filter-out $(PY_INDEPENDENT),$(SUBDIRS)))
-EXCLUDE_FROM_ALL = pypi-mirror_test docs pymor_source
+EXCLUDE_FROM_ALL = pypi-mirror_test pymor_source
 PUSH_PYTHON_SUBDIRS = $(addprefix push_,$(filter-out $(EXCLUDE_FROM_ALL),$(PY_SUBDIRS)))
 CLEAN_PYTHON_SUBDIRS = $(addprefix clean_,$(filter-out $(EXCLUDE_FROM_ALL),$(PY_SUBDIRS)))
 PUSH_PYTHON_VERSIONS = $(addprefix push_,$(PYTHONS))
@@ -208,11 +208,6 @@ push_demo_%:
 clean_demo_%:
 	$(CNTR_RMI) $(MAIN_CNTR_REGISTRY)/pymor/demo:$*
 	$(CNTR_RMI) $(ALT_CNTR_REGISTRY)/pymor/demo:$*
-
-$(addsuffix _docs,$(IMAGE_TARGETS)): IMAGE_NAME:=DOC_RELEASES_IMAGE
-real_docs: FORCE
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
-	@$(DO_IT_NOARG)
 
 
 pull_latest_%: FORCE
