@@ -200,8 +200,12 @@ $(DEMOS): demo_% : IS_DIRTY
 demo: FORCE $(DEMOS)
 real_demo: FORCE $(DEMOS)
 
-clean_demo: $(addprefix clean_,$(DEMOS))
 push_demo: $(addprefix push_,$(DEMOS))
+# avoid trying to push non-existing, invalid images
+rp_demo:
+	true
+
+clean_demo: $(addprefix clean_,$(DEMOS))
 push_demo_%:
 	$(CNTR_PUSH) $(MAIN_CNTR_REGISTRY)/pymor/demo:$*
 	$(CNTR_PUSH) $(ALT_CNTR_REGISTRY)/pymor/demo:$*
