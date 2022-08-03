@@ -1,0 +1,10 @@
+{% set img = "ci_sanity" %}
+{# this is static image with no python variation #}
+{% set pythons = [""] %}
+
+# {{image_dir}}
+
+Minimal image, contains packages necessary to test for image availability
+in registry, CI setup sanity, etc...
+
+{% extends "readme_base.jinja" %}

@@ -241,3 +241,6 @@ $(addsuffix _ci_sanity,$(IMAGE_TARGETS)): IMAGE_NAME:=CI_SANITY_IMAGE
 real_ci_sanity: FORCE
 	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT_NOARG)
+
+readme:
+	./render_readmes.py "$(PYTHONS)"

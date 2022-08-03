@@ -1,0 +1,5 @@
+| Image  | Info |
+| :----- | :--- |
+{%- for py in pythons %}
+| {{img}}{{py}} | [![](https://img.shields.io/docker/pulls/pymor/{{img}}{{py}}.svg)](https://hub.docker.com/repository/docker/pymor/{{img}}{{py}} "{{image_dir}} mixin") |
+{%- endfor %}
