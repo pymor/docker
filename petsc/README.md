@@ -1,7 +1,7 @@
-# docker-fenics
-mix-in image for our testing infrastructing
+
+# petsc Mixin
+
 | Image  | Info |
 | :----- | :--- |
-| petsc_py3.6 | [![](https://images.microbadger.com/badges/image/pymor/petsc_py3.6.svg)](https://microbadger.com/images/pymor/petsc_py3.6 "petsc mixin") |
-| petsc_py3.7 | [![](https://images.microbadger.com/badges/image/pymor/petsc_py3.7.svg)](https://microbadger.com/images/pymor/petsc_py3.7 "petsc mixin") |
-| petsc_py3.8 | [![](https://images.microbadger.com/badges/image/pymor/petsc_py3.8.svg)](https://microbadger.com/images/pymor/petsc_py3.8 "petsc mixin") |
+| petsc_py3.8 | [![](https://img.shields.io/docker/pulls/pymor/petsc_py3.8.svg)](https://hub.docker.com/repository/docker/pymor/petsc_py3.8 "petsc mixin") |
+| petsc_py3.9 | [![](https://img.shields.io/docker/pulls/pymor/petsc_py3.9.svg)](https://hub.docker.com/repository/docker/pymor/petsc_py3.9 "petsc mixin") |

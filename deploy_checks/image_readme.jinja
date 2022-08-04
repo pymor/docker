@@ -1,0 +1,9 @@
+{% set img = "deploy_checks_" %}
+{# this is static image with no python variation #}
+{% set pythons = ["fedora", "debian-stretch", "debian-bullseye", "debian-buster"] %}
+
+# {{image_dir}}
+
+Used for testing installing pyMOR into.
+
+{% extends "readme_base.jinja" %}
