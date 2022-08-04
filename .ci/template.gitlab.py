@@ -94,7 +94,7 @@ parameterized_targets {{PY[0]}} {{PY[2]}} (scheduled):
         PYVER: "{{PY}}"
     script:
 {%- for target in parameterized_targets %}
-      - make VER=weekly_cron {{target}}_{{PY}}
+      - make DIVE_CHECK=1 VER=weekly_cron {{target}}_{{PY}}
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_{{target}}_{{PY}} &
@@ -127,7 +127,7 @@ static_targets (scheduled):
         PYVER: "{{PY}}"
     script:
 {%- for target in static_targets %}
-      - make VER=weekly_cron {{target}}
+      - make DIVE_CHECK=1 VER=weekly_cron {{target}}
       - wait
       - make VER=weekly_cron push_{{target}} &
 {% endfor %}

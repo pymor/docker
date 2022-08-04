@@ -72,14 +72,14 @@ COMMON_BUILD=$(COPY_DOCKERFILE_IF_CHANGED) && \
 	$(CNTR_BUILD) -t $(call FULL_IMAGE_NAME,$1,$(VER)) -t $(call FULL_IMAGE_NAME,$1,latest) \
 	-t $(call ALT_IMAGE_NAME,$1,$(VER)) -t $(call ALT_IMAGE_NAME,$1,latest) \
 	 -f $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile__$1 $(CACHE_FROM) \
-	 $(call $(IMAGE_NAME)_DIR,$1) && \
-	 $(CHECK_IMG)
+	 $(call $(IMAGE_NAME)_DIR,$1)
 COMMON_TAG=$(CNTR_TAG) $(call FULL_IMAGE_NAME,$1,$(VER)) $(call FULL_IMAGE_NAME,$1,latest)
 DIVE_LOG=$(subst /,__,dive_$(call $(IMAGE_NAME),$1,$2).log)
-CHECK_IMG=(which dive 2>&1 && CI=true dive $(call FULL_IMAGE_NAME,$*,$(VER)) \
+CHECK_IMG=([ "$(DIVE_CHECK)" = "1" ] && which dive 2>&1 && CI=true dive $(call FULL_IMAGE_NAME,$*,$(VER)) \
 	  > $(call DIVE_LOG,$*,$(VER)) 2>&1) || true
-DO_IT_ARG= ($(call COMMON_INSPECT,$1) || ($(call COMMON_PULL,$1) && $(call COMMON_TAG,$1))) \
-	|| ($(call COMMON_PULL_LATEST,$1) ; $(call COMMON_BUILD,$1) && $(call COMMON_TAG,$1))
+DO_IT_ARG= (($(call COMMON_INSPECT,$1) || ($(call COMMON_PULL,$1) && $(call COMMON_TAG,$1))) \
+	|| ($(call COMMON_PULL_LATEST,$1) ; $(call COMMON_BUILD,$1) && $(call COMMON_TAG,$1))) \
+	&& $(CHECK_IMG)
 DO_IT=$(call DO_IT_ARG,$*)
 DO_IT_NOARG=$(call DO_IT_ARG,NONE)
 COMMON_PULL=$(CNTR_PULL) $(call FULL_IMAGE_NAME,$1,$(VER))
