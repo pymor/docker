@@ -63,6 +63,7 @@ sanity:
     script:
         - docker ps
         - make ci_update
+        - make readmes
         - make CNTR_CMD="echo docker" all
         - make IS_DIRTY
 
