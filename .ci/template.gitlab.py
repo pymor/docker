@@ -40,15 +40,22 @@ include:
     variables:
       DOCKER_CLI_EXPERIMENTAL: enabled
       REGISTRY_PREFIX: $CI_REGISTRY/pymor/docker/pymor
+      DIVE_VERSION: 0.10.0
 
 .docker_base:
     extends: .base
     before_script:
       - docker buildx --help
-      - apk add make sed rsync bash git python3
-      - pip3 install jinja2
+      - apk add make sed rsync bash git wget python3
+      - wget -q https://github.com/wagoodman/dive/releases/download/v${DIVE_VERSION}/dive_${DIVE_VERSION}_linux_amd64.tar.gz \
+        -O - | tar -xz -C /usr/local/bin
+      - chmod +x /usr/local/bin/dive
       - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
       - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD docker.io
+
+    artifacts:
+        paths:
+            - dive*.log
 
 sanity:
     extends: .docker_base
@@ -88,7 +95,7 @@ parameterized_targets {{PY[0]}} {{PY[2]}} (scheduled):
         PYVER: "{{PY}}"
     script:
 {%- for target in parameterized_targets %}
-      - make VER=weekly_cron {{target}}_{{PY}}
+      - make DIVE_CHECK=1 VER=weekly_cron {{target}}_{{PY}}
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_{{target}}_{{PY}} &
@@ -121,7 +128,7 @@ static_targets (scheduled):
         PYVER: "{{PY}}"
     script:
 {%- for target in static_targets %}
-      - make VER=weekly_cron {{target}}
+      - make DIVE_CHECK=1 VER=weekly_cron {{target}}
       - wait
       - make VER=weekly_cron push_{{target}} &
 {% endfor %}

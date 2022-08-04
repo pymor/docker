@@ -24,15 +24,21 @@ include:
     variables:
       DOCKER_CLI_EXPERIMENTAL: enabled
       REGISTRY_PREFIX: $CI_REGISTRY/pymor/docker/pymor
+      DIVE_VERSION: 0.10.0
 
 .docker_base:
     extends: .base
     before_script:
       - docker buildx --help
-      - apk add make sed rsync bash git python3
-      - pip3 install jinja2
+      - apk add make sed rsync bash git wget python3
+      - wget -q https://github.com/wagoodman/dive/releases/download/v${DIVE_VERSION}/dive_${DIVE_VERSION}_linux_amd64.tar.gz         -O - | tar -xz -C /usr/local/bin
+      - chmod +x /usr/local/bin/dive
       - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
       - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD docker.io
+
+    artifacts:
+        paths:
+            - dive*.log
 
 sanity:
     extends: .docker_base
@@ -240,82 +246,82 @@ parameterized_targets 3 8 (scheduled):
     variables:
         PYVER: "3.8"
     script:
-      - make VER=weekly_cron python_builder_3.8
+      - make DIVE_CHECK=1 VER=weekly_cron python_builder_3.8
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_python_builder_3.8 &
 
-      - make VER=weekly_cron python_3.8
+      - make DIVE_CHECK=1 VER=weekly_cron python_3.8
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_python_3.8 &
 
-      - make VER=weekly_cron constraints_3.8
+      - make DIVE_CHECK=1 VER=weekly_cron constraints_3.8
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_constraints_3.8 &
 
-      - make VER=weekly_cron dealii_3.8
+      - make DIVE_CHECK=1 VER=weekly_cron dealii_3.8
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_dealii_3.8 &
 
-      - make VER=weekly_cron petsc_3.8
+      - make DIVE_CHECK=1 VER=weekly_cron petsc_3.8
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_petsc_3.8 &
 
-      - make VER=weekly_cron dolfinx_3.8
+      - make DIVE_CHECK=1 VER=weekly_cron dolfinx_3.8
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_dolfinx_3.8 &
 
-      - make VER=weekly_cron pypi-mirror_stable_3.8
+      - make DIVE_CHECK=1 VER=weekly_cron pypi-mirror_stable_3.8
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_pypi-mirror_stable_3.8 &
 
-      - make VER=weekly_cron pypi-mirror_oldest_3.8
+      - make DIVE_CHECK=1 VER=weekly_cron pypi-mirror_oldest_3.8
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_pypi-mirror_oldest_3.8 &
 
-      - make VER=weekly_cron ngsolve_3.8
+      - make DIVE_CHECK=1 VER=weekly_cron ngsolve_3.8
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_ngsolve_3.8 &
 
-      - make VER=weekly_cron fenics_3.8
+      - make DIVE_CHECK=1 VER=weekly_cron fenics_3.8
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_fenics_3.8 &
 
-      - make VER=weekly_cron precice_3.8
+      - make DIVE_CHECK=1 VER=weekly_cron precice_3.8
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_precice_3.8 &
 
-      - make VER=weekly_cron cibase_3.8
+      - make DIVE_CHECK=1 VER=weekly_cron cibase_3.8
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_cibase_3.8 &
 
-      - make VER=weekly_cron testing_3.8
+      - make DIVE_CHECK=1 VER=weekly_cron testing_3.8
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_testing_3.8 &
 
-      - make VER=weekly_cron jupyter_3.8
+      - make DIVE_CHECK=1 VER=weekly_cron jupyter_3.8
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_jupyter_3.8 &
 
-      - make VER=weekly_cron minimal_cibase_3.8
+      - make DIVE_CHECK=1 VER=weekly_cron minimal_cibase_3.8
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_minimal_cibase_3.8 &
 
-      - make VER=weekly_cron minimal_testing_3.8
+      - make DIVE_CHECK=1 VER=weekly_cron minimal_testing_3.8
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_minimal_testing_3.8 &
@@ -333,82 +339,82 @@ parameterized_targets 3 9 (scheduled):
     variables:
         PYVER: "3.9"
     script:
-      - make VER=weekly_cron python_builder_3.9
+      - make DIVE_CHECK=1 VER=weekly_cron python_builder_3.9
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_python_builder_3.9 &
 
-      - make VER=weekly_cron python_3.9
+      - make DIVE_CHECK=1 VER=weekly_cron python_3.9
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_python_3.9 &
 
-      - make VER=weekly_cron constraints_3.9
+      - make DIVE_CHECK=1 VER=weekly_cron constraints_3.9
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_constraints_3.9 &
 
-      - make VER=weekly_cron dealii_3.9
+      - make DIVE_CHECK=1 VER=weekly_cron dealii_3.9
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_dealii_3.9 &
 
-      - make VER=weekly_cron petsc_3.9
+      - make DIVE_CHECK=1 VER=weekly_cron petsc_3.9
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_petsc_3.9 &
 
-      - make VER=weekly_cron dolfinx_3.9
+      - make DIVE_CHECK=1 VER=weekly_cron dolfinx_3.9
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_dolfinx_3.9 &
 
-      - make VER=weekly_cron pypi-mirror_stable_3.9
+      - make DIVE_CHECK=1 VER=weekly_cron pypi-mirror_stable_3.9
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_pypi-mirror_stable_3.9 &
 
-      - make VER=weekly_cron pypi-mirror_oldest_3.9
+      - make DIVE_CHECK=1 VER=weekly_cron pypi-mirror_oldest_3.9
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_pypi-mirror_oldest_3.9 &
 
-      - make VER=weekly_cron ngsolve_3.9
+      - make DIVE_CHECK=1 VER=weekly_cron ngsolve_3.9
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_ngsolve_3.9 &
 
-      - make VER=weekly_cron fenics_3.9
+      - make DIVE_CHECK=1 VER=weekly_cron fenics_3.9
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_fenics_3.9 &
 
-      - make VER=weekly_cron precice_3.9
+      - make DIVE_CHECK=1 VER=weekly_cron precice_3.9
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_precice_3.9 &
 
-      - make VER=weekly_cron cibase_3.9
+      - make DIVE_CHECK=1 VER=weekly_cron cibase_3.9
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_cibase_3.9 &
 
-      - make VER=weekly_cron testing_3.9
+      - make DIVE_CHECK=1 VER=weekly_cron testing_3.9
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_testing_3.9 &
 
-      - make VER=weekly_cron jupyter_3.9
+      - make DIVE_CHECK=1 VER=weekly_cron jupyter_3.9
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_jupyter_3.9 &
 
-      - make VER=weekly_cron minimal_cibase_3.9
+      - make DIVE_CHECK=1 VER=weekly_cron minimal_cibase_3.9
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_minimal_cibase_3.9 &
 
-      - make VER=weekly_cron minimal_testing_3.9
+      - make DIVE_CHECK=1 VER=weekly_cron minimal_testing_3.9
       # wait for potentially running push
       - wait
       - make VER=weekly_cron push_minimal_testing_3.9 &
@@ -458,23 +464,23 @@ static_targets (scheduled):
     variables:
         PYVER: ""
     script:
-      - make VER=weekly_cron docker-in-docker
+      - make DIVE_CHECK=1 VER=weekly_cron docker-in-docker
       - wait
       - make VER=weekly_cron push_docker-in-docker &
 
-      - make VER=weekly_cron demo_main
+      - make DIVE_CHECK=1 VER=weekly_cron demo_main
       - wait
       - make VER=weekly_cron push_demo_main &
 
-      - make VER=weekly_cron deploy_checks
+      - make DIVE_CHECK=1 VER=weekly_cron deploy_checks
       - wait
       - make VER=weekly_cron push_deploy_checks &
 
-      - make VER=weekly_cron ci_sanity
+      - make DIVE_CHECK=1 VER=weekly_cron ci_sanity
       - wait
       - make VER=weekly_cron push_ci_sanity &
 
-      - make VER=weekly_cron devpi
+      - make DIVE_CHECK=1 VER=weekly_cron devpi
       - wait
       - make VER=weekly_cron push_devpi &
 
