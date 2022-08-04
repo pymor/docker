@@ -46,7 +46,8 @@ IS_DIRTY:
 submodules:
 	git submodule update --init --recursive
 
-.PHONY: FORCE IS_DIRTY
+# the manual add of `all ... demo` make checkmake happy, but isn't actually needed
+.PHONY: FORCE IS_DIRTY all clean test push demo
 
 FORCE: IS_DIRTY
 
