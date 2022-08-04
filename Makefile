@@ -247,5 +247,5 @@ real_ci_sanity: FORCE
 	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT_NOARG)
 
-readme:
+readmes:
 	./render_readmes.py "$(PYTHONS)"
