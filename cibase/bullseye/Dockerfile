@@ -65,8 +65,8 @@ COPY --from=REGISTRY/pymor/dealii_pyPYVER:VERTAG /usr/local/ /usr/local/
 COPY --from=REGISTRY/pymor/ngsolve_pyPYVER:VERTAG /usr/local/ /usr/local/
 COPY --from=REGISTRY/pymor/fenics_pyPYVER:VERTAG /usr/local/ /usr/local/
 COPY --from=REGISTRY/pymor/precice_pyPYVER:VERTAG /usr/local/ /usr/local/
+COPY --from=REGISTRY/pymor/dolfinx_pyPYVER:VERTAG /usr/local/ /usr/local/
 RUN rm -rf /usr/local/man
-# COPY --from=REGISTRY/pymor/dolfinx_pyPYVER:VERTAG /usr/local/ /usr/local/
 
 RUN MOUNT_CACHE \
     PIP_SELF_UPDATE && \
@@ -78,15 +78,15 @@ RUN MOUNT_CACHE \
     python -c "import pymor_dealii" && \
     python -c "import precice" && \
     python -c "from dolfin import cpp" && \
-    # python -c "from dolfinx import *" && \
+    python -c "from dolfinx import *" && \
     pip install termtables python-dotenv # for pymor-info script
 RUN MOUNT_CACHE \
   (find /usr/local/lib -maxdepth 1 -type f | xargs strip -p -d 2> /dev/null ) && \
   python -c "import ngsolve" && \
   python -c "import precice" && \
   python -c "import pymor_dealii" && \
-    python -c "from dolfin import cpp"
-    #   python -c "from dolfinx import *"
+  python -c "from dolfin import cpp" && \
+  python -c "from dolfinx import *"
 
 COPY pymor-info /usr/local/bin/
 COPY entrypoint.sh /usr/local/bin/
