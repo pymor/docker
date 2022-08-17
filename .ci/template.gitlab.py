@@ -75,14 +75,11 @@ parameterized_targets {{PY[0]}} {{PY[2]}}:
     stage: parameterized_targets
     variables:
         PYVER: "{{PY}}"
-    script:
+    script: |
 {%- for target in parameterized_targets %}
-      - make {{target}}_{{PY}}
-      # wait for potentially running push
-      - wait
-      - make push_{{target}}_{{PY}} &
+      make {{target}}_{{PY}}
+      make push_{{target}}_{{PY}}
 {% endfor %}
-      - wait
 {% endfor -%}
 
 {%- for PY in pythons %}
@@ -93,14 +90,11 @@ parameterized_targets {{PY[0]}} {{PY[2]}} (scheduled):
     stage: parameterized_targets
     variables:
         PYVER: "{{PY}}"
-    script:
+    script: |
 {%- for target in parameterized_targets %}
-      - make DIVE_CHECK=1 VER=weekly_cron {{target}}_{{PY}}
-      # wait for potentially running push
-      - wait
-      - make VER=weekly_cron push_{{target}}_{{PY}} &
+      make DIVE_CHECK=1 VER=weekly_cron {{target}}_{{PY}}
+      make VER=weekly_cron push_{{target}}_{{PY}}
 {% endfor %}
-      - wait
 {% endfor -%}
 
 
@@ -111,13 +105,11 @@ static_targets:
     stage: static_targets
     variables:
         PYVER: "{{PY}}"
-    script:
+    script: |
 {%- for target in static_targets %}
-      - make {{target}}
-      - wait
-      - make push_{{target}} &
+      make {{target}}
+      make push_{{target}}
 {% endfor %}
-      - wait
 
 static_targets (scheduled):
     extends: .docker_base
@@ -126,13 +118,11 @@ static_targets (scheduled):
     stage: static_targets
     variables:
         PYVER: "{{PY}}"
-    script:
+    script: |
 {%- for target in static_targets %}
-      - make DIVE_CHECK=1 VER=weekly_cron {{target}}
-      - wait
-      - make VER=weekly_cron push_{{target}} &
+      make DIVE_CHECK=1 VER=weekly_cron {{target}}
+      make VER=weekly_cron push_{{target}}
 {% endfor %}
-      - wait
 
 {%- for mirror in mirror_types %}
 {%- for PY in pythons %}
