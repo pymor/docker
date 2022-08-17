@@ -59,88 +59,56 @@ parameterized_targets 3 8:
     stage: parameterized_targets
     variables:
         PYVER: "3.8"
-    script:
-      - make python_builder_3.8
-      # wait for potentially running push
-      - wait
-      - make push_python_builder_3.8 &
+    script: |
+      make python_builder_3.8
+      make push_python_builder_3.8
 
-      - make python_3.8
-      # wait for potentially running push
-      - wait
-      - make push_python_3.8 &
+      make python_3.8
+      make push_python_3.8
 
-      - make constraints_3.8
-      # wait for potentially running push
-      - wait
-      - make push_constraints_3.8 &
+      make constraints_3.8
+      make push_constraints_3.8
 
-      - make dealii_3.8
-      # wait for potentially running push
-      - wait
-      - make push_dealii_3.8 &
+      make dealii_3.8
+      make push_dealii_3.8
 
-      - make petsc_3.8
-      # wait for potentially running push
-      - wait
-      - make push_petsc_3.8 &
+      make petsc_3.8
+      make push_petsc_3.8
 
-      - make dolfinx_3.8
-      # wait for potentially running push
-      - wait
-      - make push_dolfinx_3.8 &
+      make dolfinx_3.8
+      make push_dolfinx_3.8
 
-      - make pypi-mirror_stable_3.8
-      # wait for potentially running push
-      - wait
-      - make push_pypi-mirror_stable_3.8 &
+      make pypi-mirror_stable_3.8
+      make push_pypi-mirror_stable_3.8
 
-      - make pypi-mirror_oldest_3.8
-      # wait for potentially running push
-      - wait
-      - make push_pypi-mirror_oldest_3.8 &
+      make pypi-mirror_oldest_3.8
+      make push_pypi-mirror_oldest_3.8
 
-      - make ngsolve_3.8
-      # wait for potentially running push
-      - wait
-      - make push_ngsolve_3.8 &
+      make ngsolve_3.8
+      make push_ngsolve_3.8
 
-      - make fenics_3.8
-      # wait for potentially running push
-      - wait
-      - make push_fenics_3.8 &
+      make fenics_3.8
+      make push_fenics_3.8
 
-      - make precice_3.8
-      # wait for potentially running push
-      - wait
-      - make push_precice_3.8 &
+      make precice_3.8
+      make push_precice_3.8
 
-      - make cibase_3.8
-      # wait for potentially running push
-      - wait
-      - make push_cibase_3.8 &
+      make cibase_3.8
+      make push_cibase_3.8
 
-      - make testing_3.8
-      # wait for potentially running push
-      - wait
-      - make push_testing_3.8 &
+      make testing_3.8
+      make push_testing_3.8
 
-      - make jupyter_3.8
-      # wait for potentially running push
-      - wait
-      - make push_jupyter_3.8 &
+      make jupyter_3.8
+      make push_jupyter_3.8
 
-      - make minimal_cibase_3.8
-      # wait for potentially running push
-      - wait
-      - make push_minimal_cibase_3.8 &
+      make minimal_cibase_3.8
+      make push_minimal_cibase_3.8
 
-      - make minimal_testing_3.8
-      # wait for potentially running push
-      - wait
-      - make push_minimal_testing_3.8 &
+      make minimal_testing_3.8
+      make push_minimal_testing_3.8
 
-      - wait
+      wait
 
 parameterized_targets 3 9:
     extends: .docker_base
@@ -152,88 +120,56 @@ parameterized_targets 3 9:
     stage: parameterized_targets
     variables:
         PYVER: "3.9"
-    script:
-      - make python_builder_3.9
-      # wait for potentially running push
-      - wait
-      - make push_python_builder_3.9 &
+    script: |
+      make python_builder_3.9
+      make push_python_builder_3.9
 
-      - make python_3.9
-      # wait for potentially running push
-      - wait
-      - make push_python_3.9 &
+      make python_3.9
+      make push_python_3.9
 
-      - make constraints_3.9
-      # wait for potentially running push
-      - wait
-      - make push_constraints_3.9 &
+      make constraints_3.9
+      make push_constraints_3.9
 
-      - make dealii_3.9
-      # wait for potentially running push
-      - wait
-      - make push_dealii_3.9 &
+      make dealii_3.9
+      make push_dealii_3.9
 
-      - make petsc_3.9
-      # wait for potentially running push
-      - wait
-      - make push_petsc_3.9 &
+      make petsc_3.9
+      make push_petsc_3.9
 
-      - make dolfinx_3.9
-      # wait for potentially running push
-      - wait
-      - make push_dolfinx_3.9 &
+      make dolfinx_3.9
+      make push_dolfinx_3.9
 
-      - make pypi-mirror_stable_3.9
-      # wait for potentially running push
-      - wait
-      - make push_pypi-mirror_stable_3.9 &
+      make pypi-mirror_stable_3.9
+      make push_pypi-mirror_stable_3.9
 
-      - make pypi-mirror_oldest_3.9
-      # wait for potentially running push
-      - wait
-      - make push_pypi-mirror_oldest_3.9 &
+      make pypi-mirror_oldest_3.9
+      make push_pypi-mirror_oldest_3.9
 
-      - make ngsolve_3.9
-      # wait for potentially running push
-      - wait
-      - make push_ngsolve_3.9 &
+      make ngsolve_3.9
+      make push_ngsolve_3.9
 
-      - make fenics_3.9
-      # wait for potentially running push
-      - wait
-      - make push_fenics_3.9 &
+      make fenics_3.9
+      make push_fenics_3.9
 
-      - make precice_3.9
-      # wait for potentially running push
-      - wait
-      - make push_precice_3.9 &
+      make precice_3.9
+      make push_precice_3.9
 
-      - make cibase_3.9
-      # wait for potentially running push
-      - wait
-      - make push_cibase_3.9 &
+      make cibase_3.9
+      make push_cibase_3.9
 
-      - make testing_3.9
-      # wait for potentially running push
-      - wait
-      - make push_testing_3.9 &
+      make testing_3.9
+      make push_testing_3.9
 
-      - make jupyter_3.9
-      # wait for potentially running push
-      - wait
-      - make push_jupyter_3.9 &
+      make jupyter_3.9
+      make push_jupyter_3.9
 
-      - make minimal_cibase_3.9
-      # wait for potentially running push
-      - wait
-      - make push_minimal_cibase_3.9 &
+      make minimal_cibase_3.9
+      make push_minimal_cibase_3.9
 
-      - make minimal_testing_3.9
-      # wait for potentially running push
-      - wait
-      - make push_minimal_testing_3.9 &
+      make minimal_testing_3.9
+      make push_minimal_testing_3.9
 
-      - wait
+      wait
 
 parameterized_targets 3 8 (scheduled):
     extends: .docker_base

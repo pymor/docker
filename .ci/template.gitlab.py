@@ -75,14 +75,12 @@ parameterized_targets {{PY[0]}} {{PY[2]}}:
     stage: parameterized_targets
     variables:
         PYVER: "{{PY}}"
-    script:
+    script: |
 {%- for target in parameterized_targets %}
-      - make {{target}}_{{PY}}
-      # wait for potentially running push
-      - wait
-      - make push_{{target}}_{{PY}} &
+      make {{target}}_{{PY}}
+      make push_{{target}}_{{PY}}
 {% endfor %}
-      - wait
+      wait
 {% endfor -%}
 
 {%- for PY in pythons %}
