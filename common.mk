@@ -81,8 +81,9 @@ CHECK_IMG=([ "$(DIVE_CHECK)" = "1" ] && which dive 2>&1 && CI=true dive $(call F
 	  > $(call DIVE_LOG,$*,$(VER)) 2>&1) || true
 DO_IT_ARG= \
 (\
-	($(call COMMON_INSPECT,$1) || \
-		($(call COMMON_PULL,$1) && $(call COMMON_TAG,$1)) \
+	($(call COMMON_INSPECT,$1) \
+		|| ($(call COMMON_PULL,$1)) \
+		&& ($(call COMMON_TAG,$1)) \
 	) \
 	|| \
 	($(call COMMON_PULL_LATEST,$1) ; $(call COMMON_BUILD,$1) && $(call COMMON_TAG,$1)) \
