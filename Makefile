@@ -92,32 +92,26 @@ push_deploy_checks: IMAGE_NAME:=DEPLOY_CHECKS_IMAGE
 push_deploy_checks: % : $(addprefix push_,$(DEPLOY_CHECKS))
 $(addsuffix _deploy_checks_%,$(IMAGE_TARGETS)): IMAGE_NAME:=DEPLOY_CHECKS_IMAGE
 real_deploy_checks_%: FORCE
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
 $(addsuffix _docker-in-docker,$(IMAGE_TARGETS)): IMAGE_NAME:=DIND_IMAGE
 real_docker-in-docker: FORCE
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT_NOARG)
 
 $(addsuffix _ci_wheels_%,$(IMAGE_TARGETS)): IMAGE_NAME:=CI_WHEELS_IMAGE
 real_ci_wheels_%: FORCE python_% petsc_%
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
 $(addsuffix _constraints_%,$(IMAGE_TARGETS)): IMAGE_NAME:=CONSTRAINTS_IMAGE
 real_constraints_%: FORCE real_ci_wheels_%
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
 $(addsuffix _pypi-mirror_stable_%,$(IMAGE_TARGETS)): IMAGE_NAME:=PYPI_MIRROR_STABLE_IMAGE
 real_pypi-mirror_stable_%: FORCE constraints_%
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
 $(addsuffix _pypi-mirror_oldest_%,$(IMAGE_TARGETS)): IMAGE_NAME:=PYPI_MIRROR_OLDEST_IMAGE
 real_pypi-mirror_oldest_%: FORCE constraints_%
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
 $(addsuffix _pypi-mirror_test_%,$(IMAGE_TARGETS)): IMAGE_NAME:=MIRROR_TEST_IMAGE
@@ -129,22 +123,18 @@ real_pypi-mirror_test_%: testing_% pypi-mirror_stable_% pypi-mirror_oldest_%
 
 $(addsuffix _cibase_%,$(IMAGE_TARGETS)): IMAGE_NAME:=CIBASE_IMAGE
 real_cibase_%: FORCE precice_% ngsolve_% fenics_% dealii_% pypi-mirror_stable_%
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
 $(addsuffix _minimal_cibase_%,$(IMAGE_TARGETS)): IMAGE_NAME:=MINIMAL_CIBASE_IMAGE
 real_minimal_cibase_%: FORCE pypi-mirror_stable_%
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
 $(addsuffix _minimal_testing_%,$(IMAGE_TARGETS)) ensure_testing_%: IMAGE_NAME=MINIMAL_TESTING_IMAGE
 real_minimal_testing_%: FORCE minimal_cibase_%
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
 $(addsuffix _testing_%,$(IMAGE_TARGETS)) ensure_testing_%: IMAGE_NAME=TESTING_IMAGE
 real_testing_%: FORCE cibase_%
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
 ensure_testing_%:
@@ -152,47 +142,38 @@ ensure_testing_%:
 
 $(addsuffix _python_builder_%,$(IMAGE_TARGETS)): IMAGE_NAME=PYTHON_BUILDER_IMAGE
 real_python_builder_%: FORCE
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	$(DO_IT)
 
 $(addsuffix _python_%,$(IMAGE_TARGETS)): IMAGE_NAME=PYTHON_IMAGE
 real_python_%: FORCE python_builder_%
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
 $(addsuffix _dealii_%,$(IMAGE_TARGETS)): IMAGE_NAME:=DEALII_IMAGE
 real_dealii_%: FORCE python_%
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
 $(addsuffix _petsc_%,$(IMAGE_TARGETS)): IMAGE_NAME:=PETSC_IMAGE
 real_petsc_%: FORCE python_%
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
 $(addsuffix _fenics_%,$(IMAGE_TARGETS)): IMAGE_NAME:=FENICS_IMAGE
 real_fenics_%: FORCE petsc_% ci_wheels_%
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
 $(addsuffix _precice_%,$(IMAGE_TARGETS)): IMAGE_NAME:=PRECICE_IMAGE
 real_precice_%: FORCE dealii_% petsc_% ci_wheels_%
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
 $(addsuffix _dolfinx_%,$(IMAGE_TARGETS)): IMAGE_NAME:=DOLFINX_IMAGE
 real_dolfinx_%: FORCE petsc_% ci_wheels_% submodules
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
 $(addsuffix _ngsolve_%,$(IMAGE_TARGETS)): IMAGE_NAME:=NGSOLVE_IMAGE
 real_ngsolve_%: FORCE petsc_%
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
 $(addsuffix _jupyter_%,$(IMAGE_TARGETS)): IMAGE_NAME:=JUPYTER_IMAGE
 real_jupyter_%: FORCE testing_%
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT)
 
 $(DEMOS): demo_% : IS_DIRTY
@@ -239,12 +220,10 @@ debug:
 
 $(addsuffix _devpi,$(IMAGE_TARGETS)): IMAGE_NAME:=DEVPI_IMAGE
 real_devpi: FORCE
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT_NOARG)
 
 $(addsuffix _ci_sanity,$(IMAGE_TARGETS)): IMAGE_NAME:=CI_SANITY_IMAGE
 real_ci_sanity: FORCE
-	@echo "Building $(call $(IMAGE_NAME),$*,$(VER))"
 	@$(DO_IT_NOARG)
 
 readmes:
