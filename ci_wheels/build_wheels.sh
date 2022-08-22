@@ -13,8 +13,9 @@ for pkg in ${WHEEL_PKGS} ; do
   pip download --no-deps ${pkg}${ver} -d /src/
   unp /src/${pkg}*.tar.gz && rm /src/${pkg}*.tar.gz
   cd ${pkg}*
-  pip wheel --use-feature=in-tree-build --no-build-isolation . -w ${WHEELHOUSE}/tmp
-  mv ${WHEELHOUSE}/tmp/${pkg}* ${WHEELHOUSE}/
+  pip wheel . -w ${WHEELHOUSE}/tmp
+  pip install ${WHEELHOUSE}/tmp/*.whl
+  mv ${WHEELHOUSE}/tmp/*.whl ${WHEELHOUSE}/
   rm -rf ${WHEELHOUSE}/tmp
   cd -
   rm -rf ${pkg}*
