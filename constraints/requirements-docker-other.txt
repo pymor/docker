@@ -1,5 +1,7 @@
 cmake
 cmarkgfm
+cppyy==2.4.0
+cppyy-cling==6.27.0
 jupytext
 pyvista
 itkwidgets

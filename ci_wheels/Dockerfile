@@ -6,7 +6,7 @@ MAINTAINER René Fritze <rene.fritze@wwu.de>
 SHELL ["/bin/bash", "-c"]
 
 ENV WHEEL_VERSION=0.36.1 \
-  WHEEL_PKGS="slycot mpi4py gmsh petsc4py"
+  WHEEL_PKGS="slycot mpi4py gmsh petsc4py cppyy-backend cppyy"
 
 # libopenblas-dev cmake: needed for slycot
 # mpi-default-dev: mpi4py
