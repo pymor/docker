@@ -5,7 +5,7 @@ set -exu
 rm -rf /src
 mkdir /src
 pip install -U wheel pymor-oldest-supported-numpy~=2021.1.0 scikit-build
-declare -A VERSIONS=( ["slycot"]="~=0.4.0" ["mpi4py"]=">=3" ["gmsh"]="~=4.8.0" ["petsc4py"]="==${PETSC4PY_VERSION}" ["mpi4py"]=">=3")
+declare -A VERSIONS=( ["slycot"]="~=0.5.0" ["mpi4py"]=">=3" ["gmsh"]="~=4.8.0" ["petsc4py"]="==${PETSC4PY_VERSION}" ["mpi4py"]=">=3")
 
 for pkg in ${WHEEL_PKGS} ; do
   cd /src
@@ -13,8 +13,9 @@ for pkg in ${WHEEL_PKGS} ; do
   pip download --no-deps ${pkg}${ver} -d /src/
   unp /src/${pkg}*.tar.gz && rm /src/${pkg}*.tar.gz
   cd ${pkg}*
-  pip wheel --use-feature=in-tree-build --no-build-isolation . -w ${WHEELHOUSE}/tmp
-  mv ${WHEELHOUSE}/tmp/${pkg}* ${WHEELHOUSE}/
+  pip wheel . -w ${WHEELHOUSE}/tmp
+  pip install ${WHEELHOUSE}/tmp/*.whl
+  mv ${WHEELHOUSE}/tmp/*.whl ${WHEELHOUSE}/
   rm -rf ${WHEELHOUSE}/tmp
 done
 
