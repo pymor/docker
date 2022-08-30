@@ -11,6 +11,7 @@ pybind11==2.9.2
 pypi-oldest-requirements==2021.2.0
 pyqt5-qt5==5.15.2
 pyqt5==5.15.7
+pytest-asyncio==0.19.0
 pytest-cov==3.0.0
 pytest-memprof==0.2.0
 pytest-parallel==0.1.1
