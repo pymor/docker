@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cd /pymor
+[[ -d /pymor ]] && cd /pymor
 
 exec "${@}"
