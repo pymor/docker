@@ -9,4 +9,4 @@ Contains all dependencies plus the fitting pyMOR release.
 
 | Image  | Info |
 | :----- | :--- |
-| demo | [![](https://img.shields.io/docker/pulls/pymor/demo.svg)](https://hub.docker.com/repository/docker/pymor/demo "demo mixin") |
+| demo | [![](https://img.shields.io/docker/pulls/pymor/demo.svg)](https://hub.docker.com/repository/docker/pymor/demo "demo mixin") [![](https://img.shields.io/docker/image-size/pymor/demo/latest](https://hub.docker.com/repository/docker/pymor/demo "demo mixin")|

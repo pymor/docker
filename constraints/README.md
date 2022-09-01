@@ -6,5 +6,5 @@ pypi mirrors.
 
 | Image  | Info |
 | :----- | :--- |
-| constraints_py3.8 | [![](https://img.shields.io/docker/pulls/pymor/constraints_py3.8.svg)](https://hub.docker.com/repository/docker/pymor/constraints_py3.8 "constraints mixin") |
-| constraints_py3.9 | [![](https://img.shields.io/docker/pulls/pymor/constraints_py3.9.svg)](https://hub.docker.com/repository/docker/pymor/constraints_py3.9 "constraints mixin") |
+| constraints_py3.8 | [![](https://img.shields.io/docker/pulls/pymor/constraints_py3.8.svg)](https://hub.docker.com/repository/docker/pymor/constraints_py3.8 "constraints mixin") [![](https://img.shields.io/docker/image-size/pymor/constraints_py3.8/latest](https://hub.docker.com/repository/docker/pymor/constraints_py3.8 "constraints mixin")|
+| constraints_py3.9 | [![](https://img.shields.io/docker/pulls/pymor/constraints_py3.9.svg)](https://hub.docker.com/repository/docker/pymor/constraints_py3.9 "constraints mixin") [![](https://img.shields.io/docker/image-size/pymor/constraints_py3.9/latest](https://hub.docker.com/repository/docker/pymor/constraints_py3.9 "constraints mixin")|
