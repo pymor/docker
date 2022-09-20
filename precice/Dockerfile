@@ -46,7 +46,7 @@ RUN MOUNT_CACHE \
   && cmake . \
   && make \
   && ldconfig \
-  && ${PIP_INSTALL} cython \
+  && ${PIP_INSTALL} pkgconfig cython \
   && ${PIP_INSTALL} --no-build-isolation pyprecice \
   && python -c "import precice" \
   && printenv >> /usr/local/share/precice.env
