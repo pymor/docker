@@ -6,7 +6,7 @@ COPY --from=REGISTRY/pymor/ci_wheels_pyPYVER:VERTAG /wheelhouse/mpi4py*.whl /tmp
 
 ENV PRECICE_BUILD_TYPE=Release \
     PRECICE_PREFIX=/usr/local \
-    PRECICE_VERSION=v2.3.0 \
+    PRECICE_VERSION=v2.5.0 \
     PETSC_DIR=/usr/local/petsc-32 \
     LD_LIBRARY_PATH=/usr/local/petsc-32/lib/
 
@@ -16,8 +16,9 @@ WORKDIR /tmp
 RUN MOUNT_CACHE \
   PIP_SELF_UPDATE \
   && ${PIP_INSTALL} /tmp/mpi4py*whl \
-  && git clone --branch=disable-data-count-decrease https://github.com/uekerman/precice /tmp/precice \
+  && git clone https://github.com/precice/precice /tmp/precice \
                   && cd /tmp/precice \
+                  && git checkout ${PRECICE_VERSION} \
                   && mkdir /tmp/precice/build \
   && apt update \
   && ${APTINSTALL} build-essential ca-certificates cmake ninja-build \
