@@ -25,7 +25,7 @@ RUN MOUNT_CACHE \
     ${PIP_INSTALL} six && \
     ${PIP_INSTALL} pybind11==${PYBIND11_VERSION} && \
     ${PIP_INSTALL} sympy==1.5.1 && \
-    ${PIP_INSTALL} matplotlib && \
+    ${PIP_INSTALL} "matplotlib<3.6.0" && \
     ${PIP_INSTALL} /tmp/mpi4py*.whl && \
     ${PIP_INSTALL} /tmp/*.whl && \
     apt update \
