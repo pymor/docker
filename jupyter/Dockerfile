@@ -11,10 +11,15 @@ RUN MOUNT_CACHE \
     PIP_CHECK && \
     ${PIP_INSTALL} jupyterlab && \
     ${PIP_INSTALL} pythreejs && \
+    ${PIP_INSTALL} jupytext && \
     ${PIP_INSTALL} nbresuse jupyter_contrib_nbextensions && \
     find /usr -name .cache | xargs rm -rf"
-COPY dev-entrypoint.bash /usr/local/bin/
+COPY start_jupyter.bash dev-entrypoint.bash /usr/local/bin/
 COPY ipython_kernel_config.py /etc/ipython/
-
-RUN chmod +rx /usr/local/bin/*
+COPY start.md /notebooks/
+RUN chmod +rx /usr/local/bin/* && \
+  cd /notebooks && \
+  jupytext start.md --to ipynb
 ENTRYPOINT ["/usr/local/bin/dev-entrypoint.bash"]
+EXPOSE 8888
+CMD ["/usr/local/bin/start_jupyter.bash"]
