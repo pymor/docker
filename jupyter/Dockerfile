@@ -17,7 +17,9 @@ RUN MOUNT_CACHE \
 COPY start_jupyter.bash dev-entrypoint.bash /usr/local/bin/
 COPY ipython_kernel_config.py /etc/ipython/
 COPY start.md /notebooks/
-RUN chmod +rx /usr/local/bin/*
+RUN chmod +rx /usr/local/bin/* && \
+  cd /notebooks && \
+  jupytext start.md --to ipynb
 ENTRYPOINT ["/usr/local/bin/dev-entrypoint.bash"]
 EXPOSE 8888
 CMD ["/usr/local/bin/start_jupyter.bash"]
