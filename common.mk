@@ -49,7 +49,10 @@ MAIN_CNTR_REGISTRY?=zivgitlab.wwu.io/pymor/docker
 ALT_CNTR_REGISTRY?=docker.io
 CNTR_CMD?=docker
 ifeq ($(CI),1)
-	PROGRESS="--progress=plain"
+	PROGRESS=--progress=plain
+	INBAND_PUSH=--push
+else
+	INBAND_PUSH=
 endif
 # this makes produced images usable by '--cache-from'
 CNTR_BUILD=$(CNTR_CMD) buildx build --build-arg BUILDKIT_INLINE_CACHE=1 $(PROGRESS)
@@ -74,6 +77,7 @@ COMMON_BUILD=\
 	$(CNTR_BUILD) -t $(call FULL_IMAGE_NAME,$1,$(VER)) -t $(call FULL_IMAGE_NAME,$1,latest) \
 		-t $(call ALT_IMAGE_NAME,$1,$(VER)) -t $(call ALT_IMAGE_NAME,$1,latest) \
 		-f $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile__$1 $(CACHE_FROM) \
+		$(INBAND_PUSH) \
 		$(call $(IMAGE_NAME)_DIR,$1)
 COMMON_TAG=$(CNTR_TAG) $(call FULL_IMAGE_NAME,$1,$(VER)) $(call FULL_IMAGE_NAME,$1,latest)
 DIVE_LOG=$(subst /,__,dive_$(call $(IMAGE_NAME),$1,$2).log)
