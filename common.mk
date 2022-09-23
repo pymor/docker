@@ -60,10 +60,10 @@ CNTR_RUN=$(CNTR_CMD) run
 CNTR_RMI=$(CNTR_CMD) rmi -f
 CNTR_INSPECT=$(CNTR_CMD) inspect
 FULL_IMAGE_NAME = $(MAIN_CNTR_REGISTRY)/$(call $(IMAGE_NAME),$1,$2)
+FULL_IMAGE_NAME_NO_TAG = $(subst :replaceme,,$(MAIN_CNTR_REGISTRY)/$(call $(IMAGE_NAME),$1,replaceme))
 ALT_IMAGE_NAME = $(ALT_CNTR_REGISTRY)/$(call $(IMAGE_NAME),$1,$2)
 COMMON_INSPECT=$(CNTR_INSPECT) $(call FULL_IMAGE_NAME,$1,$(VER)) >/dev/null 2>&1
-CACHE_FROM=$$( ($(CNTR_INSPECT) $(call FULL_IMAGE_NAME,$1,latest) >/dev/null 2>&1 \
-	&& echo "--cache-from=$(call FULL_IMAGE_NAME,$1,latest)" ) || true )
+CACHE_FROM=--cache-from=$(call FULL_IMAGE_NAME_NO_TAG,$1)
 COPY_DOCKERFILE_IF_CHANGED=sed -f macros.sed $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile \
 	> $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile_TMP__$1 && \
 	sed -i -e "s;VERTAG;$(VER);g" -e "s;PYVER;$1;g" -e "s;REGISTRY;$(MAIN_CNTR_REGISTRY);g" $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile_TMP__$1 && \
