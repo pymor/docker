@@ -49,7 +49,10 @@ MAIN_CNTR_REGISTRY?=zivgitlab.wwu.io/pymor/docker
 ALT_CNTR_REGISTRY?=docker.io
 CNTR_CMD?=docker
 ifeq ($(CI),1)
-	PROGRESS="--progress=plain"
+	PROGRESS=--progress=plain
+	INBAND_PUSH=--push
+else
+	INBAND_PUSH=
 endif
 # this makes produced images usable by '--cache-from'
 CNTR_BUILD=$(CNTR_CMD) buildx build --build-arg BUILDKIT_INLINE_CACHE=1 $(PROGRESS)
@@ -60,10 +63,10 @@ CNTR_RUN=$(CNTR_CMD) run
 CNTR_RMI=$(CNTR_CMD) rmi -f
 CNTR_INSPECT=$(CNTR_CMD) inspect
 FULL_IMAGE_NAME = $(MAIN_CNTR_REGISTRY)/$(call $(IMAGE_NAME),$1,$2)
+FULL_IMAGE_NAME_NO_TAG = $(subst :replaceme,,$(MAIN_CNTR_REGISTRY)/$(call $(IMAGE_NAME),$1,replaceme))
 ALT_IMAGE_NAME = $(ALT_CNTR_REGISTRY)/$(call $(IMAGE_NAME),$1,$2)
 COMMON_INSPECT=$(CNTR_INSPECT) $(call FULL_IMAGE_NAME,$1,$(VER)) >/dev/null 2>&1
-CACHE_FROM=$$( ($(CNTR_INSPECT) $(call FULL_IMAGE_NAME,$1,latest) >/dev/null 2>&1 \
-	&& echo "--cache-from=$(call FULL_IMAGE_NAME,$1,latest)" ) || true )
+CACHE_FROM=--cache-from=$(call FULL_IMAGE_NAME_NO_TAG,$1)
 COPY_DOCKERFILE_IF_CHANGED=sed -f macros.sed $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile \
 	> $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile_TMP__$1 && \
 	sed -i -e "s;VERTAG;$(VER);g" -e "s;PYVER;$1;g" -e "s;REGISTRY;$(MAIN_CNTR_REGISTRY);g" $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile_TMP__$1 && \
@@ -71,26 +74,20 @@ COPY_DOCKERFILE_IF_CHANGED=sed -f macros.sed $(call $(IMAGE_NAME)_DIR,$1)/Docker
 COMMON_BUILD=\
 	$(COPY_DOCKERFILE_IF_CHANGED) \
 	&& \
-	$(CNTR_BUILD) -t $(call FULL_IMAGE_NAME,$1,$(VER)) -t $(call FULL_IMAGE_NAME,$1,latest) \
-		-t $(call ALT_IMAGE_NAME,$1,$(VER)) -t $(call ALT_IMAGE_NAME,$1,latest) \
+	$(CNTR_BUILD) --tag $(call FULL_IMAGE_NAME,$1,$(VER)) --tag $(call FULL_IMAGE_NAME,$1,latest) \
+		--tag $(call ALT_IMAGE_NAME,$1,$(VER)) --tag $(call ALT_IMAGE_NAME,$1,latest) \
 		-f $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile__$1 $(CACHE_FROM) \
+		$(INBAND_PUSH) \
 		$(call $(IMAGE_NAME)_DIR,$1)
 COMMON_TAG=$(CNTR_TAG) $(call FULL_IMAGE_NAME,$1,$(VER)) $(call FULL_IMAGE_NAME,$1,latest)
 DIVE_LOG=$(subst /,__,dive_$(call $(IMAGE_NAME),$1,$2).log)
 CHECK_IMG=([ "$(DIVE_CHECK)" = "1" ] && which dive 2>&1 && CI=true dive $(call FULL_IMAGE_NAME,$*,$(VER)) \
 	  > $(call DIVE_LOG,$*,$(VER)) 2>&1) || true
 DO_IT_ARG= \
-(\
 	( echo "Building $(call FULL_IMAGE_NAME,$1,$(VER))" ; \
-		($(call COMMON_INSPECT,$1) \
-			|| ($(call COMMON_PULL,$1)) \
-			&& ($(call COMMON_TAG,$1)) \
-		) \
-		|| \
-		($(call COMMON_PULL_LATEST,$1) ; $(call COMMON_BUILD,$1) && $(call COMMON_TAG,$1)) \
+		($(call COMMON_BUILD,$1) && $(call COMMON_TAG,$1)) \
 	) \
-	&& $(CHECK_IMG) \
-) ; echo "Done $(call FULL_IMAGE_NAME,$1,$(VER))"
+	&& $(CHECK_IMG)
 DO_IT=$(call DO_IT_ARG,$*)
 DO_IT_NOARG=$(call DO_IT_ARG,NONE)
 COMMON_PULL=$(CNTR_PULL) $(call FULL_IMAGE_NAME,$1,$(VER))

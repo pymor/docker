@@ -142,7 +142,7 @@ ensure_testing_%:
 
 $(addsuffix _python_builder_%,$(IMAGE_TARGETS)): IMAGE_NAME=PYTHON_BUILDER_IMAGE
 real_python_builder_%: FORCE
-	$(DO_IT)
+	@$(DO_IT)
 
 $(addsuffix _python_%,$(IMAGE_TARGETS)): IMAGE_NAME=PYTHON_IMAGE
 real_python_%: FORCE python_builder_%
