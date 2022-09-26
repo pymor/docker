@@ -52,7 +52,7 @@ ifeq ($(CI),1)
 	PROGRESS=--progress=plain
 	INBAND_PUSH=--push
 else
-	INBAND_PUSH=
+	INBAND_PUSH=--load
 endif
 # this makes produced images usable by '--cache-from'
 CNTR_BUILD=$(CNTR_CMD) buildx build --build-arg BUILDKIT_INLINE_CACHE=1 $(PROGRESS)
@@ -77,16 +77,17 @@ COMMON_BUILD=\
 	$(CNTR_BUILD) --tag $(call FULL_IMAGE_NAME,$1,$(VER)) --tag $(call FULL_IMAGE_NAME,$1,latest) \
 		--tag $(call ALT_IMAGE_NAME,$1,$(VER)) --tag $(call ALT_IMAGE_NAME,$1,latest) \
 		-f $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile__$1 $(CACHE_FROM) \
-		$(INBAND_PUSH) \
+		$(INBAND_PUSH) ${DIVE_LOAD} \
 		$(call $(IMAGE_NAME)_DIR,$1)
 COMMON_TAG=$(CNTR_TAG) $(call FULL_IMAGE_NAME,$1,$(VER)) $(call FULL_IMAGE_NAME,$1,latest)
 DIVE_LOG=$(subst /,__,dive_$(call $(IMAGE_NAME),$1,$2).log)
-CHECK_IMG=([ "$(DIVE_CHECK)" = "1" ] && which dive 2>&1 && CI=true dive $(call FULL_IMAGE_NAME,$*,$(VER)) \
-	  > $(call DIVE_LOG,$*,$(VER)) 2>&1) || true
+CHECK_IMG=([ "$(DIVE_CHECK)" = "1" ] \
+	&& which dive 2>&1 \
+	&& export DIVE_LOAD=--load ; $(call COMMON_BUILD,$1) \
+	&& CI=true dive $(call FULL_IMAGE_NAME,$*,$(VER)) > $(call DIVE_LOG,$*,$(VER)) 2>&1) || true
 DO_IT_ARG= \
-	( echo "Building $(call FULL_IMAGE_NAME,$1,$(VER))" ; \
-		($(call COMMON_BUILD,$1) && $(call COMMON_TAG,$1)) \
-	) \
+	echo "Building $(call FULL_IMAGE_NAME,$1,$(VER))" ; \
+	$(call COMMON_BUILD,$1) \
 	&& $(CHECK_IMG)
 DO_IT=$(call DO_IT_ARG,$*)
 DO_IT_NOARG=$(call DO_IT_ARG,NONE)
