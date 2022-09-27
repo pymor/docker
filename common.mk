@@ -61,8 +61,7 @@ else
 	BUILDX_OUTPUT=--output type=image,push=false
 endif
 
-# this makes produced images usable by '--cache-from'
-CNTR_BUILD=$(CNTR_CMD) buildx build --build-arg BUILDKIT_INLINE_CACHE=1 $(PROGRESS)
+CNTR_BUILD=$(CNTR_CMD) buildx build $(PROGRESS)
 CNTR_TAG=$(CNTR_CMD) tag
 CNTR_PUSH=$(CNTR_CMD) push
 CNTR_PULL=$(CNTR_CMD) pull -q
@@ -73,7 +72,8 @@ FULL_IMAGE_NAME = $(MAIN_CNTR_REGISTRY)/$(call $(IMAGE_NAME),$1,$2)
 FULL_IMAGE_NAME_NO_TAG = $(subst :replaceme,,$(MAIN_CNTR_REGISTRY)/$(call $(IMAGE_NAME),$1,replaceme))
 ALT_IMAGE_NAME = $(ALT_CNTR_REGISTRY)/$(call $(IMAGE_NAME),$1,$2)
 COMMON_INSPECT=$(CNTR_INSPECT) $(call FULL_IMAGE_NAME,$1,$(VER)) >/dev/null 2>&1
-CACHE_FROM=--cache-from=$(call FULL_IMAGE_NAME_NO_TAG,$1)
+CACHE_FROM=--cache-from=type=registry,ref=$(call FULL_IMAGE_NAME_NO_TAG,$1)
+CACHE_TO=--cache-to=type=registry,mode=max,ref=$(call FULL_IMAGE_NAME_NO_TAG,$1)
 COPY_DOCKERFILE_IF_CHANGED=sed -f macros.sed $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile \
 	> $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile_TMP__$1 && \
 	sed -i -e "s;VERTAG;$(VER);g" -e "s;PYVER;$1;g" -e "s;REGISTRY;$(MAIN_CNTR_REGISTRY);g" $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile_TMP__$1 && \
@@ -83,7 +83,7 @@ COMMON_BUILD=\
 	&& \
 	$(CNTR_BUILD) --tag $(call FULL_IMAGE_NAME,$1,$(VER)) --tag $(call FULL_IMAGE_NAME,$1,latest) \
 		--tag $(call ALT_IMAGE_NAME,$1,$(VER)) --tag $(call ALT_IMAGE_NAME,$1,latest) \
-		-f $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile__$1 $(CACHE_FROM) \
+		-f $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile__$1 $(CACHE_FROM) $(CACHE_TO) \
 		$(BUILDX_OUTPUT) \
 		$(call $(IMAGE_NAME)_DIR,$1)
 COMMON_TAG=$(CNTR_TAG) $(call FULL_IMAGE_NAME,$1,$(VER)) $(call FULL_IMAGE_NAME,$1,latest)
