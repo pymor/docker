@@ -25,10 +25,12 @@ include:
       DOCKER_CLI_EXPERIMENTAL: enabled
       REGISTRY_PREFIX: $CI_REGISTRY/pymor/docker/pymor
       DIVE_VERSION: 0.10.0
+      BUILDX_NO_DEFAULT_LOAD: 0
 
 .docker_base:
     extends: .base
     before_script:
+      - docker buildx create --use --name build --node build --driver docker-container --driver-opt network=host
       - docker buildx ls
       - docker buildx inspect
       - apk add make sed rsync bash git wget python3
