@@ -30,7 +30,7 @@ RUN MOUNT_CACHE \
   && pypi-mirror create -d downloads -m simple \
   && rm -rf /tmp/*
 
-FROM alpine:3.12
+FROM ALPINE_VERSION
 
 ENV SERVER_ROOT=/pymor
 
