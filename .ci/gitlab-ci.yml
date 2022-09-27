@@ -29,7 +29,8 @@ include:
 .docker_base:
     extends: .base
     before_script:
-      - docker buildx --help
+      - docker buildx ls
+      - docker buildx inspect
       - apk add make sed rsync bash git wget python3
       - wget -q https://github.com/wagoodman/dive/releases/download/v${DIVE_VERSION}/dive_${DIVE_VERSION}_linux_amd64.tar.gz         -O - | tar -xz -C /usr/local/bin
       - chmod +x /usr/local/bin/dive
