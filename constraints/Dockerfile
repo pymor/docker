@@ -19,7 +19,7 @@ RUN MOUNT_CACHE \
   && constraints.bash ${PYTHON_PIP_VERSION}
 
 RUN echo "${PYTHON_PIP_VERSION}" > /requirements/pip_version
-FROM alpine:3.12
+FROM ALPINE_VERSION
 
 # for compat with general run_* makefile target
 RUN apk add bash py3-pip

@@ -25,11 +25,14 @@ include:
       DOCKER_CLI_EXPERIMENTAL: enabled
       REGISTRY_PREFIX: $CI_REGISTRY/pymor/docker/pymor
       DIVE_VERSION: 0.10.0
+      BUILDX_NO_DEFAULT_LOAD: 0
 
 .docker_base:
     extends: .base
     before_script:
-      - docker buildx --help
+      - docker buildx create --use --name build --node build --driver docker-container --driver-opt network=host
+      - docker buildx ls
+      - docker buildx inspect
       - apk add make sed rsync bash git wget python3
       - wget -q https://github.com/wagoodman/dive/releases/download/v${DIVE_VERSION}/dive_${DIVE_VERSION}_linux_amd64.tar.gz         -O - | tar -xz -C /usr/local/bin
       - chmod +x /usr/local/bin/dive
@@ -61,52 +64,36 @@ parameterized_targets 3 8:
         PYVER: "3.8"
     script: |
       make python_builder_3.8
-      make push_python_builder_3.8
 
       make python_3.8
-      make push_python_3.8
 
       make constraints_3.8
-      make push_constraints_3.8
 
       make dealii_3.8
-      make push_dealii_3.8
 
       make petsc_3.8
-      make push_petsc_3.8
 
       make dolfinx_3.8
-      make push_dolfinx_3.8
 
       make pypi-mirror_stable_3.8
-      make push_pypi-mirror_stable_3.8
 
       make pypi-mirror_oldest_3.8
-      make push_pypi-mirror_oldest_3.8
 
       make ngsolve_3.8
-      make push_ngsolve_3.8
 
       make fenics_3.8
-      make push_fenics_3.8
 
       make precice_3.8
-      make push_precice_3.8
 
       make cibase_3.8
-      make push_cibase_3.8
 
       make testing_3.8
-      make push_testing_3.8
 
       make jupyter_3.8
-      make push_jupyter_3.8
 
       make minimal_cibase_3.8
-      make push_minimal_cibase_3.8
 
       make minimal_testing_3.8
-      make push_minimal_testing_3.8
 
 
 parameterized_targets 3 9:
@@ -121,52 +108,36 @@ parameterized_targets 3 9:
         PYVER: "3.9"
     script: |
       make python_builder_3.9
-      make push_python_builder_3.9
 
       make python_3.9
-      make push_python_3.9
 
       make constraints_3.9
-      make push_constraints_3.9
 
       make dealii_3.9
-      make push_dealii_3.9
 
       make petsc_3.9
-      make push_petsc_3.9
 
       make dolfinx_3.9
-      make push_dolfinx_3.9
 
       make pypi-mirror_stable_3.9
-      make push_pypi-mirror_stable_3.9
 
       make pypi-mirror_oldest_3.9
-      make push_pypi-mirror_oldest_3.9
 
       make ngsolve_3.9
-      make push_ngsolve_3.9
 
       make fenics_3.9
-      make push_fenics_3.9
 
       make precice_3.9
-      make push_precice_3.9
 
       make cibase_3.9
-      make push_cibase_3.9
 
       make testing_3.9
-      make push_testing_3.9
 
       make jupyter_3.9
-      make push_jupyter_3.9
 
       make minimal_cibase_3.9
-      make push_minimal_cibase_3.9
 
       make minimal_testing_3.9
-      make push_minimal_testing_3.9
 
 
 parameterized_targets 3 8 (scheduled):
@@ -181,52 +152,36 @@ parameterized_targets 3 8 (scheduled):
         PYVER: "3.8"
     script: |
       make DIVE_CHECK=1 VER=weekly_cron python_builder_3.8
-      make VER=weekly_cron push_python_builder_3.8
 
       make DIVE_CHECK=1 VER=weekly_cron python_3.8
-      make VER=weekly_cron push_python_3.8
 
       make DIVE_CHECK=1 VER=weekly_cron constraints_3.8
-      make VER=weekly_cron push_constraints_3.8
 
       make DIVE_CHECK=1 VER=weekly_cron dealii_3.8
-      make VER=weekly_cron push_dealii_3.8
 
       make DIVE_CHECK=1 VER=weekly_cron petsc_3.8
-      make VER=weekly_cron push_petsc_3.8
 
       make DIVE_CHECK=1 VER=weekly_cron dolfinx_3.8
-      make VER=weekly_cron push_dolfinx_3.8
 
       make DIVE_CHECK=1 VER=weekly_cron pypi-mirror_stable_3.8
-      make VER=weekly_cron push_pypi-mirror_stable_3.8
 
       make DIVE_CHECK=1 VER=weekly_cron pypi-mirror_oldest_3.8
-      make VER=weekly_cron push_pypi-mirror_oldest_3.8
 
       make DIVE_CHECK=1 VER=weekly_cron ngsolve_3.8
-      make VER=weekly_cron push_ngsolve_3.8
 
       make DIVE_CHECK=1 VER=weekly_cron fenics_3.8
-      make VER=weekly_cron push_fenics_3.8
 
       make DIVE_CHECK=1 VER=weekly_cron precice_3.8
-      make VER=weekly_cron push_precice_3.8
 
       make DIVE_CHECK=1 VER=weekly_cron cibase_3.8
-      make VER=weekly_cron push_cibase_3.8
 
       make DIVE_CHECK=1 VER=weekly_cron testing_3.8
-      make VER=weekly_cron push_testing_3.8
 
       make DIVE_CHECK=1 VER=weekly_cron jupyter_3.8
-      make VER=weekly_cron push_jupyter_3.8
 
       make DIVE_CHECK=1 VER=weekly_cron minimal_cibase_3.8
-      make VER=weekly_cron push_minimal_cibase_3.8
 
       make DIVE_CHECK=1 VER=weekly_cron minimal_testing_3.8
-      make VER=weekly_cron push_minimal_testing_3.8
 
 
 parameterized_targets 3 9 (scheduled):
@@ -241,52 +196,36 @@ parameterized_targets 3 9 (scheduled):
         PYVER: "3.9"
     script: |
       make DIVE_CHECK=1 VER=weekly_cron python_builder_3.9
-      make VER=weekly_cron push_python_builder_3.9
 
       make DIVE_CHECK=1 VER=weekly_cron python_3.9
-      make VER=weekly_cron push_python_3.9
 
       make DIVE_CHECK=1 VER=weekly_cron constraints_3.9
-      make VER=weekly_cron push_constraints_3.9
 
       make DIVE_CHECK=1 VER=weekly_cron dealii_3.9
-      make VER=weekly_cron push_dealii_3.9
 
       make DIVE_CHECK=1 VER=weekly_cron petsc_3.9
-      make VER=weekly_cron push_petsc_3.9
 
       make DIVE_CHECK=1 VER=weekly_cron dolfinx_3.9
-      make VER=weekly_cron push_dolfinx_3.9
 
       make DIVE_CHECK=1 VER=weekly_cron pypi-mirror_stable_3.9
-      make VER=weekly_cron push_pypi-mirror_stable_3.9
 
       make DIVE_CHECK=1 VER=weekly_cron pypi-mirror_oldest_3.9
-      make VER=weekly_cron push_pypi-mirror_oldest_3.9
 
       make DIVE_CHECK=1 VER=weekly_cron ngsolve_3.9
-      make VER=weekly_cron push_ngsolve_3.9
 
       make DIVE_CHECK=1 VER=weekly_cron fenics_3.9
-      make VER=weekly_cron push_fenics_3.9
 
       make DIVE_CHECK=1 VER=weekly_cron precice_3.9
-      make VER=weekly_cron push_precice_3.9
 
       make DIVE_CHECK=1 VER=weekly_cron cibase_3.9
-      make VER=weekly_cron push_cibase_3.9
 
       make DIVE_CHECK=1 VER=weekly_cron testing_3.9
-      make VER=weekly_cron push_testing_3.9
 
       make DIVE_CHECK=1 VER=weekly_cron jupyter_3.9
-      make VER=weekly_cron push_jupyter_3.9
 
       make DIVE_CHECK=1 VER=weekly_cron minimal_cibase_3.9
-      make VER=weekly_cron push_minimal_cibase_3.9
 
       make DIVE_CHECK=1 VER=weekly_cron minimal_testing_3.9
-      make VER=weekly_cron push_minimal_testing_3.9
 
 static_targets:
     extends: .docker_base
@@ -300,19 +239,14 @@ static_targets:
         PYVER: ""
     script: |
       make docker-in-docker
-      make push_docker-in-docker
 
       make demo_main
-      make push_demo_main
 
       make deploy_checks
-      make push_deploy_checks
 
       make ci_sanity
-      make push_ci_sanity
 
       make devpi
-      make push_devpi
 
 
 static_targets (scheduled):
@@ -327,19 +261,14 @@ static_targets (scheduled):
         PYVER: ""
     script: |
       make DIVE_CHECK=1 VER=weekly_cron docker-in-docker
-      make VER=weekly_cron push_docker-in-docker
 
       make DIVE_CHECK=1 VER=weekly_cron demo_main
-      make VER=weekly_cron push_demo_main
 
       make DIVE_CHECK=1 VER=weekly_cron deploy_checks
-      make VER=weekly_cron push_deploy_checks
 
       make DIVE_CHECK=1 VER=weekly_cron ci_sanity
-      make VER=weekly_cron push_ci_sanity
 
       make DIVE_CHECK=1 VER=weekly_cron devpi
-      make VER=weekly_cron push_devpi
 
 test oldest 3 8:
     stage: test
@@ -469,23 +398,17 @@ main rebuild 3 8 (scheduled):
       git checkout ${CI_IMAGE_TAG}
 
       make VER=${CI_IMAGE_TAG} docker-in-docker
-      make VER=${CI_IMAGE_TAG} push_docker-in-docker
 
       make VER=${CI_IMAGE_TAG} demo_main
-      make VER=${CI_IMAGE_TAG} push_demo_main
 
       make VER=${CI_IMAGE_TAG} deploy_checks
-      make VER=${CI_IMAGE_TAG} push_deploy_checks
 
       make VER=${CI_IMAGE_TAG} ci_sanity
-      make VER=${CI_IMAGE_TAG} push_ci_sanity
 
       make VER=${CI_IMAGE_TAG} devpi
-      make VER=${CI_IMAGE_TAG} push_devpi
 
 
       make VER=${CI_IMAGE_TAG} 3.8
-      make VER=${CI_IMAGE_TAG} push_3.8
 
 main rebuild 3 9 (scheduled):
     extends: .docker_base
@@ -505,6 +428,5 @@ main rebuild 3 9 (scheduled):
       git checkout ${CI_IMAGE_TAG}
 
       make VER=${CI_IMAGE_TAG} 3.9
-      make VER=${CI_IMAGE_TAG} push_3.9
 # THIS FILE IS AUTOGENERATED -- DO NOT EDIT #
 #   Edit and Re-run template.ci.py instead       #

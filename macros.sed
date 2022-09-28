@@ -3,3 +3,4 @@ s;EXPERIMENTAL_SYNTAX;syntax = docker/dockerfile:experimental;g
 s;MAKE_ARGS;-j $(nproc --ignore=1) -l $(nproc --ignore=2);g
 s;PIP_CHECK;test "\$\{PYTHON_PIP_VERSION\}" = "\$\(python3 -c 'import pip\;print(pip.__version__)'\)";g
 s;PIP_SELF_UPDATE;python3 -m pip install pip==${PYTHON_PIP_VERSION};g
+s;ALPINE_VERSION;alpine:3.15;g

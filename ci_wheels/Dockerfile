@@ -24,7 +24,7 @@ RUN MOUNT_CACHE \
   WHEELHOUSE=/wheelhouse /builder/build_wheels.sh && \
   echo "${WHEEL_PKGS}" > /wheelhouse/ci_wheels.list
 
-FROM alpine:3.12
+FROM ALPINE_VERSION
 
 # for compat with general run_* makefile target
 RUN apk add bash

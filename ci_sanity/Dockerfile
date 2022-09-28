@@ -1,4 +1,4 @@
-FROM alpine:3.13
+FROM ALPINE_VERSION
 
 RUN apk add --no-cache bash git curl make grep sed \
       python3 py3-pip py3-cffi py3-cryptography \
