@@ -19,5 +19,5 @@ for pkg in ${WHEEL_PKGS} ; do
   rm -rf ${WHEELHOUSE}/tmp
 done
 
-pip download --no-deps torch==1.8.1+cpu torchvision==0.9.1+cpu torchaudio==0.8.1 \
+pip download --no-deps torch==1.11.0+cpu torchvision==0.12.0+cpu torchaudio==0.11.0 \
   -f https://download.pytorch.org/whl/torch_stable.html -d ${WHEELHOUSE}/
