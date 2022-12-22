@@ -179,6 +179,30 @@ test compose {{mirror}} {{PY[0]}} {{PY[2]}}:
     script:
         - echo DISABLED make pypi-mirror_test_{{PY}}
 
+test {{mirror}} {{PY[0]}} {{PY[2]}} (tagged):
+    stage: test
+    extends: .base
+    {{ only_on_tags() }}
+    services:
+    {%- if mirror == "oldest" %}
+        - name: $REGISTRY_PREFIX/pypi-mirror_oldest_py{{PY}}:$CI_COMMIT_TAG
+    {%- else %}
+        - name: $REGISTRY_PREFIX/pypi-mirror_stable_py{{PY}}:$CI_COMMIT_TAG
+    {%- endif %}
+          alias: pypi_mirror
+    image: $REGISTRY_PREFIX/testing_py{{PY}}:$CI_COMMIT_TAG
+    script:
+        - ./.ci/test.bash
+
+test compose {{mirror}} {{PY[0]}} {{PY[2]}} (tagged):
+    stage: test
+    extends: .base
+    {{ only_on_tags() }}
+    resource_group: compose
+    needs: ["parameterized_targets {{PY[0]}} {{PY[2]}} (tagged)"]
+    script:
+        - echo DISABLED make VER=$CI_COMMIT_TAG pypi-mirror_test_{{PY}}
+
 {% endfor %}
 {% endfor %}
 

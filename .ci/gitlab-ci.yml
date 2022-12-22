@@ -418,6 +418,32 @@ test compose oldest 3 8:
     script:
         - echo DISABLED make pypi-mirror_test_3.8
 
+test oldest 3 8 (tagged):
+    stage: test
+    extends: .base
+    rules:
+    - if: '$CI_COMMIT_TAG != null'
+      when: never
+    - when: on_success
+    services:
+        - name: $REGISTRY_PREFIX/pypi-mirror_oldest_py3.8:$CI_COMMIT_TAG
+          alias: pypi_mirror
+    image: $REGISTRY_PREFIX/testing_py3.8:$CI_COMMIT_TAG
+    script:
+        - ./.ci/test.bash
+
+test compose oldest 3 8 (tagged):
+    stage: test
+    extends: .base
+    rules:
+    - if: '$CI_COMMIT_TAG != null'
+      when: never
+    - when: on_success
+    resource_group: compose
+    needs: ["parameterized_targets 3 8 (tagged)"]
+    script:
+        - echo DISABLED make VER=$CI_COMMIT_TAG pypi-mirror_test_3.8
+
 
 test oldest 3 9:
     stage: test
@@ -448,6 +474,32 @@ test compose oldest 3 9:
     needs: ["parameterized_targets 3 9"]
     script:
         - echo DISABLED make pypi-mirror_test_3.9
+
+test oldest 3 9 (tagged):
+    stage: test
+    extends: .base
+    rules:
+    - if: '$CI_COMMIT_TAG != null'
+      when: never
+    - when: on_success
+    services:
+        - name: $REGISTRY_PREFIX/pypi-mirror_oldest_py3.9:$CI_COMMIT_TAG
+          alias: pypi_mirror
+    image: $REGISTRY_PREFIX/testing_py3.9:$CI_COMMIT_TAG
+    script:
+        - ./.ci/test.bash
+
+test compose oldest 3 9 (tagged):
+    stage: test
+    extends: .base
+    rules:
+    - if: '$CI_COMMIT_TAG != null'
+      when: never
+    - when: on_success
+    resource_group: compose
+    needs: ["parameterized_targets 3 9 (tagged)"]
+    script:
+        - echo DISABLED make VER=$CI_COMMIT_TAG pypi-mirror_test_3.9
 
 
 
@@ -481,6 +533,32 @@ test compose stable 3 8:
     script:
         - echo DISABLED make pypi-mirror_test_3.8
 
+test stable 3 8 (tagged):
+    stage: test
+    extends: .base
+    rules:
+    - if: '$CI_COMMIT_TAG != null'
+      when: never
+    - when: on_success
+    services:
+        - name: $REGISTRY_PREFIX/pypi-mirror_stable_py3.8:$CI_COMMIT_TAG
+          alias: pypi_mirror
+    image: $REGISTRY_PREFIX/testing_py3.8:$CI_COMMIT_TAG
+    script:
+        - ./.ci/test.bash
+
+test compose stable 3 8 (tagged):
+    stage: test
+    extends: .base
+    rules:
+    - if: '$CI_COMMIT_TAG != null'
+      when: never
+    - when: on_success
+    resource_group: compose
+    needs: ["parameterized_targets 3 8 (tagged)"]
+    script:
+        - echo DISABLED make VER=$CI_COMMIT_TAG pypi-mirror_test_3.8
+
 
 test stable 3 9:
     stage: test
@@ -511,6 +589,32 @@ test compose stable 3 9:
     needs: ["parameterized_targets 3 9"]
     script:
         - echo DISABLED make pypi-mirror_test_3.9
+
+test stable 3 9 (tagged):
+    stage: test
+    extends: .base
+    rules:
+    - if: '$CI_COMMIT_TAG != null'
+      when: never
+    - when: on_success
+    services:
+        - name: $REGISTRY_PREFIX/pypi-mirror_stable_py3.9:$CI_COMMIT_TAG
+          alias: pypi_mirror
+    image: $REGISTRY_PREFIX/testing_py3.9:$CI_COMMIT_TAG
+    script:
+        - ./.ci/test.bash
+
+test compose stable 3 9 (tagged):
+    stage: test
+    extends: .base
+    rules:
+    - if: '$CI_COMMIT_TAG != null'
+      when: never
+    - when: on_success
+    resource_group: compose
+    needs: ["parameterized_targets 3 9 (tagged)"]
+    script:
+        - echo DISABLED make VER=$CI_COMMIT_TAG pypi-mirror_test_3.9
 
 
 
