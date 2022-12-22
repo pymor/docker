@@ -8,7 +8,7 @@ ENV MIRROR_VERSION=4.0.5 \
 
 RUN MOUNT_CACHE \
   ${PIP_INSTALL} install "python-pypi-mirror==${MIRROR_VERSION}" \
-    pypi-oldest-requirements>=2020.4.1 requests-toolbelt
+    pypi-oldest-requirements>=2022.1.0 requests-toolbelt
 
 COPY --from=zivgitlab.wwu.io/pymor/docker/pymor/constraints_pyPYVER:VERTAG /requirements/*.txt ${SERVER_ROOT}/requirements/
 # non-installable package cannot be downloaded and would error out the whole process

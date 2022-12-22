@@ -5,7 +5,7 @@ FROM REGISTRY/pymor/python_PYVER:VERTAG as builder_PYVER_VERTAG
 RUN MOUNT_CACHE \
   PIP_SELF_UPDATE \
   && PIP_CHECK \
-  && ${PIP_INSTALL} pypi-oldest-requirements>=2020.4.2 cython
+  && ${PIP_INSTALL} pypi-oldest-requirements>=2022.1.0 cython
 
 # cache busting opportunity
 COPY bumpfile /tmp
