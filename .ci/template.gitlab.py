@@ -126,7 +126,7 @@ static_targets:
         PYVER: "{{PY}}"
     script: |
 {%- for target in static_targets %}
-      make VER=$CI_COMMIT_TAG {{target}}
+      make {{target}}
 {% endfor %}
 
 static_targets (scheduled):

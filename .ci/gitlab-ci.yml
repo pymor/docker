@@ -334,15 +334,15 @@ static_targets:
     variables:
         PYVER: ""
     script: |
-      make VER=$CI_COMMIT_TAG docker-in-docker
+      make docker-in-docker
 
-      make VER=$CI_COMMIT_TAG demo_main
+      make demo_main
 
-      make VER=$CI_COMMIT_TAG deploy_checks
+      make deploy_checks
 
-      make VER=$CI_COMMIT_TAG ci_sanity
+      make ci_sanity
 
-      make VER=$CI_COMMIT_TAG devpi
+      make devpi
 
 
 static_targets (scheduled):
