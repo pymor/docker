@@ -94,7 +94,7 @@ CHECK_IMG=([ "$(DIVE_CHECK)" = "1" ] \
 DO_IT_ARG= \
 	echo "Building $(call FULL_IMAGE_NAME,$1,$(VER))" ; \
 	$(call COMMON_BUILD,$1) \
-	&& $(CHECK_IMG)
+	&& ($(CHECK_IMG))
 DO_IT=$(call DO_IT_ARG,$*)
 DO_IT_NOARG=$(call DO_IT_ARG,NONE)
 COMMON_PULL=$(CNTR_PULL) $(call FULL_IMAGE_NAME,$1,$(VER))
