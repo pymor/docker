@@ -12,7 +12,7 @@ stages:
 rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
-    - if: '$CI_COMMIT_TAG == null'
+    - if: '$CI_COMMIT_TAG != null'
       when: never
     - when: on_success
 {%- endmacro -%}
@@ -24,7 +24,7 @@ rules:
 {%- endmacro -%}
 {% macro only_on_tags() -%}
 rules:
-    - if: '$CI_COMMIT_TAG != null'
+    - if: '$CI_COMMIT_TAG == null'
       when: never
     - when: on_success
 {%- endmacro -%}
