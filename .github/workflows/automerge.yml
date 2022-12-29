@@ -1,5 +1,9 @@
 name: Automerge
 
+permissions:
+  pull-requests: write
+  contents: write
+
 on:
   # Try enabling auto-merge for all open pull requests.
   schedule:
