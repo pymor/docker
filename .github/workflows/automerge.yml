@@ -35,7 +35,6 @@ jobs:
     steps:
       - uses: reitermarkus/automerge@v2
         with:
-          token: ${{ secrets.AUTOMERGE_TOKEN }}
           merge-method: merge
           required-labels: automerge
           pull-request: ${{ github.event.inputs.pull-request }}
