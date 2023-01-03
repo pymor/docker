@@ -57,8 +57,12 @@ endif
 # Otherwise we'd want to set `push=$(CI)==1`
 ifeq ($(shell docker buildx inspect | grep Driver | cut -f 2 -d ' '),docker-container)
 	BUILDX_OUTPUT=--output type=image,push=true
+	CACHE_FROM=--cache-from=type=registry,ref=$(call FULL_IMAGE_NAME_NO_TAG,$1)
+	CACHE_TO=--cache-to=type=registry,mode=max,ref=$(call FULL_IMAGE_NAME_NO_TAG,$1)
 else
-	BUILDX_OUTPUT=--output type=image,push=false
+	BUILDX_OUTPUT=--output type=image
+	CACHE_FROM=
+	CACHE_TO=
 endif
 
 CNTR_BUILD=$(CNTR_CMD) buildx build $(PROGRESS)
@@ -72,8 +76,7 @@ FULL_IMAGE_NAME = $(MAIN_CNTR_REGISTRY)/$(call $(IMAGE_NAME),$1,$2)
 FULL_IMAGE_NAME_NO_TAG = $(subst :replaceme,,$(MAIN_CNTR_REGISTRY)/$(call $(IMAGE_NAME),$1,replaceme))
 ALT_IMAGE_NAME = $(ALT_CNTR_REGISTRY)/$(call $(IMAGE_NAME),$1,$2)
 COMMON_INSPECT=$(CNTR_INSPECT) $(call FULL_IMAGE_NAME,$1,$(VER)) >/dev/null 2>&1
-CACHE_FROM=--cache-from=type=registry,ref=$(call FULL_IMAGE_NAME_NO_TAG,$1)
-CACHE_TO=--cache-to=type=registry,mode=max,ref=$(call FULL_IMAGE_NAME_NO_TAG,$1)
+
 COPY_DOCKERFILE_IF_CHANGED=sed -f macros.sed $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile \
 	> $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile_TMP__$1 && \
 	sed -i -e "s;VERTAG;$(VER);g" -e "s;PYVER;$1;g" -e "s;REGISTRY;$(MAIN_CNTR_REGISTRY);g" $(call $(IMAGE_NAME)_DIR,$1)/Dockerfile_TMP__$1 && \
