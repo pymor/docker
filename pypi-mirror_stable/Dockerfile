@@ -1,7 +1,7 @@
 # EXPERIMENTAL_SYNTAX
 FROM REGISTRY/pymor/python_PYVER:VERTAG as builder_PYVER_VERTAG
 
-ENV MIRROR_VERSION=4.0.5 \
+ENV MIRROR_VERSION=5.0.1 \
   SERVER_ROOT=/pymor \
   XDG_CACHE_HOME=/cache \
   DOWNLOAD="pip download --no-deps -d /pymor/downloads"
