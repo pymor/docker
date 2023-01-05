@@ -78,7 +78,7 @@ sanity:
         - make IS_DIRTY
 
 {%- for PY in pythons %}
-parameterized_targets {{PY[0]}} {{PY[2]}}:
+parameterized_targets {{PY[0]}} {{PY[2:]}}:
     extends: .docker_base
     {{ only_on_simple_push() }}
     resource_group: cache_{{PY}}
@@ -90,7 +90,7 @@ parameterized_targets {{PY[0]}} {{PY[2]}}:
       make {{target}}_{{PY}}
 {% endfor %}
 
-parameterized_targets {{PY[0]}} {{PY[2]}} (scheduled):
+parameterized_targets {{PY[0]}} {{PY[2:]}} (scheduled):
     extends: .docker_base
     {{ only_on_schedule_rule() }}
     resource_group: cache_{{PY}}
@@ -102,7 +102,7 @@ parameterized_targets {{PY[0]}} {{PY[2]}} (scheduled):
       make DIVE_CHECK=1 VER=weekly_cron {{target}}_{{PY}}
 {% endfor %}
 
-parameterized_targets {{PY[0]}} {{PY[2]}} (tagged):
+parameterized_targets {{PY[0]}} {{PY[2:]}} (tagged):
     extends: .docker_base
     {{ only_on_tags() }}
     resource_group: cache_{{PY}}
@@ -155,7 +155,7 @@ static_targets (tagged):
 
 {%- for mirror in mirror_types %}
 {%- for PY in pythons %}
-test {{mirror}} {{PY[0]}} {{PY[2]}}:
+test {{mirror}} {{PY[0]}} {{PY[2:]}}:
     stage: test
     extends: .base
     {{ only_on_simple_push() }}
@@ -170,16 +170,16 @@ test {{mirror}} {{PY[0]}} {{PY[2]}}:
     script:
         - ./.ci/test.bash
 
-test compose {{mirror}} {{PY[0]}} {{PY[2]}}:
+test compose {{mirror}} {{PY[0]}} {{PY[2:]}}:
     stage: test
     extends: .base
     {{ only_on_simple_push() }}
     resource_group: compose
-    needs: ["parameterized_targets {{PY[0]}} {{PY[2]}}"]
+    needs: ["parameterized_targets {{PY[0]}} {{PY[2:]}}"]
     script:
         - echo DISABLED make pypi-mirror_test_{{PY}}
 
-test {{mirror}} {{PY[0]}} {{PY[2]}} (tagged):
+test {{mirror}} {{PY[0]}} {{PY[2:]}} (tagged):
     stage: test
     extends: .base
     {{ only_on_tags() }}
@@ -194,12 +194,12 @@ test {{mirror}} {{PY[0]}} {{PY[2]}} (tagged):
     script:
         - ./.ci/test.bash
 
-test compose {{mirror}} {{PY[0]}} {{PY[2]}} (tagged):
+test compose {{mirror}} {{PY[0]}} {{PY[2:]}} (tagged):
     stage: test
     extends: .base
     {{ only_on_tags() }}
     resource_group: compose
-    needs: ["parameterized_targets {{PY[0]}} {{PY[2]}} (tagged)"]
+    needs: ["parameterized_targets {{PY[0]}} {{PY[2:]}} (tagged)"]
     script:
         - echo DISABLED make VER=$CI_COMMIT_TAG pypi-mirror_test_{{PY}}
 
@@ -207,7 +207,7 @@ test compose {{mirror}} {{PY[0]}} {{PY[2]}} (tagged):
 {% endfor %}
 
 {%- for PY in pythons %}
-main rebuild {{PY[0]}} {{PY[2]}} (scheduled):
+main rebuild {{PY[0]}} {{PY[2:]}} (scheduled):
     extends: .docker_base
     {{ only_on_schedule_rule() }}
     resource_group: cache_{{PY}}

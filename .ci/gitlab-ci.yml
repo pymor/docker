@@ -322,7 +322,7 @@ parameterized_targets 3 9 (tagged):
 
 
 
-parameterized_targets 3 1:
+parameterized_targets 3 10:
     extends: .docker_base
     rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
@@ -368,7 +368,7 @@ parameterized_targets 3 1:
       make minimal_testing_3.10
 
 
-parameterized_targets 3 1 (scheduled):
+parameterized_targets 3 10 (scheduled):
     extends: .docker_base
     rules:
     - if: $CI_PIPELINE_SOURCE != "schedule"
@@ -412,7 +412,7 @@ parameterized_targets 3 1 (scheduled):
       make DIVE_CHECK=1 VER=weekly_cron minimal_testing_3.10
 
 
-parameterized_targets 3 1 (tagged):
+parameterized_targets 3 10 (tagged):
     extends: .docker_base
     rules:
     - if: '$CI_COMMIT_TAG == null'
@@ -637,7 +637,7 @@ test compose oldest 3 9 (tagged):
         - echo DISABLED make VER=$CI_COMMIT_TAG pypi-mirror_test_3.9
 
 
-test oldest 3 1:
+test oldest 3 10:
     stage: test
     extends: .base
     rules:
@@ -653,7 +653,7 @@ test oldest 3 1:
     script:
         - ./.ci/test.bash
 
-test compose oldest 3 1:
+test compose oldest 3 10:
     stage: test
     extends: .base
     rules:
@@ -663,11 +663,11 @@ test compose oldest 3 1:
       when: never
     - when: on_success
     resource_group: compose
-    needs: ["parameterized_targets 3 1"]
+    needs: ["parameterized_targets 3 10"]
     script:
         - echo DISABLED make pypi-mirror_test_3.10
 
-test oldest 3 1 (tagged):
+test oldest 3 10 (tagged):
     stage: test
     extends: .base
     rules:
@@ -681,7 +681,7 @@ test oldest 3 1 (tagged):
     script:
         - ./.ci/test.bash
 
-test compose oldest 3 1 (tagged):
+test compose oldest 3 10 (tagged):
     stage: test
     extends: .base
     rules:
@@ -689,7 +689,7 @@ test compose oldest 3 1 (tagged):
       when: never
     - when: on_success
     resource_group: compose
-    needs: ["parameterized_targets 3 1 (tagged)"]
+    needs: ["parameterized_targets 3 10 (tagged)"]
     script:
         - echo DISABLED make VER=$CI_COMMIT_TAG pypi-mirror_test_3.10
 
@@ -809,7 +809,7 @@ test compose stable 3 9 (tagged):
         - echo DISABLED make VER=$CI_COMMIT_TAG pypi-mirror_test_3.9
 
 
-test stable 3 1:
+test stable 3 10:
     stage: test
     extends: .base
     rules:
@@ -825,7 +825,7 @@ test stable 3 1:
     script:
         - ./.ci/test.bash
 
-test compose stable 3 1:
+test compose stable 3 10:
     stage: test
     extends: .base
     rules:
@@ -835,11 +835,11 @@ test compose stable 3 1:
       when: never
     - when: on_success
     resource_group: compose
-    needs: ["parameterized_targets 3 1"]
+    needs: ["parameterized_targets 3 10"]
     script:
         - echo DISABLED make pypi-mirror_test_3.10
 
-test stable 3 1 (tagged):
+test stable 3 10 (tagged):
     stage: test
     extends: .base
     rules:
@@ -853,7 +853,7 @@ test stable 3 1 (tagged):
     script:
         - ./.ci/test.bash
 
-test compose stable 3 1 (tagged):
+test compose stable 3 10 (tagged):
     stage: test
     extends: .base
     rules:
@@ -861,7 +861,7 @@ test compose stable 3 1 (tagged):
       when: never
     - when: on_success
     resource_group: compose
-    needs: ["parameterized_targets 3 1 (tagged)"]
+    needs: ["parameterized_targets 3 10 (tagged)"]
     script:
         - echo DISABLED make VER=$CI_COMMIT_TAG pypi-mirror_test_3.10
 
@@ -916,7 +916,7 @@ main rebuild 3 9 (scheduled):
 
       make VER=${CI_IMAGE_TAG} 3.9
 
-main rebuild 3 1 (scheduled):
+main rebuild 3 10 (scheduled):
     extends: .docker_base
     rules:
     - if: $CI_PIPELINE_SOURCE != "schedule"
