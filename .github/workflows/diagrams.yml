@@ -1,0 +1,30 @@
+name: generate diagrams
+
+on:
+  push:
+
+jobs:
+  diagrams:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
+      with:
+        repository: lindenb/makefile2graph
+        path: makefile2graph
+    - uses: actions/setup-go@v3
+      with:
+        go-version: ">=1.17"
+    - run: |
+        go install github.com/yuzutech/kroki-cli/cmd/kroki@latest
+        make -C makefile2graph
+        sudo make -C makefile2graph install
+        pip install pydot
+    - run: |
+        make -nd 3.9 | make2graph -f x > 3.9.gefx.xml
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: diagrams
+        path: |
+          3.9*
