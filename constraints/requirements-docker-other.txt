@@ -13,7 +13,6 @@ rich
 scikit-build
 sphinx>=4.0
 sphinx-autodoc-typehints
-sphinxcontrib-bibtex
 sphinx-icontract
 virtualenv
 # numpy git specific
