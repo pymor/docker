@@ -321,6 +321,141 @@ parameterized_targets 3 9 (tagged):
       make VER=$CI_COMMIT_TAG minimal_testing_3.9
 
 
+
+parameterized_targets 3 10:
+    extends: .docker_base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - if: '$CI_COMMIT_TAG != null'
+      when: never
+    - when: on_success
+    resource_group: cache_3.10
+    stage: parameterized_targets
+    variables:
+        PYVER: "3.10"
+    script: |
+      make python_builder_3.10
+
+      make python_3.10
+
+      make constraints_3.10
+
+      make dealii_3.10
+
+      make petsc_3.10
+
+      make dolfinx_3.10
+
+      make pypi-mirror_stable_3.10
+
+      make pypi-mirror_oldest_3.10
+
+      make ngsolve_3.10
+
+      make fenics_3.10
+
+      make precice_3.10
+
+      make cibase_3.10
+
+      make testing_3.10
+
+      make jupyter_3.10
+
+      make minimal_cibase_3.10
+
+      make minimal_testing_3.10
+
+
+parameterized_targets 3 10 (scheduled):
+    extends: .docker_base
+    rules:
+    - if: $CI_PIPELINE_SOURCE != "schedule"
+      when: never
+    - when: on_success
+    resource_group: cache_3.10
+    stage: parameterized_targets
+    variables:
+        PYVER: "3.10"
+    script: |
+      make DIVE_CHECK=1 VER=weekly_cron python_builder_3.10
+
+      make DIVE_CHECK=1 VER=weekly_cron python_3.10
+
+      make DIVE_CHECK=1 VER=weekly_cron constraints_3.10
+
+      make DIVE_CHECK=1 VER=weekly_cron dealii_3.10
+
+      make DIVE_CHECK=1 VER=weekly_cron petsc_3.10
+
+      make DIVE_CHECK=1 VER=weekly_cron dolfinx_3.10
+
+      make DIVE_CHECK=1 VER=weekly_cron pypi-mirror_stable_3.10
+
+      make DIVE_CHECK=1 VER=weekly_cron pypi-mirror_oldest_3.10
+
+      make DIVE_CHECK=1 VER=weekly_cron ngsolve_3.10
+
+      make DIVE_CHECK=1 VER=weekly_cron fenics_3.10
+
+      make DIVE_CHECK=1 VER=weekly_cron precice_3.10
+
+      make DIVE_CHECK=1 VER=weekly_cron cibase_3.10
+
+      make DIVE_CHECK=1 VER=weekly_cron testing_3.10
+
+      make DIVE_CHECK=1 VER=weekly_cron jupyter_3.10
+
+      make DIVE_CHECK=1 VER=weekly_cron minimal_cibase_3.10
+
+      make DIVE_CHECK=1 VER=weekly_cron minimal_testing_3.10
+
+
+parameterized_targets 3 10 (tagged):
+    extends: .docker_base
+    rules:
+    - if: '$CI_COMMIT_TAG == null'
+      when: never
+    - when: on_success
+    resource_group: cache_3.10
+    stage: parameterized_targets
+    variables:
+        PYVER: "3.10"
+    script: |
+      make VER=$CI_COMMIT_TAG python_builder_3.10
+
+      make VER=$CI_COMMIT_TAG python_3.10
+
+      make VER=$CI_COMMIT_TAG constraints_3.10
+
+      make VER=$CI_COMMIT_TAG dealii_3.10
+
+      make VER=$CI_COMMIT_TAG petsc_3.10
+
+      make VER=$CI_COMMIT_TAG dolfinx_3.10
+
+      make VER=$CI_COMMIT_TAG pypi-mirror_stable_3.10
+
+      make VER=$CI_COMMIT_TAG pypi-mirror_oldest_3.10
+
+      make VER=$CI_COMMIT_TAG ngsolve_3.10
+
+      make VER=$CI_COMMIT_TAG fenics_3.10
+
+      make VER=$CI_COMMIT_TAG precice_3.10
+
+      make VER=$CI_COMMIT_TAG cibase_3.10
+
+      make VER=$CI_COMMIT_TAG testing_3.10
+
+      make VER=$CI_COMMIT_TAG jupyter_3.10
+
+      make VER=$CI_COMMIT_TAG minimal_cibase_3.10
+
+      make VER=$CI_COMMIT_TAG minimal_testing_3.10
+
+
 static_targets:
     extends: .docker_base
     rules:
@@ -502,6 +637,63 @@ test compose oldest 3 9 (tagged):
         - echo DISABLED make VER=$CI_COMMIT_TAG pypi-mirror_test_3.9
 
 
+test oldest 3 10:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - if: '$CI_COMMIT_TAG != null'
+      when: never
+    - when: on_success
+    services:
+        - name: $REGISTRY_PREFIX/pypi-mirror_oldest_py3.10:$CI_COMMIT_SHA
+          alias: pypi_mirror
+    image: $REGISTRY_PREFIX/testing_py3.10:$CI_COMMIT_SHA
+    script:
+        - ./.ci/test.bash
+
+test compose oldest 3 10:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - if: '$CI_COMMIT_TAG != null'
+      when: never
+    - when: on_success
+    resource_group: compose
+    needs: ["parameterized_targets 3 10"]
+    script:
+        - echo DISABLED make pypi-mirror_test_3.10
+
+test oldest 3 10 (tagged):
+    stage: test
+    extends: .base
+    rules:
+    - if: '$CI_COMMIT_TAG == null'
+      when: never
+    - when: on_success
+    services:
+        - name: $REGISTRY_PREFIX/pypi-mirror_oldest_py3.10:$CI_COMMIT_TAG
+          alias: pypi_mirror
+    image: $REGISTRY_PREFIX/testing_py3.10:$CI_COMMIT_TAG
+    script:
+        - ./.ci/test.bash
+
+test compose oldest 3 10 (tagged):
+    stage: test
+    extends: .base
+    rules:
+    - if: '$CI_COMMIT_TAG == null'
+      when: never
+    - when: on_success
+    resource_group: compose
+    needs: ["parameterized_targets 3 10 (tagged)"]
+    script:
+        - echo DISABLED make VER=$CI_COMMIT_TAG pypi-mirror_test_3.10
+
+
 
 test stable 3 8:
     stage: test
@@ -617,6 +809,63 @@ test compose stable 3 9 (tagged):
         - echo DISABLED make VER=$CI_COMMIT_TAG pypi-mirror_test_3.9
 
 
+test stable 3 10:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - if: '$CI_COMMIT_TAG != null'
+      when: never
+    - when: on_success
+    services:
+        - name: $REGISTRY_PREFIX/pypi-mirror_stable_py3.10:$CI_COMMIT_SHA
+          alias: pypi_mirror
+    image: $REGISTRY_PREFIX/testing_py3.10:$CI_COMMIT_SHA
+    script:
+        - ./.ci/test.bash
+
+test compose stable 3 10:
+    stage: test
+    extends: .base
+    rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - if: '$CI_COMMIT_TAG != null'
+      when: never
+    - when: on_success
+    resource_group: compose
+    needs: ["parameterized_targets 3 10"]
+    script:
+        - echo DISABLED make pypi-mirror_test_3.10
+
+test stable 3 10 (tagged):
+    stage: test
+    extends: .base
+    rules:
+    - if: '$CI_COMMIT_TAG == null'
+      when: never
+    - when: on_success
+    services:
+        - name: $REGISTRY_PREFIX/pypi-mirror_stable_py3.10:$CI_COMMIT_TAG
+          alias: pypi_mirror
+    image: $REGISTRY_PREFIX/testing_py3.10:$CI_COMMIT_TAG
+    script:
+        - ./.ci/test.bash
+
+test compose stable 3 10 (tagged):
+    stage: test
+    extends: .base
+    rules:
+    - if: '$CI_COMMIT_TAG == null'
+      when: never
+    - when: on_success
+    resource_group: compose
+    needs: ["parameterized_targets 3 10 (tagged)"]
+    script:
+        - echo DISABLED make VER=$CI_COMMIT_TAG pypi-mirror_test_3.10
+
+
 
 main rebuild 3 8 (scheduled):
     extends: .docker_base
@@ -666,5 +915,24 @@ main rebuild 3 9 (scheduled):
       git checkout ${CI_IMAGE_TAG}
 
       make VER=${CI_IMAGE_TAG} 3.9
+
+main rebuild 3 10 (scheduled):
+    extends: .docker_base
+    rules:
+    - if: $CI_PIPELINE_SOURCE != "schedule"
+      when: never
+    - when: on_success
+    resource_group: cache_3.10
+    needs: [sanity]
+    stage: parameterized_targets
+    variables:
+        PYVER: "3.10"
+    script: |
+      wget https://raw.githubusercontent.com/pymor/pymor/main/.env -O pymor.env
+      source pymor.env
+      set -u
+      git checkout ${CI_IMAGE_TAG}
+
+      make VER=${CI_IMAGE_TAG} 3.10
 # THIS FILE IS AUTOGENERATED -- DO NOT EDIT #
 #   Edit and Re-run template.ci.py instead       #

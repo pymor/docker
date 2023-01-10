@@ -98,7 +98,7 @@ from itertools import product
 from pathlib import Path
 
 tpl = jinja2.Template(tpl)
-pythons = ["3.8", "3.9"]
+pythons = ["3.8", "3.9", "3.10"]
 static_targets = [
     "docker-in-docker",
     "demo_main",
