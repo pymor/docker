@@ -5,7 +5,7 @@ PySide2>=5.15.2.1
 click
 diskcache
 dune-gdt>=2022.5.3; platform_system=="Linux" and platform_machine=="x86_64"
-dune-xt>=2022.5.3; platform_system=="Linux" and platform_machine=="x86_64"
+dune-xt[visualisation]>=2022.5.3; platform_system=="Linux" and platform_machine=="x86_64"
 gmsh
 ipyparallel>=6.2.5
 ipython>=6.0
