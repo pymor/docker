@@ -1,4 +1,4 @@
-PYTHONS = 3.8 3.9 3.10
+PYTHONS = 3.8 3.9 3.10 3.11 3.12-rc
 VER?=$(shell git log -1 --pretty=format:"%H")
 NGSOLVE_IMAGE = pymor/ngsolve_py$1:$2
 NGSOLVE_IMAGE_DIR = ngsolve/docker
@@ -9,7 +9,7 @@ PRECICE_IMAGE_DIR = precice
 PYTHON_IMAGE = pymor/python_$1:$2
 PYTHON_IMAGE_DIR = python
 PYTHON_BUILDER_IMAGE = pymor/python_builder_$1:$2
-PYTHON_BUILDER_IMAGE_DIR = python_builder/$1/bullseye/slim
+PYTHON_BUILDER_IMAGE_DIR = python_builder/$1/slim-bullseye/
 FENICS_IMAGE = pymor/fenics_py$1:$2
 FENICS_IMAGE_DIR = fenics/docker
 DOLFINX_IMAGE = pymor/dolfinx_py$1:$2

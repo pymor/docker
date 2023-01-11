@@ -1,11 +1,10 @@
-# EXPERIMENTAL_SYNTAX
 #
-# NOTE: THIS DOCKERFILE IS GENERATED VIA "update.sh"
+# NOTE: THIS DOCKERFILE IS GENERATED VIA "apply-templates.sh"
 #
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM debian:bullseye-slim
+FROM debian:%%PLACEHOLDER%%-slim
 
 ENV QUIET="-q" \
  VERYQUIET="-qq"
@@ -83,8 +82,8 @@ RUN apt-get update ${VERYQUIET} && apt-get install ${VERYQUIET} -y --no-install-
 		tk \
 	&& rm -rf /var/lib/apt/lists/*
 
-ENV GPG_KEY A035C8C19219BA821ECEA86B64E628F8D684696D
-ENV PYTHON_VERSION 3.10.9
+ENV GPG_KEY %%PLACEHOLDER%%
+ENV PYTHON_VERSION %%PLACEHOLDER%%
 
 RUN MOUNT_CACHE set -ex \
 	&& buildDeps=' \
@@ -140,7 +139,7 @@ RUN cd /usr/local/bin \
 	&& ln -s python3-config python-config
 
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
-ENV PYTHON_PIP_VERSION 22.3.1
+ENV PYTHON_PIP_VERSION %%PLACEHOLDER%%
 ENV PIP_INSTALL="python3 -m pip install --no-cache-dir "
 
 RUN set -ex; \
