@@ -1,0 +1,7 @@
+FROM pymor/minimal_cibase_py3.12-rc:VERTAG
+MAINTAINER René Fritze <rene.fritze@wwu.de>
+
+VOLUME /src
+WORKDIR /src
+# cannot go into base image
+ENV PYTHONPATH /src/src
