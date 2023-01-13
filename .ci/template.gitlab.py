@@ -238,7 +238,7 @@ import jinja2
 from pathlib import Path
 
 tpl = jinja2.Template(tpl)
-pythons = ["3.8", "3.9", "3.10"]
+pythons = ["3.8", "3.9", "3.10", "3.11", "3.12-rc"]
 static_targets = [
     "docker-in-docker",
     "demo_main",
