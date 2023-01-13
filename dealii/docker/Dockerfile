@@ -55,7 +55,7 @@ RUN MOUNT_CACHE \
 
 COPY cache_buster /tmp
 RUN MOUNT_CACHE \
-    cd /tmp && git clone --recurse-submodules --branch=main https://github.com/pymor/pymor-deal.II deal && \
+    cd /tmp && git clone --recurse-submodules --branch=bump_pybind https://github.com/pymor/pymor-deal.II deal && \
     cd deal && python setup.py bdist_wheel && \
     mkdir /usr/local/tmp/ && \
     mv dist/*.whl /usr/local/tmp/ && \
