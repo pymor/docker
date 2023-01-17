@@ -6,10 +6,11 @@ MAINTAINER René Fritze <rene.fritze@wwu.de>
 RUN MOUNT_CACHE \
     apt-get update && \
     apt-get -y install libxmu-dev tk-dev tcl-dev cmake git g++ \
-    libglu1-mesa-dev ccache openssh-client openmpi-bin libopenmpi-dev \
-    liboce-ocaf-dev libsuitesparse-dev python3-tk
+    libglu1-mesa-dev ccache openssh-client openmpi-bin libopenmpi-dev libtbb-dev \
+    libsuitesparse-dev python3-tk libocct-data-exchange-dev libocct-draw-dev occt-misc libxi-dev
+# libocct-draw-dev occt-misc
 ENV PATH="/opt/netgen/bin:${PATH}" \
-    NGSOLVE_VERSION=v6.2.2104 \
+    NGSOLVE_VERSION=v6.2.2301 \
     NGSOLVE_SRC_DIR=/root/src/ngsolve_src \
     NGSOLVE_BUILD_DIR=/root/src/ngsolve_build \
     PETSC_DIR=/usr/local/petsc-32
@@ -44,8 +45,8 @@ RUN MOUNT_CACHE \
     -DNG_INSTALL_DIR_LIB=lib/netgen \
     -DNG_INSTALL_DIR_INCLUDE=include/netgen \
     -DCMAKE_INSTALL_PREFIX=/usr/local && \
-    cmake --build ${NGSOLVE_BUILD_DIR} -- MAKE_ARGS && \
-    cmake --install ${NGSOLVE_BUILD_DIR}
+    cmake --build ${NGSOLVE_BUILD_DIR} 
+# cmake --install ${NGSOLVE_BUILD_DIR}
 # find /usr/local/lib -maxdepth 1 -type f | xargs strip -p -d 2> /dev/null 
 # rm -rf ${NGSOLVE_BUILD_DIR} ${NGSOLVE_SRC_DIR} && \
 # printenv >> /usr/local/share/ngsolve.env
