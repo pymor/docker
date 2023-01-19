@@ -15,8 +15,7 @@ ENV DOLFINX_VERSION="main" \
 RUN MOUNT_CACHE \
   apt update \
   && ${APTINSTALL} libptscotch-dev ninja-build \
-  && wget -O /tmp/cmake.sh https://github.com/Kitware/CMake/releases/download/v3.20.0/cmake-3.20.0-linux-x86_64.sh \
-  && bash /tmp/cmake.sh --skip-license --prefix=/usr/local \
+  && ${PIP_INSTALL} cmake==3.25.0 \
   && cmake --version \
   && PIP_SELF_UPDATE \
   && PIP_CHECK \
