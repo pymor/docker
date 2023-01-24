@@ -4,7 +4,7 @@ set -exu
 
 rm -rf /src
 mkdir /src
-pip install -U wheel pymor-oldest-supported-numpy~=2021.1.0 scikit-build
+pip install -U wheel pymor-oldest-supported-numpy==${PYMOR_OLDEST_NUMPY_VERSION} scikit-build
 declare -A VERSIONS=( ["slycot"]="~=0.5.0" ["mpi4py"]=">=3" ["petsc4py"]="==${PETSC4PY_VERSION}" ["mpi4py"]=">=3")
 
 for pkg in ${WHEEL_PKGS} ; do

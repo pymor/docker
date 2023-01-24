@@ -50,7 +50,7 @@ RUN MOUNT_CACHE \
     PIP_CHECK && \
     pip install \
         flufl.lock \
-        pymor-oldest-supported-numpy~=2021.1.0 \
+        pymor-oldest-supported-numpy==${PYMOR_OLDEST_NUMPY_VERSION} \
         ply \
         pytest \
         scipy \

@@ -72,7 +72,7 @@ RUN MOUNT_CACHE \
     PIP_SELF_UPDATE && \
     PIP_CHECK && \
     ${PIP_INSTALL} /usr/local/tmp/pymor_dealii-*.whl && \
-    ${PIP_INSTALL} pymor-oldest-supported-numpy~=2021.1.0 && \
+    ${PIP_INSTALL} pymor-oldest-supported-numpy==${PYMOR_OLDEST_NUMPY_VERSION} && \
     ldconfig && \
     python -c "import ngsolve" && \
     python -c "import pymor_dealii" && \

@@ -11,7 +11,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     CCACHE_DIR=/cache/ccache \
     XDG_CACHE_HOME=/cache \
     PATH=/usr/lib/ccache:${PATH} \
-    PYBIND11_VERSION=2.8.1
+    PYBIND11_VERSION=2.8.1 \
+    PYMOR_OLDEST_NUMPY_VERSION==2023.1.4
 
 # python's configured to use system's expat and ffi libs
 RUN MOUNT_CACHE \

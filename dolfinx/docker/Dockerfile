@@ -19,7 +19,7 @@ RUN MOUNT_CACHE \
   && cmake --version \
   && PIP_SELF_UPDATE \
   && PIP_CHECK \
-  && ${PIP_INSTALL}  numba /tmp/mpi4py* pybind11==${PYBIND11_VERSION} pymor-oldest-supported-numpy~=2021.1.0 \
+  && ${PIP_INSTALL}  numba /tmp/mpi4py* pybind11==${PYBIND11_VERSION} pymor-oldest-supported-numpy==${PYMOR_OLDEST_NUMPY_VERSION} \
   && ${PIP_INSTALL} --no-deps petsc4py==${PETSC4PY_VERSION} \
   && python -c "import petsc4py"
 
