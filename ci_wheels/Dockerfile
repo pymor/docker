@@ -20,7 +20,7 @@ COPY build_*.sh /builder/
 RUN MOUNT_CACHE \
   PIP_SELF_UPDATE && \
   PIP_CHECK && \
-  python -m pip install pymor-oldest-supported-numpy~=2021.1.0 && \
+  python -m pip install pymor-oldest-supported-numpy==${PYMOR_OLDEST_NUMPY_VERSION} && \
   WHEELHOUSE=/wheelhouse /builder/build_wheels.sh && \
   echo "${WHEEL_PKGS}" > /wheelhouse/ci_wheels.list
 

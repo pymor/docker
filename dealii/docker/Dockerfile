@@ -33,7 +33,7 @@ RUN MOUNT_CACHE \
     openmpi-bin gosu && \
     PIP_SELF_UPDATE && \
     PIP_CHECK && \
-    ${PIP_INSTALL} pymor-oldest-supported-numpy~=2021.1.0
+    ${PIP_INSTALL} pymor-oldest-supported-numpy==${PYMOR_OLDEST_NUMPY_VERSION}
 
 ENV DEALII_VERSION=9.3.0
 RUN MOUNT_CACHE \
