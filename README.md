@@ -1,3 +1,7 @@
+# This repository is archived
+
+**All our CI images are now located in pymor/pymor.**
+
 # docker
 
 [![pipeline status](https://zivgitlab.uni-muenster.de/pymor/docker/badges/main/pipeline.svg)](https://zivgitlab.uni-muenster.de/pymor/docker/-/commits/main)
